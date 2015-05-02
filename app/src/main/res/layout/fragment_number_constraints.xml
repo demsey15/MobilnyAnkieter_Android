@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xxx_light_blue">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/min_value_txt"
+        android:text="@string/min_value_constraint"
+        android:textSize="22dp"
+        />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/min_value_edit"
+        android:inputType="numberDecimal"
+        android:layout_toRightOf="@+id/min_value_txt"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/max_value_txt"
+        android:text="@string/max_value_constraint"
+        android:textSize="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/min_value_txt"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/max_value_edit"
+        android:inputType="numberDecimal"
+        android:layout_below="@id/min_value_edit"
+        android:layout_toRightOf="@+id/max_value_txt"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/not_equals_txt"
+        android:text="@string/different_from_constraint"
+        android:textSize="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/max_value_txt"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/not_equals_edit"
+        android:inputType="numberDecimal"
+        android:layout_toRightOf="@+id/not_equals_txt"
+        android:layout_below="@id/max_value_edit"
+        />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/must_be_integer_constraint"
+        android:id="@+id/must_be_integer_check_box"
+        android:layout_below="@+id/not_equals_txt"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/not_between_constraint"
+        android:layout_toRightOf="@+id/must_be_integer_check_box"
+        android:id="@+id/not_between_check_box"
+        android:layout_below="@+id/not_equals_txt"/>
+</RelativeLayout>

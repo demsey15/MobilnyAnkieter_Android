@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="bohonos.demski.mieldzioc.creatingAndEditingSurvey" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.CreateNewSurveyQuestionsActivity"
+            android:label="@string/title_activity_create_new_survey" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.create_new_survey"
+            android:label="@string/title_activity_create_new_survey" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.EditDateTimeQuestion"
+            android:label="@string/title_activity_edit_date_time_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.EditScaleQuestion"
+            android:label="@string/title_activity_edit_scale_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.EditChoiceQuestion"
+            android:label="@string/title_activity_edit_choice_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.EditTextQuestion"
+            android:label="@string/title_activity_edit_text_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.creatingAndEditingSurvey.EditGridQuestion"
+            android:label="@string/title_activity_edit_grid_question" >
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="bohonos.demski.mieldzioc.creatingAndEditingSurvey.EditChoiceAnswersFragment">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:id="@+id/answers_choice_list"></LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/answers_choice_list"
+        android:hint="@string/add_answer_hint"
+        android:layout_marginTop="10dp"
+        android:editable="false"
+        android:id="@+id/click_to_add_answer_edit"/>
+
+</RelativeLayout>

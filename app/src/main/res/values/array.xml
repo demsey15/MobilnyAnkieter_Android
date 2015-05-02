@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="type_of_questions">
+        <item>jednokrotnego wyboru</item>
+        <item>wielokrotnego wyboru</item>
+        <item>skala</item>
+        <item>siatka</item>
+        <item>tekstowe krótkie</item>
+        <item>tekstowe długie</item>
+        <item>wybór z listy</item>
+        <item>data</item>
+        <item>godzina</item>
+    </array>
+</resources>

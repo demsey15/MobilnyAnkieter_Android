@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/xxx_light_blue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/question_scale_text"
+        android:hint="@string/question_one_ch_hint"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hint_scale_text"
+        android:hint="@string/hint_text_hint"
+        android:layout_below="@+id/question_scale_text"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/error_scale_text"
+        android:hint="@string/error_text_hint"
+        android:layout_below="@+id/hint_scale_text"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scale_label_txt"
+        android:textSize="25dp"
+        android:text="@string/scale_label"
+        android:layout_below="@+id/error_scale_text"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/scale_label_txt"
+        android:layout_below="@+id/error_scale_text"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:id="@+id/from_scale"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scale_to"
+        android:id="@+id/scale_to_label"
+        android:textSize="25dp"
+        android:layout_below="@id/error_scale_text"
+        android:layout_toRightOf="@+id/from_scale"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/scale_to_label"
+        android:layout_below="@+id/error_scale_text"
+        android:singleLine="true"
+        android:inputType="numberDecimal"
+        android:id="@+id/to_scale"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bad_scale_error"
+        android:layout_toRightOf="@+id/to_scale"
+        android:layout_below="@+id/error_scale_text"
+        android:textColor="@color/red"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1:"
+        android:textSize="25dp"
+        android:layout_below="@+id/to_scale"
+        android:id="@+id/label_label_from"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/scale_label_hint"
+        android:layout_below="@+id/to_scale"
+        android:layout_toRightOf="@+id/label_label_from"
+        android:singleLine="true"
+        android:id="@+id/from_label"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2:"
+        android:textSize="25dp"
+        android:paddingTop="10dp"
+        android:layout_below="@+id/label_label_from"
+        android:id="@+id/label_label_to"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/scale_label_hint"
+        android:layout_below="@+id/from_label"
+        android:layout_toRightOf="@+id/label_label_to"
+        android:singleLine="true"
+        android:id="@+id/to_label"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/obligatory_checkbox"
+        android:text="@string/obligatory_check_box"
+        android:layout_below="@+id/label_label_to"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_text"
+        android:layout_below="@id/obligatory_checkbox"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/save_question"/>
+</RelativeLayout>
+</ScrollView>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xxx_light_blue"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:autoText="true"
+            android:lines="1"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:hint="@string/survey_title_hint"
+            android:id="@+id/survey_title"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/survey_description_hint"
+            android:id="@+id/survey_description"
+            android:layout_below="@+id/survey_title"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/survey_summary_hint"
+            android:id="@+id/survey_summary"
+            android:layout_below="@+id/survey_description"
+            />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/survey_summary"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/strzalka"
+            android:id="@+id/add_questions_button"/>
+
+    </RelativeLayout>
+</ScrollView>
