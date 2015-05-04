@@ -38,6 +38,7 @@
     <string name="must_be_integer_constraint">Liczba całkowita</string>
     <string name="different_from_constraint">Różna od: </string>
     <string name="not_between_constraint">Nie należy do [minWartość, maxWartość]</string>
+    <string name="finish_creating_survey">Zakończ tworzenie</string>
 
 
 

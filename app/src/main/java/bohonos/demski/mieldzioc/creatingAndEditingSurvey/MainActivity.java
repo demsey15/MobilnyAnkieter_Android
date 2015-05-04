@@ -8,6 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.GregorianCalendar;
+
+import bohonos.demski.mieldzioc.application.ApplicationState;
+import bohonos.demski.mieldzioc.dataBase.InterviewerDBAdapter;
+import bohonos.demski.mieldzioc.interviewer.Interviewer;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -24,6 +30,11 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+        Interviewer interviewer;
+        ApplicationState.getInstance(getApplicationContext()).setLoggedInterviewer((interviewer =
+                new Interviewer("Dominik", "Demski", "92110908338", new GregorianCalendar())));
+        InterviewerDBAdapter db = new InterviewerDBAdapter(getApplicationContext());
+        db.addInterviewer(interviewer);
     }
 
 

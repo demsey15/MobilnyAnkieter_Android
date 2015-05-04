@@ -1,16 +1,16 @@
 package bohonos.demski.mieldzioc.creatingAndEditingSurvey;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
-import bohonos.demski.mieldzioc.dataBase.DataBaseAdapter;
 
 
 public class create_new_survey extends ActionBarActivity {
@@ -18,11 +18,10 @@ public class create_new_survey extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBaseAdapter db = new DataBaseAdapter(this);
-        db.open();
         setContentView(R.layout.activity_create_new_survey);
         final CreatingSurveyControl control = CreatingSurveyControl.getInstance();
-        control.createNewSurvey();
+        control.createNewSurvey(ApplicationState.getInstance(getApplicationContext()).
+                getLoggedInterviewer());
 
         ImageButton button = (ImageButton) findViewById(R.id.add_questions_button);
         button.setOnClickListener(new View.OnClickListener() {

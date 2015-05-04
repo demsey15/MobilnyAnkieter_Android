@@ -3,9 +3,8 @@ package bohonos.demski.mieldzioc.dataBase;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
-import java.sql.SQLException;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
@@ -13,23 +12,21 @@ import bohonos.demski.mieldzioc.application.DateAndTimeService;
 import bohonos.demski.mieldzioc.constraints.IConstraint;
 import bohonos.demski.mieldzioc.constraints.NumberConstraint;
 import bohonos.demski.mieldzioc.constraints.TextConstraint;
-import bohonos.demski.mieldzioc.creatingAndEditingSurvey.TextConstraintsFragment;
 import bohonos.demski.mieldzioc.questions.GridQuestion;
-import bohonos.demski.mieldzioc.questions.OneChoiceQuestion;
 import bohonos.demski.mieldzioc.questions.Question;
 import bohonos.demski.mieldzioc.questions.ScaleQuestion;
 import bohonos.demski.mieldzioc.questions.TextQuestion;
 import bohonos.demski.mieldzioc.survey.Survey;
 
 /**
- * Created by Dominik on 2015-05-02.
+ * Created by Dominik Demski on 2015-05-02.
  */
 public class DataBaseAdapter {
 
     private static final String DEBUG_TAG = "SqLiteSurveyDB";
 
     private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "survey.db";
+
 
     private SQLiteDatabase db;
     private Context context;
@@ -44,7 +41,8 @@ public class DataBaseAdapter {
      * @return
      */
     public DataBaseAdapter open(){
-        dbHelper = new DatabaseHelper(context, DB_NAME, null, DB_VERSION);
+        dbHelper = new DatabaseHelper(context, DB_VERSION);
+        Log.d("Otwieram", "Otwieram po³¹czenie z baz¹!");
             db = dbHelper.getWritableDatabase();
         return this;
     }
@@ -59,10 +57,20 @@ public class DataBaseAdapter {
      * @param survey ankieta do dodania.
      * @return
      */
-    public boolean addSurvey(Survey survey){
+    public boolean addSurveyTemplate(Survey survey, int status){
         open();
-        int idOfSurveys = survey.getIdOfSurveys();
+        String idOfSurveys = survey.getIdOfSurveys();
         int size = survey.questionListSize();
+
+        ContentValues templateValues = new ContentValues();
+        templateValues.put(DatabaseHelper.KEY_ID, idOfSurveys);
+        templateValues.put(DatabaseHelper.KEY_STATUS, status);
+        templateValues.put(DatabaseHelper.KEY_INTERVIEWER, survey.getInterviewer().getId());
+        templateValues.put(DatabaseHelper.KEY_CREATED_DATE, DateAndTimeService.getToday());
+        templateValues.put(DatabaseHelper.KEY_MODIFICATION_DATE, DateAndTimeService.getToday());
+        templateValues.put(DatabaseHelper.KEY_MODIFIED_BY, ApplicationState.getInstance(context).
+                getLoggedInterviewer().getId());
+        db.insert(DatabaseHelper.SURVEY_TEMPLATE_TABLE, null, templateValues);
 
         for(int i = 0; i < size; i++){
             Question question = survey.getQuestion(i);
@@ -99,28 +107,30 @@ public class DataBaseAdapter {
             }
         }
         close();
+        Log.d(DEBUG_TAG, "Dodano ankietê do bazy danych; id: " + survey.getIdOfSurveys() +
+                ", tytu³: " + survey.getTitle());
         return true;
     }
 
-    public long addQuestion(Question question, int idOfSurveys, String questionNumber){
+    public long addQuestion(Question question, String idOfSurveys, String questionNumber){
         ContentValues questionValues = new ContentValues();
         questionValues.put(DatabaseHelper.KEY_ID_SURVEY_QDB, idOfSurveys);
         questionValues.put(DatabaseHelper.KEY_QUESTION_NUMBER_QDB, questionNumber);
         questionValues.put(DatabaseHelper.KEY_QUESTION_QDB, question.getQuestion());
-        questionValues.put(DatabaseHelper.KEY_OBLIGATORY_QDB, question.isObligatory());
+        questionValues.put(DatabaseHelper.KEY_OBLIGATORY_QDB, (question.isObligatory())? 1 : 0);
         questionValues.put(DatabaseHelper.KEY_HINT_QDB, question.getHint());
         questionValues.put(DatabaseHelper.KEY_ERROR_QDB, question.getErrorMessage());
         questionValues.put(DatabaseHelper.KEY_URL_QDB, question.getPictureURL());
         questionValues.put(DatabaseHelper.KEY_TYPE_QDB, question.getQuestionType());
         questionValues.put(DatabaseHelper.KEY_CREATED_DATE_QDB, DateAndTimeService.getToday());
         questionValues.put(DatabaseHelper.KEY_MODIFICATION_DATE_QDB, DateAndTimeService.getToday());
-        questionValues.put(DatabaseHelper.KEY_INTERVIEWER_QDB, String.valueOf(
-                ApplicationState.getInstance().getLoggedInterviewer().getId()));
+        questionValues.put(DatabaseHelper.KEY_INTERVIEWER_QDB,
+                ApplicationState.getInstance(context).getLoggedInterviewer().getId());
         questionValues.put(DatabaseHelper.KEY_MODIFIED_BY_QDB, String.valueOf(
-                ApplicationState.getInstance().getLoggedInterviewer().getId()));
+                ApplicationState.getInstance(context).getLoggedInterviewer().getId()));
         return db.insert(DatabaseHelper.QUESTIONS_TABLE, null, questionValues);
     }
-    public long addChoiceAnswers(Question question, int surveyId, String questionNumber){
+    public long addChoiceAnswers(Question question, String surveyId, String questionNumber){
         List<String> answers = question.getAnswersAsStringList();
 
         int answersSize = answers.size();
@@ -138,7 +148,7 @@ public class DataBaseAdapter {
         return answersSize;
     }
 
-    public long addScaleAnswers(ScaleQuestion question, int surveyId, String questionNumber) {
+    public long addScaleAnswers(ScaleQuestion question, String surveyId, String questionNumber) {
         ContentValues answersValues = new ContentValues();
         answersValues.put(DatabaseHelper.KEY_SURVEY_SCDB, surveyId);
         answersValues.put(DatabaseHelper.KEY_QUESTION_SCDB, questionNumber);
@@ -151,7 +161,7 @@ public class DataBaseAdapter {
         return db.insert(DatabaseHelper.SCALE_ANSWERS_TABLE, null, answersValues);
     }
 
-    public long addGridAnswers(GridQuestion question, int surveyId, String questionNumber) {
+    public long addGridAnswers(GridQuestion question, String surveyId, String questionNumber) {
 
         ContentValues columnsValues = new ContentValues();
         List<String> rows = question.getRowLabels();
@@ -183,8 +193,7 @@ public class DataBaseAdapter {
         return columnsSize + rowsSize;
     }
 
-
-    public long addNumberConstraints(NumberConstraint constraint, int surveyId,
+    public long addNumberConstraints(NumberConstraint constraint, String surveyId,
                                      String questionNumber){
         ContentValues constraintsValues = new ContentValues();
         constraintsValues.put(DatabaseHelper.KEY_SURVEY_NCDB, surveyId);
@@ -199,7 +208,7 @@ public class DataBaseAdapter {
         return db.insert(DatabaseHelper.NUMBER_CONSTRAINTS_TABLE, null, constraintsValues);
     }
 
-    public long addTextConstraints(TextConstraint constraint, int surveyId,
+    public long addTextConstraints(TextConstraint constraint, String surveyId,
                                      String questionNumber){
         ContentValues constraintsValues = new ContentValues();
         constraintsValues.put(DatabaseHelper.KEY_SURVEY_TCDB, surveyId);

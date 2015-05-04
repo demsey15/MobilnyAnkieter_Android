@@ -7,14 +7,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.questions.Question;
 
 
-public class CreateNewSurveyQuestionsActivity extends ActionBarActivity implements ChoosingQuestionType.OnQuestionTypeChosenListener {
+public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
+        implements ChoosingQuestionType.OnQuestionTypeChosenListener {
 
   private QuestionsAdapter questionsAdapter = new QuestionsAdapter(this);
   private CreatingSurveyControl control = CreatingSurveyControl.getInstance();
@@ -22,7 +26,6 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_survey_questions);
-        control.createNewSurvey();
 
         initializeQuestionsList();
 
@@ -33,6 +36,23 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity implemen
                 ChoosingQuestionType c = new ChoosingQuestionType();
                 c.show(getFragmentManager(), "missilies");
             }
+        });
+
+        Button finishCreating = (Button) findViewById(R.id.finish_creating_survey_button);
+        finishCreating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(control.finishCreating(ApplicationState.getInstance(
+                        getApplicationContext()).
+                        getSurveyHandler()) == -1){           //nie udało się dodać do bazy danych
+                    Toast.makeText(CreateNewSurveyQuestionsActivity.this,
+                            "Nie udało się dodać ankiety do bazy danych", Toast.LENGTH_LONG).show();
+                }
+                else Toast.makeText(CreateNewSurveyQuestionsActivity.this, "Dodano ankietę",
+                        Toast.LENGTH_SHORT);
+                CreateNewSurveyQuestionsActivity.this.finish();
+            }
+
         });
     }
 

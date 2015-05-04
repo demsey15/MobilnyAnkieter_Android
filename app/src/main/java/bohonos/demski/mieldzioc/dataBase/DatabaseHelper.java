@@ -13,40 +13,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //tabele:
 
     //tabela Survey_template
+    private static final String DB_NAME = "survey_database";
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
+
     public static final String KEY_ID = "id";
-    public static final String ID_OPTIONS = "INTEGER PRIMARY KEY NOT NULL";
+    public static final String ID_OPTIONS = "TEXT PRIMARY KEY NOT NULL";
     public static final int ID_COLUMN = 0;
     public static final String KEY_STATUS = "Status";
     public static final String STATUS_OPTIONS = "TEXT NOT NULL";
     public static final int STATUS_COLUMN = 1;
     public static final String KEY_INTERVIEWER = "Interviewer";
-    public static final String INTERVIEWER_OPTIONS = "TEXT CHECK(" + KEY_INTERVIEWER + " " +
-            "LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
+    public static final String INTERVIEWER_OPTIONS = "TEXT";/* CHECK(" + KEY_INTERVIEWER + " " +
+            "LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";*/
     public static final int INTERVIEWER_COLUMN = 2;
     public static final String KEY_CREATED_DATE = "Date_of_creating";
-    public static final String CREATED_DATE_OPTIONS = "TEXT NOT NULL CHECK(" + KEY_CREATED_DATE +
+    public static final String CREATED_DATE_OPTIONS = "TEXT NOT NULL";/* CHECK(" + KEY_CREATED_DATE +
             " LIKE '[1-3][0-9][0-9][0-9]-" +
-            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-1][0-9][0-9]')";
+            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-1][0-9][0-9]')";*/
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
     public static final int CREATED_DATE_COLUMN = 3;
     public static final String KEY_MODIFICATION_DATE = "Date_of_modification";
-    public static final String MODIFICATION_DATE_OPTIONS = "TEXT NOT NULL CHECK(" +
+    public static final String MODIFICATION_DATE_OPTIONS = "TEXT NOT NULL";/* CHECK(" +
             KEY_MODIFICATION_DATE + " LIKE '[1-3][0-9][0-9][0-9]-" +
             "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-1][0-9][0-9]')";
-    //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
+    //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")*/
     public static final int MODIFICATION_DATE_COLUMN = 4;
     public static final String KEY_MODIFIED_BY = "Modified_by";
-    public static final String MODIFIED_BY_OPTIONS = "TEXT NOT NULL CHECK(" + KEY_MODIFIED_BY  +
-            " LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
+    public static final String MODIFIED_BY_OPTIONS = "TEXT NOT NULL";/* CHECK(" + KEY_MODIFIED_BY  +
+            " LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";*/
     public static final int MODIFIED_BY_COLUMN = 5;
 
     //tabela pytania
     public static final String QUESTIONS_TABLE = "Questions";
 
     public static final String KEY_ID_SURVEY_QDB = "Survey";
-    public static final String ID_SURVEY_OPTIONS_QDB = "INTEGER NOT NULL";
+    public static final String ID_SURVEY_OPTIONS_QDB = "TEXT NOT NULL";
     public static final String FK_QDB = "FOREIGN KEY (" + KEY_ID_SURVEY_QDB +
             ") REFERENCES " + SURVEY_TEMPLATE_TABLE + "(" + KEY_ID + ")";
     public static final int ID_SURVEY_COLUMN_QDB = 0;
@@ -97,9 +99,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String INTERVIEWERS_TABLE = "Interviewers";
 
     public static final String KEY_ID_INTERVIEWER_IDB = "PESEL";
-    public static final String ID_INTERVIEWER_OPTIONS_IDB = "TEXT NOT NULL CHECK(" +
+    public static final String ID_INTERVIEWER_OPTIONS_IDB = "TEXT NOT NULL";/*CHECK(" +
             KEY_ID_INTERVIEWER_IDB + " LIKE '[0-9][0-9][0-9][0-9]" +
-            "[0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
+            "[0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";*/
     public static final int ID_INTERVIEWER_COLUMN_IDB = 0;
     public static final String KEY_PASSWORD_IDB = "Password";
     public static final String PASSWORD_OPTIONS_IDB = "TEXT NOT NULL";
@@ -108,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SCALE_ANSWERS_TABLE = "Scale_answers";
 
     public static final String KEY_SURVEY_SCDB = "Survey";
-    public static final String SURVEY_OPTIONS_SCDB = "INTEGER NOT NULL REFERENCES "
+    public static final String SURVEY_OPTIONS_SCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
     public static final int SURVEY_COLUMN_SCDB = 0;
     public static final String KEY_QUESTION_SCDB = "Question";
@@ -134,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CHOICE_ANSWERS_TABLE = "Choice_answers";
 
     public static final String KEY_SURVEY_CHADB = "Survey";
-    public static final String SURVEY_OPTIONS_CHADB = "INTEGER NOT NULL REFERENCES "
+    public static final String SURVEY_OPTIONS_CHADB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
     public static final int SURVEY_COLUMN_CHADB = 0;
     public static final String KEY_QUESTION_CHADB = "Question";
@@ -151,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String GRID_COLUMN_ANSWERS_TABLE = "Grid_column_answers";
 
     public static final String KEY_SURVEY_GCDB = "Survey";
-    public static final String SURVEY_OPTIONS_GCDB = "INTEGER NOT NULL REFERENCES "
+    public static final String SURVEY_OPTIONS_GCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
     public static final int SURVEY_COLUMN_GCDB = 0;
     public static final String KEY_QUESTION_GCDB = "Question";
@@ -168,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String GRID_ROW_ANSWERS_TABLE = "Grid_row_answers";
 
     public static final String KEY_SURVEY_GRDB = "Survey";
-    public static final String SURVEY_OPTIONS_GRDB = "INTEGER NOT NULL REFERENCES "
+    public static final String SURVEY_OPTIONS_GRDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
     public static final int SURVEY_COLUMN_GRDB = 0;
     public static final String KEY_QUESTION_GRDB = "Question";
@@ -185,7 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NUMBER_CONSTRAINTS_TABLE = "Number_constraints";
 
     public static final String KEY_SURVEY_NCDB = "Survey";
-    public static final String SURVEY_OPTIONS_NCDB = "INTEGER NOT NULL REFERENCES "
+    public static final String SURVEY_OPTIONS_NCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
     public static final int SURVEY_COLUMN_NCDB = 0;
     public static final String KEY_QUESTION_NCDB = "Question";
@@ -216,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TEXT_CONSTRAINTS_TABLE = "Text_constraints";
 
     public static final String KEY_SURVEY_TCDB = "Survey";
-    public static final String SURVEY_OPTIONS_TCDB = "INTEGER NOT NULL REFERENCES "
+    public static final String SURVEY_OPTIONS_TCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
     public static final int SURVEY_COLUMN_TCDB = 0;
     public static final String KEY_QUESTION_TCDB = "Question";
@@ -303,8 +305,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             MAX_LENGTH_OPTIONS_TCDB + ", " + KEY_REGEX_TCDB + " " +
             REGEX_OPTIONS_TCDB + ");";
 
-    public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public DatabaseHelper(Context context, int version) {
+        super(context, DB_NAME, null, version);
     }
 
     @Override
