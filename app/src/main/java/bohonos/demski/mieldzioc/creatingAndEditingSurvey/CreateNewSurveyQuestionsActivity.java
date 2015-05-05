@@ -49,7 +49,7 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
                             "Nie udało się dodać ankiety do bazy danych", Toast.LENGTH_LONG).show();
                 }
                 else Toast.makeText(CreateNewSurveyQuestionsActivity.this, "Dodano ankietę",
-                        Toast.LENGTH_SHORT);
+                        Toast.LENGTH_SHORT).show();
                 CreateNewSurveyQuestionsActivity.this.finish();
             }
 

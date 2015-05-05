@@ -15,7 +15,7 @@ public class InterviewerDBAdapter {
 
     private static final String DEBUG_TAG = "SqLiteSurveyDB";
 
-    private static final int DB_VERSION = 1;
+
 
 
     private SQLiteDatabase db;
@@ -27,7 +27,7 @@ public class InterviewerDBAdapter {
     }
 
     public InterviewerDBAdapter open(){
-        dbHelper = new DatabaseHelper(context, DB_VERSION);
+        dbHelper = new DatabaseHelper(context);
         Log.d("Otwieram", "Otwieram po³¹czenie z baz¹!");
         try {
             db = dbHelper.getWritableDatabase();

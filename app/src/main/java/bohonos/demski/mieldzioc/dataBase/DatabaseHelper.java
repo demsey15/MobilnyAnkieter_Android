@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
+    private static final int DB_VERSION = 3;
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
 
@@ -21,27 +22,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ID_OPTIONS = "TEXT PRIMARY KEY NOT NULL";
     public static final int ID_COLUMN = 0;
     public static final String KEY_STATUS = "Status";
-    public static final String STATUS_OPTIONS = "TEXT NOT NULL";
+    public static final String STATUS_OPTIONS = "INT NOT NULL";
     public static final int STATUS_COLUMN = 1;
     public static final String KEY_INTERVIEWER = "Interviewer";
-    public static final String INTERVIEWER_OPTIONS = "TEXT";/* CHECK(" + KEY_INTERVIEWER + " " +
-            "LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";*/
+    public static final String INTERVIEWER_OPTIONS = "TEXT CHECK(" + KEY_INTERVIEWER + " " +
+            "GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
     public static final int INTERVIEWER_COLUMN = 2;
     public static final String KEY_CREATED_DATE = "Date_of_creating";
-    public static final String CREATED_DATE_OPTIONS = "TEXT NOT NULL";/* CHECK(" + KEY_CREATED_DATE +
-            " LIKE '[1-3][0-9][0-9][0-9]-" +
-            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-1][0-9][0-9]')";*/
+    public static final String CREATED_DATE_OPTIONS = "TEXT NOT NULL CHECK(" + KEY_CREATED_DATE +
+             " GLOB '[1-3][0-9][0-9][0-9]-" +
+            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
     public static final int CREATED_DATE_COLUMN = 3;
     public static final String KEY_MODIFICATION_DATE = "Date_of_modification";
-    public static final String MODIFICATION_DATE_OPTIONS = "TEXT NOT NULL";/* CHECK(" +
-            KEY_MODIFICATION_DATE + " LIKE '[1-3][0-9][0-9][0-9]-" +
-            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-1][0-9][0-9]')";
+    public static final String MODIFICATION_DATE_OPTIONS = "TEXT NOT NULL CHECK(" +
+            KEY_MODIFICATION_DATE + " GLOB '[1-3][0-9][0-9][0-9]-" +
+            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")*/
     public static final int MODIFICATION_DATE_COLUMN = 4;
     public static final String KEY_MODIFIED_BY = "Modified_by";
-    public static final String MODIFIED_BY_OPTIONS = "TEXT NOT NULL";/* CHECK(" + KEY_MODIFIED_BY  +
-            " LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";*/
+    public static final String MODIFIED_BY_OPTIONS = "TEXT NOT NULL CHECK(" + KEY_MODIFIED_BY  +
+            " GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
     public static final int MODIFIED_BY_COLUMN = 5;
 
     //tabela pytania
@@ -77,31 +78,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int TYPE_COLUMN_QDB = 7;
     public static final String KEY_INTERVIEWER_QDB = "Interviewer";
     public static final String INTERVIEWER_OPTIONS_QDB = "TEXT CHECK(" + KEY_INTERVIEWER_QDB
-    + " LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
+    + " GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
     public static final int INTERVIEWER_COLUMN_QDB = 8;
     public static final String KEY_CREATED_DATE_QDB = "Date_of_creating";
     public static final String CREATED_DATE_OPTIONS_QDB = "TEXT NOT NULL CHECK(" +
-            KEY_CREATED_DATE_QDB + " LIKE '[1-3][0-9][0-9][0-9]-" +
-            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-1][0-9][0-9]')";
+            KEY_CREATED_DATE_QDB + " GLOB '[1-3][0-9][0-9][0-9]-" +
+            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
     public static final int CREATED_DATE_COLUMN_QDB = 9;
     public static final String KEY_MODIFICATION_DATE_QDB = "Date_of_modification";
     public static final String MODIFICATION_DATE_OPTIONS_QDB = "TEXT NOT NULL CHECK(" +
-            KEY_MODIFICATION_DATE_QDB + " LIKE '[1-3][0-9][0-9][0-9]-" +
-            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-1][0-9][0-9]')";
+            KEY_MODIFICATION_DATE_QDB + " GLOB '[1-3][0-9][0-9][0-9]-" +
+            "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
     public static final int MODIFICATION_DATE_COLUMN_QDB = 10;
     public static final String KEY_MODIFIED_BY_QDB = "Modified_by";
     public static final String MODIFIED_BY_OPTIONS_QDB = "TEXT NOT NULL CHECK(" +
-            KEY_MODIFIED_BY_QDB + " LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
+            KEY_MODIFIED_BY_QDB + " GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
     public static final int MODIFIED_BY_COLUMN_QDB = 11;
 
     public static final String INTERVIEWERS_TABLE = "Interviewers";
 
     public static final String KEY_ID_INTERVIEWER_IDB = "PESEL";
-    public static final String ID_INTERVIEWER_OPTIONS_IDB = "TEXT NOT NULL";/*CHECK(" +
-            KEY_ID_INTERVIEWER_IDB + " LIKE '[0-9][0-9][0-9][0-9]" +
-            "[0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";*/
+    public static final String ID_INTERVIEWER_OPTIONS_IDB = "TEXT NOT NULL CHECK(" +
+            KEY_ID_INTERVIEWER_IDB + " GLOB '[0-9][0-9][0-9][0-9]" +
+            "[0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
     public static final int ID_INTERVIEWER_COLUMN_IDB = 0;
     public static final String KEY_PASSWORD_IDB = "Password";
     public static final String PASSWORD_OPTIONS_IDB = "TEXT NOT NULL";
@@ -305,8 +306,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             MAX_LENGTH_OPTIONS_TCDB + ", " + KEY_REGEX_TCDB + " " +
             REGEX_OPTIONS_TCDB + ");";
 
-    public DatabaseHelper(Context context, int version) {
-        super(context, DB_NAME, null, version);
+    public DatabaseHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
