@@ -13,4 +13,13 @@
         android:background="@color/gray"
         android:text="@string/new_survey_button"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fill_survey_button"
+        android:background="@color/gray"
+        android:layout_toRightOf="@+id/new_survey_button"
+        android:layout_marginLeft="20dp"
+        android:text="@string/fill_survey_button"/>
+
 </RelativeLayout>

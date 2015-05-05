@@ -44,7 +44,7 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
             public void onClick(View v) {
                 if(control.finishCreating(ApplicationState.getInstance(
                         getApplicationContext()).
-                        getSurveyHandler()) == -1){           //nie udało się dodać do bazy danych
+                        getSurveyHandler()) == null){           //nie udało się dodać do bazy danych
                     Toast.makeText(CreateNewSurveyQuestionsActivity.this,
                             "Nie udało się dodać ankiety do bazy danych", Toast.LENGTH_LONG).show();
                 }

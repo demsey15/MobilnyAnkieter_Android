@@ -37,12 +37,12 @@ public class SurveyHandlerMobile extends SurveyHandler {
      * danych, zwraca -1.
      */
     @Override
-    public int addNewSurveyTemplate(Survey survey) {
-        int id =  super.addNewSurveyTemplate(survey);
+    public String addNewSurveyTemplate(Survey survey) {
+        String id =  super.addNewSurveyTemplate(survey);
+        super.setSurveyStatus(survey, SurveyHandler.ACTIVE);
         if(survey == null) throw new NullPointerException("Przekazana ankieta nie mo¿e byæ nullem " +
                 "- próba dodania ankiety do bazy danych");
-        //if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()))) return -1; /////////////zmieniæ!!
-        if(!db.addSurveyTemplate(survey, super.getSurveyStatus(1))) return -1;
+        if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()))) return null;
         return id;
     }
 }

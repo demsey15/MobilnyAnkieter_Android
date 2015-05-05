@@ -12,6 +12,8 @@ import java.util.GregorianCalendar;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.dataBase.InterviewerDBAdapter;
+import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyAdapter;
+import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyToFillActivity;
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
 
 
@@ -35,6 +37,15 @@ public class MainActivity extends ActionBarActivity {
                 new Interviewer("Dominik", "Demski", "92110908338", new GregorianCalendar())));
         InterviewerDBAdapter db = new InterviewerDBAdapter(getApplicationContext());
         db.addInterviewer(interviewer);
+
+        Button fillSurveyButton = (Button) findViewById(R.id.fill_survey_button);
+        fillSurveyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ChooseSurveyToFillActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

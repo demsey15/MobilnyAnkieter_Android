@@ -3,6 +3,7 @@
 
 <!-- buttons   -->
     <string name="new_survey_button">Nowa ankieta</string>
+    <string name="fill_survey_button">Wypełnij ankietę</string>
 
 <!-- creating survey -->
     <string name="survey_title_hint">Podaj tytuł ankiety</string>
@@ -43,7 +44,7 @@
 
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_create_new_survey">CreateNewSurvey</string>
+    <string name="title_activity_create_new_survey">Tworzenie nowej ankiety</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_edit_date_time_question">EditDateTimeQuestion</string>
@@ -54,4 +55,8 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_grid_question">EditGridQuestion</string>
+    <string name="title_activity_answer_drop_down_list_question">
+        AnswerDropDownListQuestionActivity
+    </string>
+    <string name="title_activity_choose_survey_to_fill">ChooseSurveyToFillActivity</string>
 </resources>
