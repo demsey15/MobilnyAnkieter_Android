@@ -1,5 +1,6 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,7 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +28,14 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
     private Question question;
     private List<Button> answers = new ArrayList<>();
     private List<Button> chosenAnswer = new ArrayList<>();
+    private int myQuestionNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_multiple_choice_question);
 
-        int myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
+        myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         question = answeringSurveyControl.getQuestion(myQuestionNumber);
 
         if (!question.isObligatory()) {
@@ -68,6 +72,44 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
             });
             answers.add(button);
         }
+
+        ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnsweringSurveyControl control = ApplicationState.
+                        getInstance(AnswerMultipleChoiceQuestionActivity.this).getAnsweringSurveyControl();
+              //  control.setMultipleChoiceQuestionAnswer(myQuestionNumber, getChosenAnswers());
+                if(control.getNumberOfQuestions() - 1 > myQuestionNumber){
+                    Question question = control.getQuestion(myQuestionNumber + 1);
+                    int questionType = question.getQuestionType();
+                    Intent intent;
+                    if(questionType == Question.ONE_CHOICE_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this,
+                                AnswerOneChoiceQuestionActivity.class);
+                    }
+                    else if(questionType == Question.MULTIPLE_CHOICE_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this,
+                                AnswerMultipleChoiceQuestionActivity.class);
+                    }
+                    else if(questionType == Question.DROP_DOWN_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
+                    }
+                    else{
+                        //if(questionType == Question.SCALE_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerScaleQuestionActivity.class);
+                    }
+                    intent.putExtra("QUESTION_NUMBER", 0);
+                    intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(AnswerMultipleChoiceQuestionActivity.this,
+                            "Ju¿ wiêcej pytañ nie ma.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
     }
 
         private List<String> getChosenAnswers(){

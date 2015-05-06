@@ -65,4 +65,5 @@
         AnswerMultipleChoiceQuestionActivity
     </string>
     <string name="title_activity_answer_scale_question">AnswerScaleQuestionActivity</string>
+    <string name="title_activity_welcome_filling">WelcomeFillingActivity</string>
 </resources>

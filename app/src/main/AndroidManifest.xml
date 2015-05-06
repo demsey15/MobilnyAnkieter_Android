@@ -64,6 +64,10 @@
             android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerScaleQuestionActivity"
             android:label="@string/title_activity_answer_scale_question" >
         </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.WelcomeFillingActivity"
+            android:label="@string/title_activity_welcome_filling" >
+        </activity>
     </application>
 
 </manifest>
