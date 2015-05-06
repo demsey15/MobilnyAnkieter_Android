@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         Interviewer interviewer;
-        ApplicationState.getInstance(getApplicationContext()).setLoggedInterviewer((interviewer =
+        ApplicationState.getInstance(getApplicationContext()).logIn((interviewer =
                 new Interviewer("Dominik", "Demski", "92110908338", new GregorianCalendar())));
         InterviewerDBAdapter db = new InterviewerDBAdapter(getApplicationContext());
         db.addInterviewer(interviewer);

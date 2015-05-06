@@ -52,6 +52,18 @@
             android:name="bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyToFillActivity"
             android:label="@string/title_activity_choose_survey_to_fill" >
         </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerOneChoiceQuestionActivity"
+            android:label="@string/title_activity_answer_one_choice_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerMultipleChoiceQuestionActivity"
+            android:label="@string/title_activity_answer_multiple_choice_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerScaleQuestionActivity"
+            android:label="@string/title_activity_answer_scale_question" >
+        </activity>
     </application>
 
 </manifest>

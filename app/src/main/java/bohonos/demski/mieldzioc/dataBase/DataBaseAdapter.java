@@ -2,17 +2,25 @@ package bohonos.demski.mieldzioc.dataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.application.DateAndTimeService;
 import bohonos.demski.mieldzioc.constraints.IConstraint;
 import bohonos.demski.mieldzioc.constraints.NumberConstraint;
 import bohonos.demski.mieldzioc.constraints.TextConstraint;
+import bohonos.demski.mieldzioc.interviewer.Interviewer;
+import bohonos.demski.mieldzioc.questions.DateTimeQuestion;
 import bohonos.demski.mieldzioc.questions.GridQuestion;
+import bohonos.demski.mieldzioc.questions.MultipleChoiceQuestion;
+import bohonos.demski.mieldzioc.questions.OneChoiceQuestion;
 import bohonos.demski.mieldzioc.questions.Question;
 import bohonos.demski.mieldzioc.questions.ScaleQuestion;
 import bohonos.demski.mieldzioc.questions.TextQuestion;
@@ -50,6 +58,12 @@ public class DataBaseAdapter {
         dbHelper.close();
     }
 
+    public boolean ifSurveyTemplateInDB(String idOfSurveys){
+        Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
+                {DatabaseHelper.KEY_ID}, DatabaseHelper.KEY_ID + " = " + idOfSurveys,
+                null, null, null, null);
+        return cursor.moveToFirst();
+    }
     /**
      * Dodaj ankietê do bazy danych.
      * Metoda sama dba o otwarcie i zamkniêcie po³¹czenia z baz¹ danych.
@@ -69,6 +83,9 @@ public class DataBaseAdapter {
         templateValues.put(DatabaseHelper.KEY_MODIFICATION_DATE, DateAndTimeService.getToday());
         templateValues.put(DatabaseHelper.KEY_MODIFIED_BY, ApplicationState.getInstance(context).
                 getLoggedInterviewer().getId());
+        templateValues.put(DatabaseHelper.KEY_TITLE, survey.getTitle());
+        templateValues.put(DatabaseHelper.KEY_DESCRIPTION, survey.getDescription());
+        templateValues.put(DatabaseHelper.KEY_SUMMARY, survey.getSummary());
         db.insert(DatabaseHelper.SURVEY_TEMPLATE_TABLE, null, templateValues);
 
         for(int i = 0; i < size; i++){
@@ -217,5 +234,251 @@ public class DataBaseAdapter {
         constraintsValues.put(DatabaseHelper.KEY_MAX_LENGTH_TCDB, constraint.getMaxLength());
         constraintsValues.put(DatabaseHelper.KEY_REGEX_TCDB, constraint.getRegex().pattern());
         return db.insert(DatabaseHelper.TEXT_CONSTRAINTS_TABLE, null, constraintsValues);
+    }
+
+    public HashMap<Survey, Integer> getAllSurveyTemplates(){
+        HashMap<Survey, Integer> templates = new HashMap<>();
+        Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
+                {DatabaseHelper.KEY_ID, DatabaseHelper.KEY_STATUS}, null, null, null, null, null);
+        while(cursor.moveToNext()){
+            Survey survey = getSurveyTemplate(cursor.getString(0));
+            templates.put(survey, cursor.getInt(1));
+        }
+        return templates;
+    }
+
+    public Survey getSurveyTemplate(String idOfSurveys){
+        Survey survey = new Survey(null);
+        Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]{
+                DatabaseHelper.KEY_INTERVIEWER, DatabaseHelper.KEY_TITLE,
+                DatabaseHelper.KEY_DESCRIPTION, DatabaseHelper.KEY_SUMMARY}, DatabaseHelper.KEY_ID +
+                " = " + idOfSurveys, null, null, null, null);
+        if(cursor.moveToFirst()){
+            survey.setDescription(cursor.getString(2));
+            survey.setIdOfSurveys(idOfSurveys);
+            survey.setSummary(cursor.getString(3));
+            survey.setTitle(cursor.getString(1));
+            String interviewerId = cursor.getString(0);     //spróbuj pobraæ ankietera
+            Cursor cursorInterviewer = db.query(DatabaseHelper.INTERVIEWERS_TABLE, new String[]
+                            {DatabaseHelper.KEY_CAN_CREATE_IDB},
+                    DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = " + interviewerId,
+                    null, null, null, null);
+            if(cursorInterviewer.moveToFirst()){        //jeœli mam takiego interveiwera w bazie, to
+                                                        //dodaj go do ankiety, jesli nie, to nie
+                Interviewer interviewer = new Interviewer(null, null, interviewerId, null);
+                interviewer.setInterviewerPrivileges((cursorInterviewer.getInt(0) == 0)? false : true);
+            }
+        }
+        List<Question> questions = getSurveysQuestion(idOfSurveys);
+        for(Question question : questions){
+            survey.addQuestion(question);
+        }
+        return survey;
+    }
+
+    public List<Question> getSurveysQuestion(String idOfSurveys) {
+        Cursor cursor = db.query(DatabaseHelper.QUESTIONS_TABLE, new String[]{
+                        DatabaseHelper.KEY_OBLIGATORY_QDB, DatabaseHelper.KEY_HINT_QDB,
+                        DatabaseHelper.KEY_ERROR_QDB, DatabaseHelper.KEY_URL_QDB,
+                        DatabaseHelper.KEY_TYPE_QDB, DatabaseHelper.KEY_QUESTION_QDB
+                        }, DatabaseHelper.KEY_ID_SURVEY_QDB + " = "
+                        + idOfSurveys, null, null, null,
+                        DatabaseHelper.KEY_QUESTION_NUMBER_QDB + " ASC");
+        int i = 0;
+        List<Question> questions = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Question question = null;
+            int questionType = cursor.getInt(4);
+            if(questionType == Question.DROP_DOWN_QUESTION) {
+                question = new OneChoiceQuestion("");
+                List<String> list = getChoiceAnswers(idOfSurveys, i);
+                OneChoiceQuestion choiceQuestion = (OneChoiceQuestion) question;
+                for (String answer : list) {
+                    choiceQuestion.addAnswer(answer);
+                }
+                choiceQuestion.setIsDropDownList(true);
+            }
+            else if (questionType == Question.ONE_CHOICE_QUESTION) {
+                question = new OneChoiceQuestion("");
+                List<String> list = getChoiceAnswers(idOfSurveys, i);
+                OneChoiceQuestion choiceQuestion = (OneChoiceQuestion) question;
+                for (String answer : list) {
+                    choiceQuestion.addAnswer(answer);
+                }
+                choiceQuestion.setIsDropDownList(false);
+            }
+            else if (questionType == Question.MULTIPLE_CHOICE_QUESTION) {
+                question = new MultipleChoiceQuestion("");
+                List<String> list = getChoiceAnswers(idOfSurveys, i);
+                MultipleChoiceQuestion choiceQuestion = (MultipleChoiceQuestion) question;
+                for (String answer : list) {
+                    choiceQuestion.addAnswer(answer);
+                }
+            }
+            else if (questionType == Question.TEXT_QUESTION) {
+                TextQuestion textQuestion = (TextQuestion) question;
+                TextConstraint textConstraint = getTextConstraints(idOfSurveys, i);
+                if (textConstraint == null) {
+                    NumberConstraint numberConstraint = getNumberConstraints(idOfSurveys, i);
+                    if (numberConstraint != null) {
+                        textQuestion.setConstraint(numberConstraint);
+                    }
+                } else {
+                    textQuestion.setConstraint(textConstraint);
+                }
+            }
+            else if (questionType == Question.SCALE_QUESTION) {
+                question = getScaleAnswers(idOfSurveys, i);
+            }
+            else if(questionType == Question.GRID_QUESTION){
+                GridQuestion gridQuestion = (GridQuestion) question;
+                gridQuestion.setRowLabels(getGridRowAnswers(idOfSurveys, i));
+                gridQuestion.setColumnLabels(getGridColumnAnswers(idOfSurveys, i));
+            }
+            else if(questionType == Question.DATE_QUESTION){
+                DateTimeQuestion dateQuestion = (DateTimeQuestion) question;
+                dateQuestion.setOnlyDate(true);
+            }
+            else if(questionType == Question.TIME_QUESTION){
+                DateTimeQuestion dateQuestion = (DateTimeQuestion) question;
+                dateQuestion.setOnlyTime(true);
+            }
+            question.setObligatory((cursor.getInt(0) == 0) ? false : true);
+            question.setHint(cursor.getString(1));
+            question.setErrorMessage(cursor.getString(2));
+            question.setPictureURL(cursor.getString(3));
+            question.setQuestion(cursor.getString(5));
+            questions.add(question);
+            i++;
+        }
+        return questions;
+    }
+    /**
+     * Zwraca listê odpowiedzi dla danego szablonu ankiety.
+     * @param idOfSurveys id szablonu.
+     * @param questionNumber numer pytania (cyfra).
+     * @return Lista odpowiedzi.
+     */
+    public List<String> getChoiceAnswers(String idOfSurveys, int questionNumber){
+        String questionNo = idOfSurveys + questionNumber;
+        List<String> answers = new ArrayList<String>();
+        Cursor cursor = db.query(DatabaseHelper.CHOICE_ANSWERS_TABLE, new String[] {
+                DatabaseHelper.KEY_ANSWER_CHADB}, DatabaseHelper.KEY_QUESTION_CHADB + " = " +
+                questionNo, null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_CHADB + " ASC");
+        while(cursor.moveToNext()){
+            answers.add(cursor.getString(0));
+        }
+        return answers;
+    }
+
+    public List<String> getGridRowAnswers(String idOfSurveys, int questionNumber){
+        String questionNo = idOfSurveys + questionNumber;
+        List<String> answers = new ArrayList<String>();
+        Cursor cursor = db.query(DatabaseHelper.GRID_ROW_ANSWERS_TABLE, new String[] {
+                DatabaseHelper.KEY_ANSWER_GRDB}, DatabaseHelper.KEY_QUESTION_GRDB + " = " +
+                questionNo, null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_GRDB + " ASC");
+        while(cursor.moveToNext()){
+            answers.add(cursor.getString(0));
+        }
+        return answers;
+    }
+
+    public List<String> getGridColumnAnswers(String idOfSurveys, int questionNumber){
+        String questionNo = idOfSurveys + questionNumber;
+        List<String> answers = new ArrayList<String>();
+        Cursor cursor = db.query(DatabaseHelper.GRID_COLUMN_ANSWERS_TABLE, new String[] {
+                DatabaseHelper.KEY_ANSWER_GCDB}, DatabaseHelper.KEY_QUESTION_GCDB + " = " +
+                questionNo, null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_GCDB + " ASC");
+        while(cursor.moveToNext()){
+            answers.add(cursor.getString(0));
+        }
+        return answers;
+    }
+
+    /**
+     * Zwraca ograniczenia liczbowe dla zadanego pytania.
+     * @param idOfSurveys
+     * @param questionNumber
+     * @return null, jesli nie ma ograniczeñ tekstowych.
+     */
+    public NumberConstraint getNumberConstraints(String idOfSurveys, int questionNumber){
+        String questionNo = idOfSurveys + questionNumber;
+        Cursor cursor = db.query(DatabaseHelper.NUMBER_CONSTRAINTS_TABLE, new String[] {
+                DatabaseHelper.KEY_MIN_VALUE_NCDB, DatabaseHelper.KEY_MAX_VALUE_NCDB,
+                DatabaseHelper.KEY_NOT_BETWEEN_NCDB, DatabaseHelper.KEY_NOT_EQUALS_NCDB,
+                DatabaseHelper.KEY_MUST_BE_INTEGER_NCDB}, DatabaseHelper.KEY_QUESTION_GRDB + " = " +
+                questionNo, null, null, null, null, null);
+        NumberConstraint numberConstraint = null;
+        if(cursor.moveToFirst()){
+            numberConstraint = new NumberConstraint(cursor.getDouble(0),
+                    cursor.getDouble(1), (cursor.getInt(4) == 0)? false : true, cursor.getDouble(3),
+                    (cursor.getInt(2) == 0)? false : true);
+        }
+        return numberConstraint;
+    }
+
+    /**
+     * Zwraca ograniczenia liczbowe dla zadanego pytania.
+     * @param idOfSurveys
+     * @param questionNumber
+     * @return null, jesli nie ma ograniczeñ tekstowych.
+     */
+    public TextConstraint getTextConstraints(String idOfSurveys, int questionNumber){
+        String questionNo = idOfSurveys + questionNumber;
+        Cursor cursor = db.query(DatabaseHelper.TEXT_CONSTRAINTS_TABLE, new String[] {
+                DatabaseHelper.KEY_MIN_LENGTH_TCDB, DatabaseHelper.KEY_MAX_LENGTH_TCDB,
+                DatabaseHelper.KEY_REGEX_TCDB}, DatabaseHelper.KEY_QUESTION_TCDB + " = " +
+                questionNo, null, null, null, null, null);
+        TextConstraint textConstraint = null;
+        if(cursor.moveToFirst()){
+            Pattern pattern;
+            try{
+                pattern = Pattern.compile(cursor.getString(2));
+            }
+            catch(Exception e){
+                pattern = null;
+            }
+            textConstraint = new TextConstraint(cursor.getInt(0),
+                    cursor.getInt(1), pattern);
+        }
+        return textConstraint;
+    }
+
+    /**
+     * Zwraca ScaleQuestions z uzupe³nionymi tylko polami dotycz¹cymi rodzaju odpowiedzi (bez treœci
+     * pytania na przyk³ad!).
+     * @param idOfSurveys
+     * @param questionNumber
+     * @return null, jeœli nie ma takiego pytania.
+     */
+    public ScaleQuestion getScaleAnswers(String idOfSurveys, int questionNumber){
+        String questionNo = idOfSurveys + questionNumber;
+        ScaleQuestion scaleQuestion = null;
+        Cursor cursor = db.query(DatabaseHelper.SCALE_ANSWERS_TABLE, new String[] {
+                DatabaseHelper.KEY_MIN_VALUE_SCDB, DatabaseHelper.KEY_MAX_VALUE_SCDB,
+                DatabaseHelper.KEY_MIN_LAB_SCDB, DatabaseHelper.KEY_MAX_LABEL_SCDB,},
+                DatabaseHelper.KEY_QUESTION_SCDB + " = " +
+                questionNo, null, null, null, null, null);
+        if(cursor.moveToFirst()){
+            scaleQuestion = new ScaleQuestion("", false, "", "", cursor.getInt(0),
+                    cursor.getInt(1), cursor.getString(2), cursor.getString(3));
+        }
+        return scaleQuestion;
+    }
+
+    /**
+     * Zwraca status wybranej grupy ankiet.
+     * @param idOfSurveys
+     * @return status grupy ankiet albo -2, jesli w bazie nie ma szablonu o takim id.
+     */
+    public int getSurveyStatus(String idOfSurveys){
+        open();
+        Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
+                        {DatabaseHelper.KEY_STATUS}, DatabaseHelper.KEY_ID + " = " + idOfSurveys,
+                        null, null, null, null);
+        close();
+        if(cursor.moveToFirst())
+            return cursor.getInt(0);
+        else return -2;
     }
 }

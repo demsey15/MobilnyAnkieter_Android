@@ -16,6 +16,7 @@ public class ApplicationState {
     private SurveyHandlerMobile surveyHandler;
     private SurveysTemplateControl surveysTemplateControl;
     private AnsweringSurveyControl answeringSurveyControl;
+    private UsersPreferences preferences;
 
     public SurveyHandler getSurveyHandler() {
         return surveyHandler;
@@ -33,20 +34,29 @@ public class ApplicationState {
 
     private ApplicationState(Context context){
         this.context = context;
-        surveyHandler = new SurveyHandlerMobile(context, 0);   //getLASTSURVEYSTATE!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        surveysTemplateControl = new SurveysTemplateControl(surveyHandler);
-        answeringSurveyControl = new AnsweringSurveyControl(surveyHandler);
-
     }
 
     public static ApplicationState getInstance(Context context){
         return (instance == null)? (instance = new ApplicationState(context)):instance;
         }
+
+    public boolean logIn(Interviewer interviewer){
+        if(instance == null) return false;
+        this.loggedInterviewer = interviewer;
+        preferences = new UsersPreferences(context, interviewer);
+        surveyHandler = new SurveyHandlerMobile(context, preferences.
+                getLastAddedSurveyTemplateNumber());
+        surveysTemplateControl = new SurveysTemplateControl(surveyHandler);
+        answeringSurveyControl = new AnsweringSurveyControl(surveyHandler);
+        return true;
+    }
+
+    public void saveLastAddedSurveyTemplateNumber(int lastTemplateNumber){
+        preferences.saveLastAddedSurveyTemplateNumber(lastTemplateNumber);
+    }
+
     public Interviewer getLoggedInterviewer() {
         return loggedInterviewer;
     }
 
-    public void setLoggedInterviewer(Interviewer loggedInterviewer) {
-        this.loggedInterviewer = loggedInterviewer;
-    }
 }

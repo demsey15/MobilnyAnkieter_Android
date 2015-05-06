@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by Dominik on 2015-05-01.
+ * Created by Dominik Demski on 2015-05-01.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -14,9 +14,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 3;
-    public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
+    private static final int DB_VERSION = 6;
 
+    public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
     public static final String KEY_ID = "id";
     public static final String ID_OPTIONS = "TEXT PRIMARY KEY NOT NULL";
@@ -44,6 +44,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MODIFIED_BY_OPTIONS = "TEXT NOT NULL CHECK(" + KEY_MODIFIED_BY  +
             " GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
     public static final int MODIFIED_BY_COLUMN = 5;
+    public static final String KEY_TITLE = "Title";
+    public static final String TITLE_OPTIONS = "TEXT";
+    public static final int TITLE_COLUMN = 6;
+    public static final String KEY_DESCRIPTION = "Description";
+    public static final String DESCRIPTION_OPTIONS = "TEXT";
+    public static final int DESCRIPTION_COLUMN = 7;
+    public static final String KEY_SUMMARY = "Summary";
+    public static final String SUMMARY_OPTIONS = "TEXT";
+    public static final int SUMMARY_COLUMN = 8;
+
 
     //tabela pytania
     public static final String QUESTIONS_TABLE = "Questions";
@@ -107,6 +117,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_PASSWORD_IDB = "Password";
     public static final String PASSWORD_OPTIONS_IDB = "TEXT NOT NULL";
     public static final int PASSWORD_COLUMN_IDB = 1;
+    public static final String KEY_CAN_CREATE_IDB = "Can_create";
+    public static final String CAN_CREATE_OPTIONS_IDB = "INTEGER NOT NULL CHECK( " +
+            KEY_CAN_CREATE_IDB + " IN(0, 1))";
+    public static final int CAN_CREATE_COLUMN_IDB = 2;
+
 
     public static final String SCALE_ANSWERS_TABLE = "Scale_answers";
 
@@ -244,7 +259,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             KEY_STATUS + " " + STATUS_OPTIONS + ", " + KEY_INTERVIEWER + " " +
             INTERVIEWER_OPTIONS + ", " + KEY_CREATED_DATE + " " + CREATED_DATE_OPTIONS +
             ", " + KEY_MODIFICATION_DATE + " " + MODIFICATION_DATE_OPTIONS + ", " +
-            KEY_MODIFIED_BY + " " + MODIFIED_BY_OPTIONS + ");";
+            KEY_MODIFIED_BY + " " + MODIFIED_BY_OPTIONS + ", " + KEY_TITLE + " " + TITLE_OPTIONS +
+            ", " + KEY_DESCRIPTION + " " + DESCRIPTION_OPTIONS + ", " + KEY_SUMMARY +
+            " " + SUMMARY_OPTIONS + ");";
 
     private static final String DB_CREATE_QUESTIONS_TABLE = "CREATE TABLE " +
             QUESTIONS_TABLE + "( " + KEY_ID_SURVEY_QDB + " " + ID_SURVEY_OPTIONS_QDB +
@@ -260,7 +277,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_CREATE_INTERVIEWERS_TABLE = "CREATE TABLE " + INTERVIEWERS_TABLE +
             "( " + KEY_ID_INTERVIEWER_IDB + " " + ID_INTERVIEWER_OPTIONS_IDB + ", " +
-            KEY_PASSWORD_IDB + " " + PASSWORD_OPTIONS_IDB + ");";
+            KEY_PASSWORD_IDB + " " + PASSWORD_OPTIONS_IDB + ", " + KEY_CAN_CREATE_IDB +
+            " " + CAN_CREATE_OPTIONS_IDB + ");";
 
     private static final String DB_CREATE_CHOICE_ANSWERS_TABLE = "CREATE TABLE " +
             CHOICE_ANSWERS_TABLE + "( " + KEY_SURVEY_CHADB + " " + SURVEY_OPTIONS_CHADB +

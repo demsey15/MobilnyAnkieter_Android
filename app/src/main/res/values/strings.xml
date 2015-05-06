@@ -59,4 +59,10 @@
         AnswerDropDownListQuestionActivity
     </string>
     <string name="title_activity_choose_survey_to_fill">ChooseSurveyToFillActivity</string>
+    <string name="title_activity_answer_one_choice_question">AnswerOneChoiceQuestionActivity
+    </string>
+    <string name="title_activity_answer_multiple_choice_question">
+        AnswerMultipleChoiceQuestionActivity
+    </string>
+    <string name="title_activity_answer_scale_question">AnswerScaleQuestionActivity</string>
 </resources>

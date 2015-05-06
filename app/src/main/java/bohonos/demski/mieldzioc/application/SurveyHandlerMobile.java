@@ -2,6 +2,8 @@ package bohonos.demski.mieldzioc.application;
 
 import android.content.Context;
 
+import java.util.HashMap;
+
 import bohonos.demski.mieldzioc.dataBase.DataBaseAdapter;
 import bohonos.demski.mieldzioc.survey.Survey;
 import bohonos.demski.mieldzioc.survey.SurveyHandler;
@@ -23,6 +25,12 @@ public class SurveyHandlerMobile extends SurveyHandler {
         super(lastSurveysId);
         this.context = context;
         db = new DataBaseAdapter(context);
+        db.open();
+        HashMap<Survey, Integer> surveys = db.getAllSurveyTemplates();
+        db.close();
+        for(Survey survey : surveys.keySet()){
+            super.loadSurveyTemplate(survey, surveys.get(survey));
+        }
     }
 
     public void setContext(Context context) {
@@ -38,11 +46,12 @@ public class SurveyHandlerMobile extends SurveyHandler {
      */
     @Override
     public String addNewSurveyTemplate(Survey survey) {
-        String id =  super.addNewSurveyTemplate(survey);
-        super.setSurveyStatus(survey, SurveyHandler.ACTIVE);
         if(survey == null) throw new NullPointerException("Przekazana ankieta nie mo¿e byæ nullem " +
                 "- próba dodania ankiety do bazy danych");
+        String id =  super.addNewSurveyTemplate(survey);
+        super.setSurveyStatus(survey, SurveyHandler.ACTIVE);
         if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()))) return null;
+        ApplicationState.getInstance(context).saveLastAddedSurveyTemplateNumber(super.getMaxSurveysId());
         return id;
     }
 }

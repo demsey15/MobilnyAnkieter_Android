@@ -5,63 +5,63 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 import bohonos.demski.mieldzioc.questions.Question;
+import bohonos.demski.mieldzioc.questions.ScaleQuestion;
 
-public class AnswerDropDownListQuestionActivity extends ActionBarActivity {
+public class AnswerScaleQuestionActivity extends ActionBarActivity {
 
     AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
             getAnsweringSurveyControl();
-    private Question question;
+    private ScaleQuestion question;
+    private SeekBar chosenAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_answer_drop_down_list_question);
+        setContentView(R.layout.activity_answer_scale_question);
 
         int myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
-        question = answeringSurveyControl.getQuestion(myQuestionNumber);
+        question = (ScaleQuestion) answeringSurveyControl.getQuestion(myQuestionNumber);
 
-        if(!question.isObligatory()) {
-            TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_drop_down);
+        if (!question.isObligatory()) {
+            TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_scale);
             obligatoryText.setVisibility(View.INVISIBLE);
         }
 
-        TextView questionText = (TextView) findViewById(R.id.answer_question_drop_down);
+        TextView questionText = (TextView) findViewById(R.id.answer_question_scale);
         questionText.setText(question.getQuestion());
 
-        TextView questionHint = (TextView) findViewById(R.id.answer_hint_drop_down);
+        TextView questionHint = (TextView) findViewById(R.id.answer_hint_scale);
         questionHint.setText(question.getHint());
 
-        //wstawianie odpowiedzi
-        Spinner answers = (Spinner) findViewById(R.id.spinner_answer_drop_down);
+        chosenAnswer = (SeekBar) findViewById(R.id.answer_scale_seekBar);
+        chosenAnswer.setMax(question.getMaxValue());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item);
-        List<String> answerList = question.getAnswersAsStringList();
-        for(String ans : answerList){
-            adapter.add(ans);
-        }
+        TextView leftLabel = (TextView) findViewById(R.id.leftLabel_answer_scale_question);
+        TextView rightLabel = (TextView) findViewById(R.id.rightLabel_answer_scale_question);
 
-        answers.setAdapter(adapter);
+        leftLabel.setText(question.getMinLabel());
+        rightLabel.setText(question.getMaxLabel());
+    }
+
+    private int getChosenAnswer(){
+        return chosenAnswer.getProgress();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_answer_drop_down_list_question, menu);
+        getMenuInflater().inflate(R.menu.menu_answer_scale_question, menu);
         return true;
     }
 

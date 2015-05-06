@@ -24,9 +24,6 @@ public class EditChoiceAnswersFragment extends Fragment {
     private LinearLayout linearLayout;
 
 
-
-
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
