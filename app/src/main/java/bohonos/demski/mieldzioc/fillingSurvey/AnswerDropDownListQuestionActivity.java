@@ -81,10 +81,22 @@ public class AnswerDropDownListQuestionActivity extends ActionBarActivity {
                                 AnswerMultipleChoiceQuestionActivity.class);
                     } else if (questionType == Question.DROP_DOWN_QUESTION) {
                         intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
-                    } else {
-                        //if(questionType == Question.SCALE_QUESTION){
+                    }else if(questionType == Question.SCALE_QUESTION){
                         intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerScaleQuestionActivity.class);
                     }
+                    else if(questionType == Question.DATE_QUESTION){
+                        intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerDateQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TIME_QUESTION){
+                        intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerTimeQuestionActivity.class);
+                    }
+                    else if(questionType == Question.GRID_QUESTION){
+                        intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerGridQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TEXT_QUESTION){
+                        intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                    }
+                    else intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerLongTextQuestionActivity.class);
                     intent.putExtra("QUESTION_NUMBER", 0);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);

@@ -3,12 +3,14 @@ package bohonos.demski.mieldzioc.fillingSurvey;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +25,7 @@ import bohonos.demski.mieldzioc.questions.Question;
 
 public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
 
-    AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
+    private AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
             getAnsweringSurveyControl();
     private Question question;
     private List<Button> answers = new ArrayList<>();
@@ -36,8 +38,9 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_answer_one_choice_question);
 
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
-     //   question = answeringSurveyControl.getQuestion(myQuestionNumber);
-
+        question = answeringSurveyControl.getQuestion(myQuestionNumber);
+        Log.d("WYPELNIANIE_ANKIETY", AnswerOneChoiceQuestionActivity.class + " nr pytania: " +
+                myQuestionNumber);
         if(!question.isObligatory()) {
             TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_one_choice);
             obligatoryText.setVisibility(View.INVISIBLE);
@@ -51,6 +54,8 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
 
         List<String> answerList = question.getAnswersAsStringList();
 
+        LinearLayout answersLinear = (LinearLayout) findViewById(R.id.answer_list_answers_one_choice);
+
         for(String ans : answerList){
             Button button = new Button(this);
             button.setText(ans);
@@ -62,20 +67,23 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {  //po klikniêciu zmieñ kolor odpowiedzi na czarny (
                     // resztê na ponarañczowy)
-                    if (chosenAnswer != null && chosenAnswer.equals(v)) { //jeœli klikniêto na zaznaczon¹ ju¿ odpowiedŸ
+                    if (chosenAnswer != null && chosenAnswer.getId() == ((Button) v).getId()) { //jeœli klikniêto na zaznaczon¹ ju¿ odpowiedŸ
                         v.setBackgroundColor(getResources().getColor(R.color.pomaranczowy)); //odznacz j¹
+                        Log.d("WYPELNIANIE_ANKIETY", "Odznaczam odpowiedz jednokrotnego wyboru");
                         chosenAnswer = null;
-                    }
-                    if (chosenAnswer != null) {     //je¿eli jakaœ odpowiedŸ ju¿ jest zaznaczona,
-                        for (Button butt : answers) {        //odznacz j¹
-                            butt.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
+                    } else {
+                        if (chosenAnswer != null) {     //je¿eli jakaœ odpowiedŸ ju¿ jest zaznaczona,
+                            for (Button butt : answers) {        //odznacz j¹
+                                butt.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
+                            }
                         }
+                        v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybran¹ odpowiedŸ
+                        chosenAnswer = (Button) v;
                     }
-                    v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybran¹ odpowiedŸ
-                    chosenAnswer = (Button) v;
                 }
             });
             answers.add(button);
+            answersLinear.addView(button);
         }
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
@@ -84,7 +92,7 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
             public void onClick(View v) {
                 AnsweringSurveyControl control = ApplicationState.
                         getInstance(AnswerOneChoiceQuestionActivity.this).getAnsweringSurveyControl();
-                control.setOneChoiceQuestionAnswer(myQuestionNumber, getChosenAnswer());
+//                control.setOneChoiceQuestionAnswer(myQuestionNumber, getChosenAnswer());
                 if(control.getNumberOfQuestions() - 1 > myQuestionNumber){
                     Question question = control.getQuestion(myQuestionNumber + 1);
                     int questionType = question.getQuestionType();
@@ -100,11 +108,23 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
                     else if(questionType == Question.DROP_DOWN_QUESTION){
                         intent = new Intent(AnswerOneChoiceQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
                     }
-                    else{
-                        //if(questionType == Question.SCALE_QUESTION){
+                    else if(questionType == Question.SCALE_QUESTION){
                         intent = new Intent(AnswerOneChoiceQuestionActivity.this, AnswerScaleQuestionActivity.class);
                     }
-                    intent.putExtra("QUESTION_NUMBER", 0);
+                    else if(questionType == Question.DATE_QUESTION){
+                        intent = new Intent(AnswerOneChoiceQuestionActivity.this, AnswerDateQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TIME_QUESTION){
+                        intent = new Intent(AnswerOneChoiceQuestionActivity.this, AnswerTimeQuestionActivity.class);
+                    }
+                    else if(questionType == Question.GRID_QUESTION){
+                        intent = new Intent(AnswerOneChoiceQuestionActivity.this, AnswerGridQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TEXT_QUESTION){
+                        intent = new Intent(AnswerOneChoiceQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                    }
+                    else intent = new Intent(AnswerOneChoiceQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);
                 }

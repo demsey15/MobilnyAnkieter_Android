@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ import bohonos.demski.mieldzioc.questions.Question;
 
 public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
 
-    AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
+    private AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
             getAnsweringSurveyControl();
     private Question question;
     private List<Button> answers = new ArrayList<>();
@@ -50,6 +51,7 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
         questionHint.setText(question.getHint());
 
         List<String> answerList = question.getAnswersAsStringList();
+        LinearLayout answersLinear = (LinearLayout) findViewById(R.id.answer_list_answers_multiple_choice);
 
         for (String ans : answerList) {
             Button button = new Button(this);
@@ -71,6 +73,7 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
                 }
             });
             answers.add(button);
+            answersLinear.addView(button);
         }
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
@@ -95,11 +98,23 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
                     else if(questionType == Question.DROP_DOWN_QUESTION){
                         intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
                     }
-                    else{
-                        //if(questionType == Question.SCALE_QUESTION){
+                    else if(questionType == Question.SCALE_QUESTION){
                         intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerScaleQuestionActivity.class);
                     }
-                    intent.putExtra("QUESTION_NUMBER", 0);
+                    else if(questionType == Question.DATE_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerDateQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TIME_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerTimeQuestionActivity.class);
+                    }
+                    else if(questionType == Question.GRID_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerGridQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TEXT_QUESTION){
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                    }
+                    else intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);
                 }

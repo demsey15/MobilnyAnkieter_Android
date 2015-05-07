@@ -1,104 +1,91 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 import bohonos.demski.mieldzioc.questions.Question;
-import bohonos.demski.mieldzioc.questions.ScaleQuestion;
 
-public class AnswerScaleQuestionActivity extends ActionBarActivity {
+public class AnswerDateQuestionActivity extends ActionBarActivity {
 
     private AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
             getAnsweringSurveyControl();
-    private ScaleQuestion question;
-    private SeekBar chosenAnswer;
+    private Question question;
+    private EditText chosenAnswer;
     private int myQuestionNumber;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_answer_scale_question);
+        setContentView(R.layout.activity_answer_date_question);
 
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
-        Log.d("WYPELNIANIE_ANKIETY", "Scale - otrzymalem pytanie nr: " + myQuestionNumber);
-        question = (ScaleQuestion) answeringSurveyControl.getQuestion(myQuestionNumber);
+        Log.d("WYPELNIANIE_ANKIETY", "Date - otrzymalem pytanie nr: " + myQuestionNumber);
+        question =  answeringSurveyControl.getQuestion(myQuestionNumber);
 
         if (!question.isObligatory()) {
-            TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_scale);
+            TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_date);
             obligatoryText.setVisibility(View.INVISIBLE);
         }
 
-        TextView questionText = (TextView) findViewById(R.id.answer_question_scale);
+        TextView questionText = (TextView) findViewById(R.id.answer_question_date);
         questionText.setText(question.getQuestion());
 
-        TextView questionHint = (TextView) findViewById(R.id.answer_hint_scale);
+        TextView questionHint = (TextView) findViewById(R.id.answer_hint_date);
         questionHint.setText(question.getHint());
 
-        chosenAnswer = (SeekBar) findViewById(R.id.answer_scale_seekBar);
-        chosenAnswer.setMax(question.getMaxValue());
-
-        TextView leftLabel = (TextView) findViewById(R.id.leftLabel_answer_scale_question);
-        TextView rightLabel = (TextView) findViewById(R.id.rightLabel_answer_scale_question);
-
-        leftLabel.setText(question.getMinLabel());
-        rightLabel.setText(question.getMaxLabel());
+        chosenAnswer = (EditText) findViewById(R.id.answer_txt_date);
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnsweringSurveyControl control = ApplicationState.
-                        getInstance(AnswerScaleQuestionActivity.this).getAnsweringSurveyControl();
-              //  control.setScaleQuestionAnswer(myQuestionNumber, getChosenAnswer());
+                        getInstance(AnswerDateQuestionActivity.this).getAnsweringSurveyControl();
+                //  control.setScaleQuestionAnswer(myQuestionNumber, getChosenAnswer());
                 if (control.getNumberOfQuestions() - 1 > myQuestionNumber) {
                     Question question = control.getQuestion(myQuestionNumber + 1);
                     int questionType = question.getQuestionType();
                     Intent intent;
                     if (questionType == Question.ONE_CHOICE_QUESTION) {
-                        intent = new Intent(AnswerScaleQuestionActivity.this,
+                        intent = new Intent(AnswerDateQuestionActivity.this,
                                 AnswerOneChoiceQuestionActivity.class);
                     } else if (questionType == Question.MULTIPLE_CHOICE_QUESTION) {
-                        intent = new Intent(AnswerScaleQuestionActivity.this,
+                        intent = new Intent(AnswerDateQuestionActivity.this,
                                 AnswerMultipleChoiceQuestionActivity.class);
                     } else if (questionType == Question.DROP_DOWN_QUESTION) {
-                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
-                    }else if(questionType == Question.SCALE_QUESTION){
-                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerScaleQuestionActivity.class);
+                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
+                    } else if(questionType == Question.SCALE_QUESTION){
+                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerScaleQuestionActivity.class);
                     }
                     else if(questionType == Question.DATE_QUESTION){
-                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerDateQuestionActivity.class);
+                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerDateQuestionActivity.class);
                     }
                     else if(questionType == Question.TIME_QUESTION){
-                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerTimeQuestionActivity.class);
+                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerTimeQuestionActivity.class);
                     }
                     else if(questionType == Question.GRID_QUESTION){
-                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerGridQuestionActivity.class);
+                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerGridQuestionActivity.class);
                     }
                     else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerShortTextQuestionActivity.class);
                     }
-                    else intent = new Intent(AnswerScaleQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    else intent = new Intent(AnswerDateQuestionActivity.this, AnswerLongTextQuestionActivity.class);
                     intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);
                 } else {
-                    Toast.makeText(AnswerScaleQuestionActivity.this,
+                    Toast.makeText(AnswerDateQuestionActivity.this,
                             "Ju¿ wiêcej pytañ nie ma.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -106,14 +93,14 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
         });
     }
 
-    private int getChosenAnswer(){
-        return chosenAnswer.getProgress();
+    private String getChosenAnswer(){
+        return chosenAnswer.getText().toString();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_answer_scale_question, menu);
+        getMenuInflater().inflate(R.menu.menu_answer_date_question, menu);
         return true;
     }
 

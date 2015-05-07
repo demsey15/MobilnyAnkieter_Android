@@ -57,10 +57,22 @@ public class WelcomeFillingActivity extends ActionBarActivity {
                     else if(questionType == Question.DROP_DOWN_QUESTION){
                         intent = new Intent(WelcomeFillingActivity.this, AnswerDropDownListQuestionActivity.class);
                     }
-                    else{
-                    //if(questionType == Question.SCALE_QUESTION){
+                    else if(questionType == Question.SCALE_QUESTION){
                         intent = new Intent(WelcomeFillingActivity.this, AnswerScaleQuestionActivity.class);
                     }
+                    else if(questionType == Question.DATE_QUESTION){
+                        intent = new Intent(WelcomeFillingActivity.this, AnswerDateQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TIME_QUESTION){
+                        intent = new Intent(WelcomeFillingActivity.this, AnswerTimeQuestionActivity.class);
+                    }
+                    else if(questionType == Question.GRID_QUESTION){
+                        intent = new Intent(WelcomeFillingActivity.this, AnswerGridQuestionActivity.class);
+                    }
+                    else if(questionType == Question.TEXT_QUESTION){
+                        intent = new Intent(WelcomeFillingActivity.this, AnswerShortTextQuestionActivity.class);
+                    }
+                    else intent = new Intent(WelcomeFillingActivity.this, AnswerLongTextQuestionActivity.class);
                     intent.putExtra("QUESTION_NUMBER", 0);
                     intent.putExtra("SURVEY_SUMMARY", summary);
                     startActivity(intent);

@@ -68,6 +68,26 @@
             android:name="bohonos.demski.mieldzioc.fillingSurvey.WelcomeFillingActivity"
             android:label="@string/title_activity_welcome_filling" >
         </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerDateQuestionActivity"
+            android:label="@string/title_activity_answer_date_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerTimeQuestionActivity"
+            android:label="@string/title_activity_answer_time_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerGridQuestionActivity"
+            android:label="@string/title_activity_answer_grid_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerShortTextQuestionActivity"
+            android:label="@string/title_activity_answer_short_text_question" >
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerLongTextQuestionActivity"
+            android:label="@string/title_activity_answer_long_text_question" >
+        </activity>
     </application>
 
 </manifest>

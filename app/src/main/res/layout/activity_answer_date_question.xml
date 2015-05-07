@@ -1,0 +1,61 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/oliwkowy"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="bohonos.demski.mieldzioc.fillingSurvey.AnswerDropDownListQuestionActivity"
+        >
+
+        <TextView android:text="pytanie obowiązkowe" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:id="@+id/answer_obligatory_date"
+            android:textColor="@color/red"
+            android:layout_marginTop="40dp"/>
+
+        <TextView android:text="Czy chorował pan na nadciśnienie tętnicze?" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/answer_obligatory_date"
+            android:textSize="30dp"
+            android:id="@+id/answer_question_date"
+            android:textColor="@color/black"
+            />
+
+        <TextView android:text="Odpowiedz tak, tylko, jeśli chorowałeś!" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:id="@+id/answer_hint_date"
+            android:layout_below="@+id/answer_question_date"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/hint_color"/>
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/answer_txt_date"
+            android:layout_below="@+id/answer_hint_date"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/answer_txt_date"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/strzalka"
+            android:id="@+id/next_question_button"/>
+    </RelativeLayout>
+</ScrollView>

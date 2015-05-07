@@ -66,4 +66,10 @@
     </string>
     <string name="title_activity_answer_scale_question">AnswerScaleQuestionActivity</string>
     <string name="title_activity_welcome_filling">WelcomeFillingActivity</string>
+    <string name="title_activity_answer_date_question">AnswerDateQuestionActivity</string>
+    <string name="title_activity_answer_time_question">AnswerTimeQuestionActivity</string>
+    <string name="title_activity_answer_grid_question">AnswerGridQuestionActivity</string>
+    <string name="title_activity_answer_short_text_question">AnswerShortTextQuestionActivity
+    </string>
+    <string name="title_activity_answer_long_text_question">AnswerLongTextQuestionActivity</string>
 </resources>
