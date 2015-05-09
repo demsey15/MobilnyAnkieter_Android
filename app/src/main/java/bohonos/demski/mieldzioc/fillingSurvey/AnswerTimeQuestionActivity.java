@@ -1,20 +1,21 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
+import bohonos.demski.mieldzioc.myControls.MyTwoDigitFormater;
 import bohonos.demski.mieldzioc.questions.Question;
 
 public class AnswerTimeQuestionActivity extends ActionBarActivity {
@@ -22,7 +23,8 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
     private AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
             getAnsweringSurveyControl();
     private Question question;
-    private EditText chosenAnswer;
+    private NumberPicker hour;
+    private NumberPicker minute;
     private int myQuestionNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,18 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_time);
         questionHint.setText(question.getHint());
 
-        chosenAnswer = (EditText) findViewById(R.id.answer_txt_time);
+        hour = (NumberPicker) findViewById(R.id.answer_time_number_picker_hour);
+        minute = (NumberPicker) findViewById(R.id.answer_time_number_picker_minute);
+
+        hour.setMaxValue(23);
+        hour.setMinValue(0);
+        hour.setFormatter(new MyTwoDigitFormater());
+        hour.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
+
+        minute.setMinValue(0);
+        minute.setMaxValue(59);
+        minute.setFormatter(new MyTwoDigitFormater());
+        minute.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +91,9 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
                         intent = new Intent(AnswerTimeQuestionActivity.this, AnswerGridQuestionActivity.class);
                     }
                     else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerTimeQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                        intent = new Intent(AnswerTimeQuestionActivity.this, AnswerTextQuestionActivity.class);
                     }
-                    else intent = new Intent(AnswerTimeQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    else intent = new Intent(AnswerTimeQuestionActivity.this, SurveysSummary.class);
                     intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);
@@ -93,6 +106,10 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
         });
     }
 
+    private int[] getAnswer(){
+        int[] answer = new int[] {hour.getValue(), minute.getValue()};
+        return answer;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

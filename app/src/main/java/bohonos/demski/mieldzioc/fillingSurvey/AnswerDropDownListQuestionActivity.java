@@ -8,14 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
@@ -94,9 +90,9 @@ public class AnswerDropDownListQuestionActivity extends ActionBarActivity {
                         intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerGridQuestionActivity.class);
                     }
                     else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                        intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerTextQuestionActivity.class);
                     }
-                    else intent = new Intent(AnswerDropDownListQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    else intent = new Intent(AnswerDropDownListQuestionActivity.this, SurveysSummary.class);
                     intent.putExtra("QUESTION_NUMBER", 0);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);

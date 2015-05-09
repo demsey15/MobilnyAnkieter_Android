@@ -81,11 +81,11 @@
             android:label="@string/title_activity_answer_grid_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerShortTextQuestionActivity"
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerTextQuestionActivity"
             android:label="@string/title_activity_answer_short_text_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.fillingSurvey.AnswerLongTextQuestionActivity"
+            android:name="bohonos.demski.mieldzioc.fillingSurvey.SurveysSummary"
             android:label="@string/title_activity_answer_long_text_question" >
         </activity>
     </application>

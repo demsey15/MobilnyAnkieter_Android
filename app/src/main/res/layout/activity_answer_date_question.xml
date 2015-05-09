@@ -35,27 +35,41 @@
             android:layout_marginTop="5dp"
             android:textColor="@color/hint_color"/>
 
-
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/answer_date"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:inputType="date"
-            android:ems="10"
-            android:id="@+id/answer_txt_date"
-            android:layout_below="@+id/answer_hint_date"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
+            android:layout_below="@id/answer_hint_date"
+            android:layout_marginTop="30dp"
+
             />
 
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/data"
+            android:layout_toEndOf="@+id/answer_date"
+            android:layout_toRightOf="@+id/answer_date"
+            android:layout_below="@id/answer_hint_date"
+            android:id="@+id/answer_choose_date_date"
+            />
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/answer_txt_date"
+            android:layout_below="@+id/answer_date"
             android:layout_marginRight="5dp"
             android:layout_marginTop="30dp"
             android:src="@drawable/strzalka"
             android:id="@+id/next_question_button"/>
+
+
+
+
     </RelativeLayout>
 </ScrollView>

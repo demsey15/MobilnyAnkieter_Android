@@ -7,14 +7,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
@@ -91,9 +87,9 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
                         intent = new Intent(AnswerScaleQuestionActivity.this, AnswerGridQuestionActivity.class);
                     }
                     else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                        intent = new Intent(AnswerScaleQuestionActivity.this, AnswerTextQuestionActivity.class);
                     }
-                    else intent = new Intent(AnswerScaleQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    else intent = new Intent(AnswerScaleQuestionActivity.this, SurveysSummary.class);
                     intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);

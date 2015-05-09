@@ -34,25 +34,42 @@
             android:layout_below="@+id/answer_question_time"
             android:layout_marginTop="5dp"
             android:textColor="@color/hint_color"/>
-
-
-        <EditText
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="time"
-            android:ems="10"
-            android:id="@+id/answer_txt_time"
             android:layout_below="@+id/answer_hint_time"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            />
+            android:id="@+id/answer_linear_time"
+            android:layout_marginTop="50dp"
+            android:layout_centerInParent="true">
+
+            <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/answer_time_number_picker_hour"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="50dp"
+                android:layout_marginTop="39dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/answer_time_number_picker_minute"
+                android:layout_below="@+id/answer_hint_time"
+                android:layout_toRightOf="@+id/answer_time_number_picker_hour"
+                />
+        </LinearLayout>
 
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/answer_txt_time"
+            android:layout_below="@+id/answer_linear_time"
             android:layout_marginRight="5dp"
             android:layout_marginTop="30dp"
             android:src="@drawable/strzalka"

@@ -9,7 +9,7 @@ import android.util.Log;
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
 
 /**
- * Created by Dominik on 2015-05-04.
+ * Created by Dominik Demski on 2015-05-04.
  */
 public class InterviewerDBAdapter {
 

@@ -111,9 +111,9 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
                         intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerGridQuestionActivity.class);
                     }
                     else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerShortTextQuestionActivity.class);
+                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerTextQuestionActivity.class);
                     }
-                    else intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    else intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, SurveysSummary.class);
                     intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);

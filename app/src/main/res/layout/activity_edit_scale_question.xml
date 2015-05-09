@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/scale_label_txt"
         android:layout_below="@+id/error_scale_text"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         android:singleLine="true"
         android:id="@+id/from_scale"
         />
@@ -60,7 +60,7 @@
         android:layout_toRightOf="@+id/scale_to_label"
         android:layout_below="@+id/error_scale_text"
         android:singleLine="true"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         android:id="@+id/to_scale"
         />
     <TextView

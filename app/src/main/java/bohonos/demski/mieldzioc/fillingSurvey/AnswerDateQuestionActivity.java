@@ -1,5 +1,7 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
+import bohonos.demski.mieldzioc.myControls.DatePickerFragment;
 import bohonos.demski.mieldzioc.questions.Question;
 
 public class AnswerDateQuestionActivity extends ActionBarActivity {
@@ -22,8 +25,8 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
     private AnsweringSurveyControl answeringSurveyControl = ApplicationState.getInstance(this).
             getAnsweringSurveyControl();
     private Question question;
-    private EditText chosenAnswer;
     private int myQuestionNumber;
+    private EditText answerTxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,21 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_date);
         questionHint.setText(question.getHint());
 
-        chosenAnswer = (EditText) findViewById(R.id.answer_txt_date);
+        answerTxt = (EditText) findViewById(R.id.answer_date);
+
+        ImageButton chooseDateButt = (ImageButton) findViewById(R.id.answer_choose_date_date);
+        chooseDateButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                DatePickerFragment fragmentAnswer = DatePickerFragment.newInstance(answerTxt.getId());
+                // fragmentTransaction.add(R.id.answer_linear_date, fragmentAnswer);
+                fragmentAnswer.show(fragmentManager, "MOJ_PICKER");
+            }
+        });
+
+
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -65,22 +82,18 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
                                 AnswerMultipleChoiceQuestionActivity.class);
                     } else if (questionType == Question.DROP_DOWN_QUESTION) {
                         intent = new Intent(AnswerDateQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
-                    } else if(questionType == Question.SCALE_QUESTION){
+                    } else if (questionType == Question.SCALE_QUESTION) {
                         intent = new Intent(AnswerDateQuestionActivity.this, AnswerScaleQuestionActivity.class);
-                    }
-                    else if(questionType == Question.DATE_QUESTION){
+                    } else if (questionType == Question.DATE_QUESTION) {
                         intent = new Intent(AnswerDateQuestionActivity.this, AnswerDateQuestionActivity.class);
-                    }
-                    else if(questionType == Question.TIME_QUESTION){
+                    } else if (questionType == Question.TIME_QUESTION) {
                         intent = new Intent(AnswerDateQuestionActivity.this, AnswerTimeQuestionActivity.class);
-                    }
-                    else if(questionType == Question.GRID_QUESTION){
+                    } else if (questionType == Question.GRID_QUESTION) {
                         intent = new Intent(AnswerDateQuestionActivity.this, AnswerGridQuestionActivity.class);
-                    }
-                    else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerShortTextQuestionActivity.class);
-                    }
-                    else intent = new Intent(AnswerDateQuestionActivity.this, AnswerLongTextQuestionActivity.class);
+                    } else if (questionType == Question.TEXT_QUESTION) {
+                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerTextQuestionActivity.class);
+                    } else
+                        intent = new Intent(AnswerDateQuestionActivity.this, SurveysSummary.class);
                     intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
                     intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                     startActivity(intent);
@@ -93,9 +106,9 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
         });
     }
 
-    private String getChosenAnswer(){
-        return chosenAnswer.getText().toString();
-    }
+  //  private String getChosenAnswer(){
+    //    return chosenAnswer.getText().toString();
+    //}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

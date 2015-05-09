@@ -7,18 +7,18 @@ import android.view.MenuItem;
 
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 
-public class AnswerShortTextQuestionActivity extends ActionBarActivity {
+public class SurveysSummary extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_answer_short_text_question);
+        setContentView(R.layout.activity_surveys_summary);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_answer_short_text_question, menu);
+        getMenuInflater().inflate(R.menu.menu_answer_long_text_question, menu);
         return true;
     }
 

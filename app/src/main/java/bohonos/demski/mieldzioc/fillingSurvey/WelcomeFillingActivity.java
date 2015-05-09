@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,9 +13,7 @@ import android.widget.Toast;
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
-import bohonos.demski.mieldzioc.questions.OneChoiceQuestion;
 import bohonos.demski.mieldzioc.questions.Question;
-import bohonos.demski.mieldzioc.questions.ScaleQuestion;
 
 public class WelcomeFillingActivity extends ActionBarActivity {
 
@@ -70,9 +67,9 @@ public class WelcomeFillingActivity extends ActionBarActivity {
                         intent = new Intent(WelcomeFillingActivity.this, AnswerGridQuestionActivity.class);
                     }
                     else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(WelcomeFillingActivity.this, AnswerShortTextQuestionActivity.class);
+                        intent = new Intent(WelcomeFillingActivity.this, AnswerTextQuestionActivity.class);
                     }
-                    else intent = new Intent(WelcomeFillingActivity.this, AnswerLongTextQuestionActivity.class);
+                    else intent = new Intent(WelcomeFillingActivity.this, SurveysSummary.class);
                     intent.putExtra("QUESTION_NUMBER", 0);
                     intent.putExtra("SURVEY_SUMMARY", summary);
                     startActivity(intent);

@@ -257,7 +257,7 @@ public class DataBaseAdapter {
             survey.setDescription(cursor.getString(2));
             survey.setIdOfSurveys(idOfSurveys);
             survey.setSummary(cursor.getString(3));
-            survey.setTitle(cursor.getString(1));
+            survey.setTitle((cursor.getString(1) == null) ? "" : cursor.getString(1));
             String interviewerId = cursor.getString(0);     //spróbuj pobraæ ankietera
             Cursor cursorInterviewer = db.query(DatabaseHelper.INTERVIEWERS_TABLE, new String[]
                             {DatabaseHelper.KEY_CAN_CREATE_IDB},
@@ -316,6 +316,7 @@ public class DataBaseAdapter {
                 }
             }
             else if (questionType == Question.TEXT_QUESTION) {
+                question = new TextQuestion("");
                 TextQuestion textQuestion = (TextQuestion) question;
                 TextConstraint textConstraint = getTextConstraints(idOfSurveys, i);
                 if (textConstraint == null) {
@@ -331,15 +332,18 @@ public class DataBaseAdapter {
                 question = getScaleAnswers(idOfSurveys, i);
             }
             else if(questionType == Question.GRID_QUESTION){
+                question = new GridQuestion("");
                 GridQuestion gridQuestion = (GridQuestion) question;
                 gridQuestion.setRowLabels(getGridRowAnswers(idOfSurveys, i));
                 gridQuestion.setColumnLabels(getGridColumnAnswers(idOfSurveys, i));
             }
             else if(questionType == Question.DATE_QUESTION){
+                question = new DateTimeQuestion("");
                 DateTimeQuestion dateQuestion = (DateTimeQuestion) question;
                 dateQuestion.setOnlyDate(true);
             }
             else if(questionType == Question.TIME_QUESTION){
+                question = new DateTimeQuestion("");
                 DateTimeQuestion dateQuestion = (DateTimeQuestion) question;
                 dateQuestion.setOnlyTime(true);
             }
