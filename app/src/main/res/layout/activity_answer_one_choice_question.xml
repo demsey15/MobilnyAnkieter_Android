@@ -56,5 +56,15 @@
             android:src="@drawable/strzalka"
             android:id="@+id/next_question_button"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end_filling_button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/end_filling_button"
+            android:background="@color/end_filling_button_color"
+            android:textColor="@color/end_filling_button_text"/>
+
     </RelativeLayout>
 </ScrollView>

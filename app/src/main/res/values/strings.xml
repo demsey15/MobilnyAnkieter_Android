@@ -4,6 +4,7 @@
 <!-- buttons   -->
     <string name="new_survey_button">Nowa ankieta</string>
     <string name="fill_survey_button">Wypełnij ankietę</string>
+    <string name="end_filling_button">Zakończ ankietę</string>
 
 <!-- creating survey -->
     <string name="survey_title_hint">Podaj tytuł ankiety</string>

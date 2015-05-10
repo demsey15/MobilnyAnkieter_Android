@@ -77,67 +77,103 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
         }
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnsweringSurveyControl control = ApplicationState.
-                        getInstance(AnswerMultipleChoiceQuestionActivity.this).getAnsweringSurveyControl();
-              //  control.setMultipleChoiceQuestionAnswer(myQuestionNumber, getChosenAnswers());
-                if(control.getNumberOfQuestions() - 1 > myQuestionNumber){
-                    Question question = control.getQuestion(myQuestionNumber + 1);
-                    int questionType = question.getQuestionType();
-                    Intent intent;
-                    if(questionType == Question.ONE_CHOICE_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this,
-                                AnswerOneChoiceQuestionActivity.class);
-                    }
-                    else if(questionType == Question.MULTIPLE_CHOICE_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this,
-                                AnswerMultipleChoiceQuestionActivity.class);
-                    }
-                    else if(questionType == Question.DROP_DOWN_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
-                    }
-                    else if(questionType == Question.SCALE_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerScaleQuestionActivity.class);
-                    }
-                    else if(questionType == Question.DATE_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerDateQuestionActivity.class);
-                    }
-                    else if(questionType == Question.TIME_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerTimeQuestionActivity.class);
-                    }
-                    else if(questionType == Question.GRID_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerGridQuestionActivity.class);
-                    }
-                    else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerTextQuestionActivity.class);
-                    }
-                    else intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, SurveysSummary.class);
-                    intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
-                    intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
-                    startActivity(intent);
+        Button finishButton = (Button) findViewById(R.id.end_filling_button);
+        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeœli to nie jest ostatnie pytanie
+            finishButton.setVisibility(View.INVISIBLE);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer())
+                        goToNextActivity();
                 }
-                else{
-                    Toast.makeText(AnswerMultipleChoiceQuestionActivity.this,
-                            "Ju¿ wiêcej pytañ nie ma.", Toast.LENGTH_SHORT).show();
-                    finish();
+            });
+        }
+        else{
+            nextButton.setVisibility(View.INVISIBLE);
+            finishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer()){
+                        if(answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())){
+                            Intent intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, SurveysSummary.class);
+                            intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+                            startActivity(intent);
+                            finish();
+                        }
+                        else Toast.makeText(getApplicationContext(), "Nie mo¿na zakoñczyæ ankiety", Toast.LENGTH_SHORT);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
-        private List<String> getChosenAnswers(){
-            if(!chosenAnswer.isEmpty()){
-                List<String> toReturn = new ArrayList<>(chosenAnswer.size());
-                for(Button answ : chosenAnswer){
-                    toReturn.add(answ.getText().toString());
-                }
-                return toReturn; //jeœli wybrano jak¹œ odpowiedŸ
-            }
-            else return null;                               //to j¹ zwróæ, a jak nie, to zwróæ null
-        }
+    private void goToNextActivity() {
+        AnsweringSurveyControl control = ApplicationState.
+                getInstance(AnswerMultipleChoiceQuestionActivity.this).getAnsweringSurveyControl();
 
+        if(control.getNumberOfQuestions() - 1 > myQuestionNumber){
+            Question question = control.getQuestion(myQuestionNumber + 1);
+            int questionType = question.getQuestionType();
+            Intent intent;
+            if(questionType == Question.ONE_CHOICE_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this,
+                        AnswerOneChoiceQuestionActivity.class);
+            }
+            else if(questionType == Question.MULTIPLE_CHOICE_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this,
+                        AnswerMultipleChoiceQuestionActivity.class);
+            }
+            else if(questionType == Question.DROP_DOWN_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
+            }
+            else if(questionType == Question.SCALE_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerScaleQuestionActivity.class);
+            }
+            else if(questionType == Question.DATE_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerDateQuestionActivity.class);
+            }
+            else if(questionType == Question.TIME_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerTimeQuestionActivity.class);
+            }
+            else if(questionType == Question.GRID_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerGridQuestionActivity.class);
+            }
+            else if(questionType == Question.TEXT_QUESTION){
+                intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, AnswerTextQuestionActivity.class);
+            }
+            else intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, SurveysSummary.class);
+            intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
+            intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+            startActivity(intent);
+        }
+    }
+
+    private boolean setUserAnswer(){
+        AnsweringSurveyControl control = ApplicationState.
+                getInstance(AnswerMultipleChoiceQuestionActivity.this).getAnsweringSurveyControl();
+        if(question.isObligatory()){
+            if(chosenAnswer.isEmpty()){     //jeœli pytanie jest obowi¹zkowe i nic nie dodano
+                Toast.makeText(AnswerMultipleChoiceQuestionActivity.this,
+                        "To pytanie jest obowi¹zkowe, podaj odpowiedŸ!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        if(! chosenAnswer.isEmpty()){
+            List<String> toReturn = new ArrayList<>(chosenAnswer.size());
+            for(Button answ : chosenAnswer) {
+                toReturn.add(answ.getText().toString());
+            }
+            if(control.setMultipleChoiceQuestionAnswer(myQuestionNumber, toReturn))
+                return true;
+            else{
+                Toast.makeText(AnswerMultipleChoiceQuestionActivity.this,
+                        "Coœ posz³o nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

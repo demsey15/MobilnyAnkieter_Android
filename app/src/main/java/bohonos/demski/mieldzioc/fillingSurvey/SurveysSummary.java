@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 
@@ -13,6 +14,12 @@ public class SurveysSummary extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_surveys_summary);
+
+        TextView summaryTxt = (TextView) findViewById(R.id.summary_text);
+        String summary = getIntent().getStringExtra("SURVEY_SUMMARY");
+        if(summary != null && !summary.trim().equals(""))
+            summaryTxt.setText(summary);
+        else summaryTxt.setText("Dziêkujemy za wype³nienie ankiety!");
     }
 
     @Override

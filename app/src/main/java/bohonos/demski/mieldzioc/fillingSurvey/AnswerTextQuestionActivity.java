@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.regex.Matcher;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.constraints.IConstraint;
@@ -75,54 +78,178 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                 (maxLength)});
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnsweringSurveyControl control = ApplicationState.
-                        getInstance(AnswerTextQuestionActivity.this).getAnsweringSurveyControl();
-//                control.setOneChoiceQuestionAnswer(myQuestionNumber, getChosenAnswer());
-                if(control.getNumberOfQuestions() - 1 > myQuestionNumber){
-                    Question question = control.getQuestion(myQuestionNumber + 1);
-                    int questionType = question.getQuestionType();
-                    Intent intent;
-                    if(questionType == Question.ONE_CHOICE_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this,
-                                AnswerOneChoiceQuestionActivity.class);
-                    }
-                    else if(questionType == Question.MULTIPLE_CHOICE_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this,
-                                AnswerMultipleChoiceQuestionActivity.class);
-                    }
-                    else if(questionType == Question.DROP_DOWN_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
-                    }
-                    else if(questionType == Question.SCALE_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this, AnswerScaleQuestionActivity.class);
-                    }
-                    else if(questionType == Question.DATE_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this, AnswerDateQuestionActivity.class);
-                    }
-                    else if(questionType == Question.TIME_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this, AnswerTimeQuestionActivity.class);
-                    }
-                    else if(questionType == Question.GRID_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this, AnswerGridQuestionActivity.class);
-                    }
-                    else if(questionType == Question.TEXT_QUESTION){
-                        intent = new Intent(AnswerTextQuestionActivity.this, AnswerTextQuestionActivity.class);
-                    }
-                    else intent = new Intent(AnswerTextQuestionActivity.this, SurveysSummary.class);
-                    intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
-                    intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
-                    startActivity(intent);
+        Button finishButton = (Button) findViewById(R.id.end_filling_button);
+        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeœli to nie jest ostatnie pytanie
+            finishButton.setVisibility(View.INVISIBLE);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer())
+                        goToNextActivity();
                 }
-                else{
-                    Toast.makeText(AnswerTextQuestionActivity.this,
-                            "Ju¿ wiêcej pytañ nie ma.", Toast.LENGTH_SHORT).show();
-                    finish();
+            });
+        }
+        else{
+            nextButton.setVisibility(View.INVISIBLE);
+            finishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer()){
+                        if(answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())){
+                            Intent intent = new Intent(AnswerTextQuestionActivity.this, SurveysSummary.class);
+                            intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+                            startActivity(intent);
+                            finish();
+                        }
+                        else Toast.makeText(getApplicationContext(), "Nie mo¿na zakoñczyæ ankiety", Toast.LENGTH_SHORT);
+                    }
                 }
+            });
+        }
+    }
+
+
+    private void goToNextActivity() {
+        AnsweringSurveyControl control = ApplicationState.
+                getInstance(AnswerTextQuestionActivity.this).getAnsweringSurveyControl();
+        if(control.getNumberOfQuestions() - 1 > myQuestionNumber){
+            Question question = control.getQuestion(myQuestionNumber + 1);
+            int questionType = question.getQuestionType();
+            Intent intent;
+            if(questionType == Question.ONE_CHOICE_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this,
+                        AnswerOneChoiceQuestionActivity.class);
             }
-        });
+            else if(questionType == Question.MULTIPLE_CHOICE_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this,
+                        AnswerMultipleChoiceQuestionActivity.class);
+            }
+            else if(questionType == Question.DROP_DOWN_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
+            }
+            else if(questionType == Question.SCALE_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this, AnswerScaleQuestionActivity.class);
+            }
+            else if(questionType == Question.DATE_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this, AnswerDateQuestionActivity.class);
+            }
+            else if(questionType == Question.TIME_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this, AnswerTimeQuestionActivity.class);
+            }
+            else if(questionType == Question.GRID_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this, AnswerGridQuestionActivity.class);
+            }
+            else if(questionType == Question.TEXT_QUESTION){
+                intent = new Intent(AnswerTextQuestionActivity.this, AnswerTextQuestionActivity.class);
+            }
+            else intent = new Intent(AnswerTextQuestionActivity.this, SurveysSummary.class);
+            intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
+            intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+            startActivity(intent);
+        }
+    }
+
+    private boolean setUserAnswer(){
+        AnsweringSurveyControl control = answeringSurveyControl;
+        if(question.isObligatory()){
+            if(answer == null || answer.getText().toString().trim().equals("")){ //jeœli pytanie jest obowi¹zkowe i nic nie dodano
+                answer.setError("To pytanie jest obowi¹zkowe, podaj odpowiedŸ!");
+                return false;
+            }
+        }
+        if(answer != null && ! (answer.getText().toString().trim().equals(""))){
+            String ans = answer.getText().toString();
+            if(control.setTextQuestionAnswer(myQuestionNumber, ans))
+                return true;
+            else{
+                TextQuestion textQuestion = (TextQuestion) question;
+                if(textQuestion.getConstraint() instanceof  NumberConstraint){
+                    NumberConstraint numberConstraint = (NumberConstraint) textQuestion.getConstraint();
+                    Double toCheck = 0.0;
+                    try{
+                        toCheck = Double.valueOf(ans);
+                    }
+                    catch(NumberFormatException e){
+                        answer.setError("OdpowiedŸ powinna byæ liczb¹.");
+                        return false;
+                    }
+                    if(numberConstraint.getNotEquals() != null){
+                        if(toCheck.equals(numberConstraint.getNotEquals() )){
+                            answer.setError("OdpowiedŸ musi byæ ró¿na od " + numberConstraint.getNotEquals());
+                            return false;
+                        }
+                    }
+                    if(! numberConstraint.isNotBetweenMaxAndMinValue()){
+                        if(numberConstraint.getMinValue() != null){
+                            if(toCheck.compareTo(numberConstraint.getMinValue()) < 0){
+                                answer.setError("OdpowiedŸ musi byæ wiêksza od " + numberConstraint.getMinValue());
+                                return false;
+                            }
+                        }
+                        if(numberConstraint.getMaxValue() != null){
+                            if(toCheck.compareTo(numberConstraint.getMaxValue()) > 0){
+                                answer.setError("OdpowiedŸ musi byæ wiêksza od " + numberConstraint.getMaxValue());
+                                return false;
+                            }
+                        }
+                    }
+                    else{
+                        if(numberConstraint.getMinValue() != null && numberConstraint.getMaxValue() != null){
+                            if(toCheck.compareTo(numberConstraint.getMinValue()) >= 0
+                                    && toCheck.compareTo(numberConstraint.getMaxValue()) <= 0){
+                                answer.setError("OdpowiedŸ nie powinna siê znajdowaæ pomiêdzy " +
+                                        numberConstraint.getMinValue() + " i " + numberConstraint.getMaxValue());
+                                return false;
+                            }
+                        }
+                        else{
+                            if(numberConstraint.getMinValue() != null){
+                                if(toCheck.compareTo(numberConstraint.getMinValue()) >= 0){
+                                    answer.setError("OdpowiedŸ powinna byæ mniejsza od " +
+                                            numberConstraint.getMinValue());
+                                    return false;
+                                }
+                            }
+                            if(numberConstraint.getMaxValue() != null){
+                                if(toCheck.compareTo(numberConstraint.getMaxValue()) <= 0){
+                                    answer.setError("OdpowiedŸ powinna byæ wiêksza od " +
+                                            numberConstraint.getMaxValue());
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    if(numberConstraint.isMustBeInteger()){
+                        if((toCheck % (toCheck.intValue())) != 0){
+                            answer.setError("OdpowiedŸ powinna byæ liczb¹ ca³kowit¹.");
+                            return false;
+                        }
+                    }
+                }
+                else if(textQuestion.getConstraint() instanceof TextConstraint){
+                    TextConstraint textConstraint = (TextConstraint) textQuestion.getConstraint();
+                    if(textConstraint.getMinLength() != null){
+                        if(ans.length() < textConstraint.getMinLength()){
+                            answer.setError("OdpowiedŸ powinna mieæ co najmniej " + textConstraint.getMinLength()
+                            + " znaków");
+                            return false;
+                        }
+                    }
+                    if(textConstraint.getRegex() != null){
+                        Matcher matcher = textConstraint.getRegex().matcher(ans);
+                        if(!matcher.matches()){
+                            answer.setError("OdpowiedŸ powinna byæ postaci: " +
+                                    textConstraint.getRegex().pattern());
+                            return false;
+                        }
+                    }
+                }
+                answer.setError("Nie mo¿na dodaæ odpowiedzi - nieznany b³¹d");
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

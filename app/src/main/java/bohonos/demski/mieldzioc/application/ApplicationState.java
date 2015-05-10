@@ -6,6 +6,7 @@ import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.controls.SurveysTemplateControl;
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
 import bohonos.demski.mieldzioc.survey.SurveyHandler;
+import bohonos.demski.mieldzioc.survey.SurveysRepository;
 
 /**
  * Created by Dominik Demski on 2015-05-02.
@@ -14,12 +15,17 @@ public class ApplicationState {
     private Interviewer loggedInterviewer;
     private Context context;
     private SurveyHandlerMobile surveyHandler;
+    private SurveysRepositoryMobile surveysRepository;
     private SurveysTemplateControl surveysTemplateControl;
     private AnsweringSurveyControl answeringSurveyControl;
     private UsersPreferences preferences;
 
     public SurveyHandler getSurveyHandler() {
         return surveyHandler;
+    }
+
+    public SurveysRepository getSurveysRepository() {
+        return surveysRepository;
     }
 
     private static ApplicationState instance;
@@ -46,6 +52,7 @@ public class ApplicationState {
         preferences = new UsersPreferences(context, interviewer);
         surveyHandler = new SurveyHandlerMobile(context, preferences.
                 getLastAddedSurveyTemplateNumber());
+        surveysRepository = new SurveysRepositoryMobile(context);
         surveysTemplateControl = new SurveysTemplateControl(surveyHandler);
         answeringSurveyControl = new AnsweringSurveyControl(surveyHandler);
         return true;

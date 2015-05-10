@@ -10,7 +10,9 @@
     <color name="pomaranczowy">#ff9900</color>
     <color name="silver">#d2d2d2</color>
     <color name="xs_black">#3a3a3a</color>
-    <color name="oliwkowy">	#F2DD00</color>
+    <color name="oliwkowy">	#B15500</color>
     <color name="black">#35311D</color>
     <color name="hint_color">#615F30</color>
+    <color name="end_filling_button_color">#0A125B</color>
+    <color name="end_filling_button_text">#844B00</color>
 </resources>

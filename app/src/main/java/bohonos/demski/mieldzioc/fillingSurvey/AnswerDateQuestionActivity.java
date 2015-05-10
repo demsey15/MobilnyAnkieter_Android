@@ -9,12 +9,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
+import bohonos.demski.mieldzioc.application.DateAndTimeService;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 import bohonos.demski.mieldzioc.myControls.DatePickerFragment;
@@ -61,49 +63,36 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
             }
         });
 
-
-
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnsweringSurveyControl control = ApplicationState.
-                        getInstance(AnswerDateQuestionActivity.this).getAnsweringSurveyControl();
-                //  control.setScaleQuestionAnswer(myQuestionNumber, getChosenAnswer());
-                if (control.getNumberOfQuestions() - 1 > myQuestionNumber) {
-                    Question question = control.getQuestion(myQuestionNumber + 1);
-                    int questionType = question.getQuestionType();
-                    Intent intent;
-                    if (questionType == Question.ONE_CHOICE_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this,
-                                AnswerOneChoiceQuestionActivity.class);
-                    } else if (questionType == Question.MULTIPLE_CHOICE_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this,
-                                AnswerMultipleChoiceQuestionActivity.class);
-                    } else if (questionType == Question.DROP_DOWN_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
-                    } else if (questionType == Question.SCALE_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerScaleQuestionActivity.class);
-                    } else if (questionType == Question.DATE_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerDateQuestionActivity.class);
-                    } else if (questionType == Question.TIME_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerTimeQuestionActivity.class);
-                    } else if (questionType == Question.GRID_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerGridQuestionActivity.class);
-                    } else if (questionType == Question.TEXT_QUESTION) {
-                        intent = new Intent(AnswerDateQuestionActivity.this, AnswerTextQuestionActivity.class);
-                    } else
-                        intent = new Intent(AnswerDateQuestionActivity.this, SurveysSummary.class);
-                    intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
-                    intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(AnswerDateQuestionActivity.this,
-                            "Ju¿ wiêcej pytañ nie ma.", Toast.LENGTH_SHORT).show();
-                    finish();
+        Button finishButton = (Button) findViewById(R.id.end_filling_button);
+        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeœli to nie jest ostatnie pytanie
+            finishButton.setVisibility(View.INVISIBLE);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer())
+                        goToNextActivity();
                 }
-            }
-        });
+            });
+        }
+        else{
+            nextButton.setVisibility(View.INVISIBLE);
+            finishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer()){
+                        if(answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())){
+                            Intent intent = new Intent(AnswerDateQuestionActivity.this, SurveysSummary.class);
+                            intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+                            startActivity(intent);
+                            finish();
+                        }
+                        else Toast.makeText(getApplicationContext(), "Nie mo¿na zakoñczyæ ankiety", Toast.LENGTH_SHORT);
+                    }
+                }
+            });
+        }
     }
 
   //  private String getChosenAnswer(){
@@ -115,6 +104,69 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_answer_date_question, menu);
         return true;
+    }
+
+    private boolean setUserAnswer(){
+        String answer = answerTxt.getText().toString();
+        if(question.isObligatory()) {       //jest obowiazkowe
+            if (answer.trim().equals("")) {      //i nie ma odpowiedzi
+                answerTxt.setError("Pytanie jest obowi¹zkowe. Proszê podaæ odpowiedŸ.");
+                return false;
+            }
+        }
+        if(!answer.trim().equals("")){    //jest odpowiedz (nie wa¿ne, czy jest obowi¹zkowe
+            if(DateAndTimeService.getDateFromString(  //je¿eli nie mo¿na zrobiæ z niej daty
+                    answer + " 01:00:00") == null) {
+                answerTxt.setError("Podaj datê w formacie dd-mm-yyyy");
+                return false;
+            }
+            else{                                                          //je¿eli mo¿na zrobiæ z niej datê
+                String day = answer.substring(0, 2);
+                String month = answer.substring(3, 5);
+                String year = answer.substring(6, 10);
+                if(answeringSurveyControl.setDateQuestionAnswer(myQuestionNumber, Integer.valueOf(day), //dodano odpowiedŸ
+                        Integer.valueOf(month), Integer.valueOf(year))){
+                        return true;
+                }
+                else{                           //nie powinno siê zdarzyæ
+                    answerTxt.setError("Podana odpowiedŸ zawiera b³êdy, podaj datê w formacie" +
+                            "dd-mm-yyyy po 1970 roku");
+                    return false;
+                }
+            }
+        }
+        return  true;
+    }
+    private void goToNextActivity(){
+        AnsweringSurveyControl control = answeringSurveyControl;
+        if (control.getNumberOfQuestions() - 1 > myQuestionNumber) {
+            Question question = control.getQuestion(myQuestionNumber + 1);
+            int questionType = question.getQuestionType();
+            Intent intent;
+            if (questionType == Question.ONE_CHOICE_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this,
+                        AnswerOneChoiceQuestionActivity.class);
+            } else if (questionType == Question.MULTIPLE_CHOICE_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this,
+                        AnswerMultipleChoiceQuestionActivity.class);
+            } else if (questionType == Question.DROP_DOWN_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this, AnswerDropDownListQuestionActivity.class);
+            } else if (questionType == Question.SCALE_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this, AnswerScaleQuestionActivity.class);
+            } else if (questionType == Question.DATE_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this, AnswerDateQuestionActivity.class);
+            } else if (questionType == Question.TIME_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this, AnswerTimeQuestionActivity.class);
+            } else if (questionType == Question.GRID_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this, AnswerGridQuestionActivity.class);
+            } else if (questionType == Question.TEXT_QUESTION) {
+                intent = new Intent(AnswerDateQuestionActivity.this, AnswerTextQuestionActivity.class);
+            } else
+                intent = new Intent(AnswerDateQuestionActivity.this, SurveysSummary.class);
+            intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
+            intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+            startActivity(intent);
+        }
     }
 
     @Override
