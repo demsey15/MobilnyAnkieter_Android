@@ -62,12 +62,12 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
             button.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {  //po klikniÍciu zmieÒ kolor odpowiedzi na czarny
-                    if (!chosenAnswer.isEmpty() && chosenAnswer.contains(v)) { //jeúli klikniÍto na zaznaczonπ juø odpowiedü
-                        v.setBackgroundColor(getResources().getColor(R.color.pomaranczowy)); //odznacz jπ
+                public void onClick(View v) {  //po klikniƒôciu zmie≈Ñ kolor odpowiedzi na czarny
+                    if (!chosenAnswer.isEmpty() && chosenAnswer.contains(v)) { //je≈õli klikniƒôto na zaznaczonƒÖ ju≈º odpowied≈∫
+                        v.setBackgroundColor(getResources().getColor(R.color.pomaranczowy)); //odznacz jƒÖ
                         chosenAnswer.remove(v);
                     } else {
-                        v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybranπ odpowiedü
+                        v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybranƒÖ odpowied≈∫
                         chosenAnswer.add((Button) v);
                     }
                 }
@@ -78,8 +78,10 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
-        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeúli to nie jest ostatnie pytanie
+        Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
+        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //je≈õli to nie jest ostatnie pytanie
             finishButton.setVisibility(View.INVISIBLE);
+            finishAndStartButton.setVisibility(View.INVISIBLE);
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,15 +95,35 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
             finishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (setUserAnswer()){
-                        if(answeringSurveyControl.finishAnswering(ApplicationState.
-                                getInstance(getApplicationContext()).getSurveysRepository())){
+                    if (setUserAnswer()) {
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
                             Intent intent = new Intent(AnswerMultipleChoiceQuestionActivity.this, SurveysSummary.class);
                             intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                             startActivity(intent);
                             finish();
-                        }
-                        else Toast.makeText(getApplicationContext(), "Nie moøna zakoÒczyÊ ankiety", Toast.LENGTH_SHORT);
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie mo≈ºna zako≈Ñczyƒá ankiety", Toast.LENGTH_SHORT);
+                    }
+                }
+            });
+            finishAndStartButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer()) {
+                        String idOfSurveys = answeringSurveyControl.getIdOfSurveysFillingSurvey(); //id wype≈Çnianej ankiety
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
+                            Intent intent = new Intent(getApplicationContext(), WelcomeFillingActivity.class);
+                            intent.putExtra("SURVEY_TITLE", answeringSurveyControl.getSurveysTitle());
+                            intent.putExtra("SURVEY_DESCRIPTION", answeringSurveyControl.getSurveysDescription());
+                            intent.putExtra("SURVEY_SUMMARY", answeringSurveyControl.getSurveysSummary());
+                            answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wype≈Çnianie nowej ankiety
+                                    ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer());
+                            startActivity(intent);
+                            finish();
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie mo≈ºna zako≈Ñczyƒá ankiety", Toast.LENGTH_SHORT);
                     }
                 }
             });
@@ -153,9 +175,9 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
         AnsweringSurveyControl control = ApplicationState.
                 getInstance(AnswerMultipleChoiceQuestionActivity.this).getAnsweringSurveyControl();
         if(question.isObligatory()){
-            if(chosenAnswer.isEmpty()){     //jeúli pytanie jest obowiπzkowe i nic nie dodano
+            if(chosenAnswer.isEmpty()){     //je≈õli pytanie jest obowiƒÖzkowe i nic nie dodano
                 Toast.makeText(AnswerMultipleChoiceQuestionActivity.this,
-                        "To pytanie jest obowiπzkowe, podaj odpowiedü!", Toast.LENGTH_SHORT).show();
+                        "To pytanie jest obowiƒÖzkowe, podaj odpowied≈∫!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -168,7 +190,7 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
                 return true;
             else{
                 Toast.makeText(AnswerMultipleChoiceQuestionActivity.this,
-                        "Coú posz≥o nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();
+                        "Co≈õ posz≈Ço nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }

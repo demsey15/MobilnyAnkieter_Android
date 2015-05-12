@@ -79,8 +79,10 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
-        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeúli to nie jest ostatnie pytanie
+        Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
+        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //je≈õli to nie jest ostatnie pytanie
             finishButton.setVisibility(View.INVISIBLE);
+            finishAndStartButton.setVisibility(View.INVISIBLE);
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,15 +96,35 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
             finishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (setUserAnswer()){
-                        if(answeringSurveyControl.finishAnswering(ApplicationState.
-                                getInstance(getApplicationContext()).getSurveysRepository())){
+                    if (setUserAnswer()) {
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
                             Intent intent = new Intent(AnswerTextQuestionActivity.this, SurveysSummary.class);
                             intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                             startActivity(intent);
                             finish();
-                        }
-                        else Toast.makeText(getApplicationContext(), "Nie moøna zakoÒczyÊ ankiety", Toast.LENGTH_SHORT);
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie mo≈ºna zako≈Ñczyƒá ankiety", Toast.LENGTH_SHORT);
+                    }
+                }
+            });
+            finishAndStartButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer()) {
+                        String idOfSurveys = answeringSurveyControl.getIdOfSurveysFillingSurvey(); //id wype≈Çnianej ankiety
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
+                            Intent intent = new Intent(getApplicationContext(), WelcomeFillingActivity.class);
+                            intent.putExtra("SURVEY_TITLE", answeringSurveyControl.getSurveysTitle());
+                            intent.putExtra("SURVEY_DESCRIPTION", answeringSurveyControl.getSurveysDescription());
+                            intent.putExtra("SURVEY_SUMMARY", answeringSurveyControl.getSurveysSummary());
+                            answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wype≈Çnianie nowej ankiety
+                                    ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer());
+                            startActivity(intent);
+                            finish();
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie mo≈ºna zako≈Ñczyƒá ankiety", Toast.LENGTH_SHORT);
                     }
                 }
             });
@@ -153,8 +175,8 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
     private boolean setUserAnswer(){
         AnsweringSurveyControl control = answeringSurveyControl;
         if(question.isObligatory()){
-            if(answer == null || answer.getText().toString().trim().equals("")){ //jeúli pytanie jest obowiπzkowe i nic nie dodano
-                answer.setError("To pytanie jest obowiπzkowe, podaj odpowiedü!");
+            if(answer == null || answer.getText().toString().trim().equals("")){ //je≈õli pytanie jest obowiƒÖzkowe i nic nie dodano
+                answer.setError("To pytanie jest obowiƒÖzkowe, podaj odpowied≈∫!");
                 return false;
             }
         }
@@ -171,25 +193,25 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                         toCheck = Double.valueOf(ans);
                     }
                     catch(NumberFormatException e){
-                        answer.setError("Odpowiedü powinna byÊ liczbπ.");
+                        answer.setError("Odpowied≈∫ powinna byƒá liczbƒÖ.");
                         return false;
                     }
                     if(numberConstraint.getNotEquals() != null){
                         if(toCheck.equals(numberConstraint.getNotEquals() )){
-                            answer.setError("Odpowiedü musi byÊ rÛøna od " + numberConstraint.getNotEquals());
+                            answer.setError("Odpowied≈∫ musi byƒá r√≥≈ºna od " + numberConstraint.getNotEquals());
                             return false;
                         }
                     }
                     if(! numberConstraint.isNotBetweenMaxAndMinValue()){
                         if(numberConstraint.getMinValue() != null){
                             if(toCheck.compareTo(numberConstraint.getMinValue()) < 0){
-                                answer.setError("Odpowiedü musi byÊ wiÍksza od " + numberConstraint.getMinValue());
+                                answer.setError("Odpowied≈∫ musi byƒá wiƒôksza od " + numberConstraint.getMinValue());
                                 return false;
                             }
                         }
                         if(numberConstraint.getMaxValue() != null){
                             if(toCheck.compareTo(numberConstraint.getMaxValue()) > 0){
-                                answer.setError("Odpowiedü musi byÊ wiÍksza od " + numberConstraint.getMaxValue());
+                                answer.setError("Odpowied≈∫ musi byƒá mniejsza od " + numberConstraint.getMaxValue());
                                 return false;
                             }
                         }
@@ -198,7 +220,7 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                         if(numberConstraint.getMinValue() != null && numberConstraint.getMaxValue() != null){
                             if(toCheck.compareTo(numberConstraint.getMinValue()) >= 0
                                     && toCheck.compareTo(numberConstraint.getMaxValue()) <= 0){
-                                answer.setError("Odpowiedü nie powinna siÍ znajdowaÊ pomiÍdzy " +
+                                answer.setError("Odpowied≈∫ nie powinna siƒô znajdowaƒá pomiƒôdzy " +
                                         numberConstraint.getMinValue() + " i " + numberConstraint.getMaxValue());
                                 return false;
                             }
@@ -206,14 +228,14 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                         else{
                             if(numberConstraint.getMinValue() != null){
                                 if(toCheck.compareTo(numberConstraint.getMinValue()) >= 0){
-                                    answer.setError("Odpowiedü powinna byÊ mniejsza od " +
+                                    answer.setError("Odpowied≈∫ powinna byƒá mniejsza od " +
                                             numberConstraint.getMinValue());
                                     return false;
                                 }
                             }
                             if(numberConstraint.getMaxValue() != null){
                                 if(toCheck.compareTo(numberConstraint.getMaxValue()) <= 0){
-                                    answer.setError("Odpowiedü powinna byÊ wiÍksza od " +
+                                    answer.setError("Odpowied≈∫ powinna byƒá wiƒôksza od " +
                                             numberConstraint.getMaxValue());
                                     return false;
                                 }
@@ -222,7 +244,7 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                     }
                     if(numberConstraint.isMustBeInteger()){
                         if((toCheck % (toCheck.intValue())) != 0){
-                            answer.setError("Odpowiedü powinna byÊ liczbπ ca≥kowitπ.");
+                            answer.setError("Odpowied≈∫ powinna byƒá liczbƒÖ ca≈ÇkowitƒÖ.");
                             return false;
                         }
                     }
@@ -231,21 +253,21 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                     TextConstraint textConstraint = (TextConstraint) textQuestion.getConstraint();
                     if(textConstraint.getMinLength() != null){
                         if(ans.length() < textConstraint.getMinLength()){
-                            answer.setError("Odpowiedü powinna mieÊ co najmniej " + textConstraint.getMinLength()
-                            + " znakÛw");
+                            answer.setError("Odpowied≈∫ powinna mieƒá co najmniej " + textConstraint.getMinLength()
+                            + " znak√≥w");
                             return false;
                         }
                     }
                     if(textConstraint.getRegex() != null){
                         Matcher matcher = textConstraint.getRegex().matcher(ans);
                         if(!matcher.matches()){
-                            answer.setError("Odpowiedü powinna byÊ postaci: " +
+                            answer.setError("Odpowied≈∫ powinna byƒá postaci: " +
                                     textConstraint.getRegex().pattern());
                             return false;
                         }
                     }
                 }
-                answer.setError("Nie moøna dodaÊ odpowiedzi - nieznany b≥πd");
+                answer.setError("Nie mo≈ºna dodaƒá odpowiedzi - nieznany b≈ÇƒÖd");
                 return false;
             }
         }

@@ -65,19 +65,19 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
             button.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {  //po klikniÍciu zmieÒ kolor odpowiedzi na czarny (
-                    // resztÍ na ponaraÒczowy)
-                    if (chosenAnswer != null && chosenAnswer.getId() == ((Button) v).getId()) { //jeúli klikniÍto na zaznaczonπ juø odpowiedü
-                        v.setBackgroundColor(getResources().getColor(R.color.pomaranczowy)); //odznacz jπ
+                public void onClick(View v) {  //po klikniƒôciu zmie≈Ñ kolor odpowiedzi na czarny (
+                    // resztƒô na ponara≈Ñczowy)
+                    if (chosenAnswer != null && chosenAnswer.getId() == ((Button) v).getId()) { //je≈õli klikniƒôto na zaznaczonƒÖ ju≈º odpowied≈∫
+                        v.setBackgroundColor(getResources().getColor(R.color.pomaranczowy)); //odznacz jƒÖ
                         Log.d("WYPELNIANIE_ANKIETY", "Odznaczam odpowiedz jednokrotnego wyboru");
                         chosenAnswer = null;
                     } else {
-                        if (chosenAnswer != null) {     //jeøeli jakaú odpowiedü juø jest zaznaczona,
-                            for (Button butt : answers) {        //odznacz jπ
+                        if (chosenAnswer != null) {     //je≈ºeli jaka≈õ odpowied≈∫ ju≈º jest zaznaczona,
+                            for (Button butt : answers) {        //odznacz jƒÖ
                                 butt.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
                             }
                         }
-                        v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybranπ odpowiedü
+                        v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybranƒÖ odpowied≈∫
                         chosenAnswer = (Button) v;
                     }
                 }
@@ -88,8 +88,10 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
-        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeúli to nie jest ostatnie pytanie
+        Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
+        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //je≈õli to nie jest ostatnie pytanie
             finishButton.setVisibility(View.INVISIBLE);
+            finishAndStartButton.setVisibility(View.INVISIBLE);
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,15 +105,35 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
             finishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (setUserAnswer()){
-                        if(answeringSurveyControl.finishAnswering(ApplicationState.
-                                getInstance(getApplicationContext()).getSurveysRepository())){
+                    if (setUserAnswer()) {
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
                             Intent intent = new Intent(AnswerOneChoiceQuestionActivity.this, SurveysSummary.class);
                             intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                             startActivity(intent);
                             finish();
-                        }
-                        else Toast.makeText(getApplicationContext(), "Nie moøna zakoÒczyÊ ankiety", Toast.LENGTH_SHORT);
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie mo≈ºna zako≈Ñczyƒá ankiety", Toast.LENGTH_SHORT);
+                    }
+                }
+            });
+            finishAndStartButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer()) {
+                        String idOfSurveys = answeringSurveyControl.getIdOfSurveysFillingSurvey(); //id wype≈Çnianej ankiety
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
+                            Intent intent = new Intent(getApplicationContext(), WelcomeFillingActivity.class);
+                            intent.putExtra("SURVEY_TITLE", answeringSurveyControl.getSurveysTitle());
+                            intent.putExtra("SURVEY_DESCRIPTION", answeringSurveyControl.getSurveysDescription());
+                            intent.putExtra("SURVEY_SUMMARY", answeringSurveyControl.getSurveysSummary());
+                            answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wype≈Çnianie nowej ankiety
+                                    ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer());
+                            startActivity(intent);
+                            finish();
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie mo≈ºna zako≈Ñczyƒá ankiety", Toast.LENGTH_SHORT);
                     }
                 }
             });
@@ -162,9 +184,9 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
         AnsweringSurveyControl control = ApplicationState.
                 getInstance(AnswerOneChoiceQuestionActivity.this).getAnsweringSurveyControl();
         if(question.isObligatory()){
-            if(chosenAnswer != null){     //jeúli pytanie jest obowiπzkowe i nic nie dodano
+            if(chosenAnswer != null){     //je≈õli pytanie jest obowiƒÖzkowe i nic nie dodano
                 Toast.makeText(AnswerOneChoiceQuestionActivity.this,
-                        "To pytanie jest obowiπzkowe, podaj odpowiedü!", Toast.LENGTH_SHORT).show();
+                        "To pytanie jest obowiƒÖzkowe, podaj odpowied≈∫!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -173,7 +195,7 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
                 return true;
             else{
                 Toast.makeText(AnswerOneChoiceQuestionActivity.this,
-                        "Coú posz≥o nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();
+                        "Co≈õ posz≈Ço nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }

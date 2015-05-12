@@ -46,7 +46,7 @@ public class DatePickerFragment extends DialogFragment
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param idEditText id edit texta, do którego ma zostaæ wpisana data
+     * @param idEditText id edit texta, do ktÃ³rego ma zostaÄ‡ wpisana data
      * @return A new instance of fragment DatePickerFragment.
      */
     public static DatePickerFragment newInstance(int idEditText) {

@@ -76,7 +76,7 @@ public class WelcomeFillingActivity extends ActionBarActivity {
                 }
                 else{
                     Toast.makeText(WelcomeFillingActivity.this,
-                            "Ankieta nie zawiera ¿adnych pytañ", Toast.LENGTH_SHORT).show();
+                            "Ankieta nie zawiera Å¼adnych pytaÅ„", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

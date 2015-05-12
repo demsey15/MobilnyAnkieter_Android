@@ -21,6 +21,7 @@ import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 import bohonos.demski.mieldzioc.myControls.DatePickerFragment;
 import bohonos.demski.mieldzioc.questions.Question;
+import bohonos.demski.mieldzioc.survey.Survey;
 
 public class AnswerDateQuestionActivity extends ActionBarActivity {
 
@@ -65,8 +66,10 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
-        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeœli to nie jest ostatnie pytanie
+        Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
+        if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeÅ›li to nie jest ostatnie pytanie
             finishButton.setVisibility(View.INVISIBLE);
+            finishAndStartButton.setVisibility(View.INVISIBLE);
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,24 +83,40 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
             finishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (setUserAnswer()){
-                        if(answeringSurveyControl.finishAnswering(ApplicationState.
-                                getInstance(getApplicationContext()).getSurveysRepository())){
+                    if (setUserAnswer()) {
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
                             Intent intent = new Intent(AnswerDateQuestionActivity.this, SurveysSummary.class);
                             intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                             startActivity(intent);
                             finish();
-                        }
-                        else Toast.makeText(getApplicationContext(), "Nie mo¿na zakoñczyæ ankiety", Toast.LENGTH_SHORT);
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie moÅ¼na zakoÅ„czyÄ‡ ankiety", Toast.LENGTH_SHORT);
+                    }
+                }
+            });
+            finishAndStartButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (setUserAnswer()) {
+                        String idOfSurveys = answeringSurveyControl.getIdOfSurveysFillingSurvey(); //id wypeÅ‚nianej ankiety
+                        if (answeringSurveyControl.finishAnswering(ApplicationState.
+                                getInstance(getApplicationContext()).getSurveysRepository())) {
+                            Intent intent = new Intent(getApplicationContext(), WelcomeFillingActivity.class);
+                            intent.putExtra("SURVEY_TITLE", answeringSurveyControl.getSurveysTitle());
+                            intent.putExtra("SURVEY_DESCRIPTION", answeringSurveyControl.getSurveysDescription());
+                            intent.putExtra("SURVEY_SUMMARY", answeringSurveyControl.getSurveysSummary());
+                            answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wypeÅ‚nianie nowej ankiety
+                                    ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer());
+                            startActivity(intent);
+                            finish();
+                        } else
+                            Toast.makeText(getApplicationContext(), "Nie moÅ¼na zakoÅ„czyÄ‡ ankiety", Toast.LENGTH_SHORT);
                     }
                 }
             });
         }
     }
-
-  //  private String getChosenAnswer(){
-    //    return chosenAnswer.getText().toString();
-    //}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,27 +129,27 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
         String answer = answerTxt.getText().toString();
         if(question.isObligatory()) {       //jest obowiazkowe
             if (answer.trim().equals("")) {      //i nie ma odpowiedzi
-                answerTxt.setError("Pytanie jest obowi¹zkowe. Proszê podaæ odpowiedŸ.");
+                answerTxt.setError("Pytanie jest obowiÄ…zkowe. ProszÄ™ podaÄ‡ odpowiedÅº.");
                 return false;
             }
         }
-        if(!answer.trim().equals("")){    //jest odpowiedz (nie wa¿ne, czy jest obowi¹zkowe
-            if(DateAndTimeService.getDateFromString(  //je¿eli nie mo¿na zrobiæ z niej daty
+        if(!answer.trim().equals("")){    //jest odpowiedz (nie waÅ¼ne, czy jest obowiÄ…zkowe
+            if(DateAndTimeService.getDateFromString(  //jeÅ¼eli nie moÅ¼na zrobiÄ‡ z niej daty
                     answer + " 01:00:00") == null) {
-                answerTxt.setError("Podaj datê w formacie dd-mm-yyyy");
+                answerTxt.setError("Podaj datÄ™ w formacie dd-mm-yyyy");
                 return false;
             }
-            else{                                                          //je¿eli mo¿na zrobiæ z niej datê
+            else{                                                          //jeÅ¼eli moÅ¼na zrobiÄ‡ z niej datÄ™
                 String day = answer.substring(0, 2);
                 String month = answer.substring(3, 5);
                 String year = answer.substring(6, 10);
-                if(answeringSurveyControl.setDateQuestionAnswer(myQuestionNumber, Integer.valueOf(day), //dodano odpowiedŸ
+                if(answeringSurveyControl.setDateQuestionAnswer(myQuestionNumber, Integer.valueOf(day), //dodano odpowiedÅº
                         Integer.valueOf(month), Integer.valueOf(year))){
                         return true;
                 }
-                else{                           //nie powinno siê zdarzyæ
-                    answerTxt.setError("Podana odpowiedŸ zawiera b³êdy, podaj datê w formacie" +
-                            "dd-mm-yyyy po 1970 roku");
+                else{                           //nie powinno siÄ™ zdarzyÄ‡
+                    answerTxt.setError("Podana odpowiedÅº zawiera bÅ‚Ä™dy, podaj datÄ™ w formacie" +
+                            " dd-mm-yyyy po 1970 roku");
                     return false;
                 }
             }

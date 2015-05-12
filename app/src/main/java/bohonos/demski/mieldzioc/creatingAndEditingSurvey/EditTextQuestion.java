@@ -142,7 +142,7 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
             if(constraint instanceof TextConstraint) textRadio.setChecked(true);
             else if(constraint instanceof NumberConstraint) numberRadio.setChecked(true);
         }
-
+/*
         numberRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +156,7 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
                 if(textRadio.isChecked()) textRadio.setChecked(false);
             }
         });
+  */
     }
 
     @Override

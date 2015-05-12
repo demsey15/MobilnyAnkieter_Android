@@ -1,11 +1,15 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import bohonos.demski.mieldzioc.creatingAndEditingSurvey.MainActivity;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 
 public class SurveysSummary extends ActionBarActivity {
@@ -19,7 +23,17 @@ public class SurveysSummary extends ActionBarActivity {
         String summary = getIntent().getStringExtra("SURVEY_SUMMARY");
         if(summary != null && !summary.trim().equals(""))
             summaryTxt.setText(summary);
-        else summaryTxt.setText("Dziêkujemy za wype³nienie ankiety!");
+        else summaryTxt.setText("DziÄ™kujemy za wypeÅ‚nienie ankiety!");
+
+        Button button = (Button) findViewById(R.id.back_to_menu_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SurveysSummary.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
