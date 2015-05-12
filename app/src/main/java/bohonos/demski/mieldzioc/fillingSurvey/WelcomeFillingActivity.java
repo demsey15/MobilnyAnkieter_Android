@@ -3,6 +3,7 @@ package bohonos.demski.mieldzioc.fillingSurvey;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +30,7 @@ public class WelcomeFillingActivity extends ActionBarActivity {
 
         TextView titleTxt = (TextView) findViewById(R.id.welcome_survey_title);
         TextView descriptionTxt = (TextView) findViewById(R.id.welcome_survey_description);
-
+        Log.d("WYPELNIANIE ANKIETY", "Wypełniam ankietę: " + title);
         titleTxt.setText(title);
         descriptionTxt.setText(description);
 

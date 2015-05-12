@@ -125,11 +125,11 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
                         if (answeringSurveyControl.finishAnswering(ApplicationState.
                                 getInstance(getApplicationContext()).getSurveysRepository())) {
                             Intent intent = new Intent(getApplicationContext(), WelcomeFillingActivity.class);
+                            answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wypełnianie nowej ankiety
+                                    ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer());
                             intent.putExtra("SURVEY_TITLE", answeringSurveyControl.getSurveysTitle());
                             intent.putExtra("SURVEY_DESCRIPTION", answeringSurveyControl.getSurveysDescription());
                             intent.putExtra("SURVEY_SUMMARY", answeringSurveyControl.getSurveysSummary());
-                            answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wypełnianie nowej ankiety
-                                    ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer());
                             startActivity(intent);
                             finish();
                         } else

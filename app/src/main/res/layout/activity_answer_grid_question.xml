@@ -1,12 +1,97 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/oliwkowy">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="bohonos.demski.mieldzioc.fillingSurvey.AnswerGridQuestionActivity">
+    android:background="@color/oliwkowy"
+    >
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView android:text="pytanie obowiązkowe" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:id="@+id/answer_obligatory_grid"
+        android:textColor="@color/red"
+        android:layout_marginTop="40dp"/>
+
+    <TextView android:text="Czy chorował pan na nadciśnienie tętnicze?" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/answer_obligatory_grid"
+        android:textSize="30dp"
+        android:id="@+id/answer_question_grid"
+        android:textColor="@color/black"
+        />
+
+    <TextView android:text="Odpowiedz tak, tylko, jeśli chorowałeś!" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:id="@+id/answer_hint_grid"
+        android:layout_below="@+id/answer_question_grid"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/hint_color"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/answer_hint_grid"
+        android:id="@+id/sroll_view">
+    <HorizontalScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/answer_grid_table"
+
+    android:layout_marginBottom="15dp"
+    android:scrollbars="horizontal|vertical"
+    >
+
+
+</TableLayout>
+</HorizontalScrollView>
+    </ScrollView>
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/answer_grid_table"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/strzalka"
+        android:id="@+id/next_question_button"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sroll_view"
+        android:layout_marginTop="30dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/end_filling_button"
+            android:id="@+id/end_filling_button"
+            android:background="@color/end_filling_button_color"
+            android:textColor="@color/end_filling_button_text"
+            android:layout_marginRight="20dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/end_and_start_filling_button"
+            android:id="@+id/end_and_start_filling_button"
+            android:background="@color/end_filling_button_color"
+            android:textColor="@color/end_filling_button_text"/>
+    </LinearLayout>
+
 
 </RelativeLayout>
+</ScrollView>
