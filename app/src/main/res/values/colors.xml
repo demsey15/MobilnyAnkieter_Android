@@ -15,4 +15,7 @@
     <color name="hint_color">#615F30</color>
     <color name="end_filling_button_color">#0A125B</color>
     <color name="end_filling_button_text">#844B00</color>
+    <color name="login_color_text">#E2A42A</color>
+    <color name="login_color_hint">#AA9C85</color>
+    <color name="button_color">#A5A19A</color>
 </resources>

@@ -8,6 +8,13 @@
     <string name="end_and_start_filling_button">Zakończ i wypełnij\n nową ankietę</string>
     <string name="back_to_main_button">Wróć do menu.</string>
 
+    <!-- login -->
+
+    <string name="login_hint">Wpisz PESEL</string>
+    <string name="login_hello">BEZPIECZNY ANKIETER </string>
+    <string name="logging">LOGOWANIE</string>
+    <string name="password_hint">Podaj swoje hasło</string>
+    <string name="button_login">Zaloguj</string>
 <!-- creating survey -->
     <string name="survey_title_hint">Podaj tytuł ankiety</string>
     <string name="survey_description_hint">Podaj opis ankiety</string>
@@ -75,4 +82,5 @@
     <string name="title_activity_answer_short_text_question">AnswerShortTextQuestionActivity
     </string>
     <string name="title_activity_answer_long_text_question">AnswerLongTextQuestionActivity</string>
+    <string name="title_activity_login">Logowanie</string>
 </resources>

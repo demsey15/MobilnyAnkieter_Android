@@ -1,13 +1,22 @@
 package bohonos.demski.mieldzioc.creatingAndEditingSurvey;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.GregorianCalendar;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
@@ -15,6 +24,7 @@ import bohonos.demski.mieldzioc.dataBase.InterviewerDBAdapter;
 import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyAdapter;
 import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyToFillActivity;
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
+import bohonos.demski.mieldzioc.networkConnection.ServerConnectionFacade;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -36,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
         ApplicationState.getInstance(getApplicationContext()).logIn((interviewer =
                 new Interviewer("Dominik", "Demski", "92110908338", new GregorianCalendar())));
         InterviewerDBAdapter db = new InterviewerDBAdapter(getApplicationContext());
-        db.addInterviewer(interviewer);
+        db.addInterviewer(interviewer, "abc".toCharArray());
 
         Button fillSurveyButton = (Button) findViewById(R.id.fill_survey_button);
         fillSurveyButton.setOnClickListener(new View.OnClickListener() {
@@ -70,4 +80,6 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
