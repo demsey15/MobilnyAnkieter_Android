@@ -1,32 +1,31 @@
-package bohonos.demski.mieldzioc.fillingSurvey;
+package bohonos.demski.mieldzioc.sendingSurvey;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
+import bohonos.demski.mieldzioc.dataBase.DataBaseAdapter;
 import bohonos.demski.mieldzioc.survey.Survey;
-import bohonos.demski.mieldzioc.survey.SurveyHandler;
 
 /**
- * Created by Dominik on 2015-05-05.
+ * Created by Dominik on 2015-05-19.
  */
-public class ChooseSurveyAdapter extends BaseAdapter {
+public class SendingNotSentSurveyAdapter extends BaseAdapter{
     private Context context;
     private List<Survey> surveys;
 
-    public ChooseSurveyAdapter(Context context, int status) {
+    public SendingNotSentSurveyAdapter(Context context) {
         this.context = context;
-        surveys = ApplicationState.getInstance(context).getSurveysTemplateControl().
-                getSurveysWithId(status);
+        DataBaseAdapter dataBaseAdapter = new DataBaseAdapter(context);
+        surveys = dataBaseAdapter.getNotSentSurveysTemplateCreatedByInterviewer
+                (ApplicationState.getInstance(context).getLoggedInterviewer());
     }
 
     @Override

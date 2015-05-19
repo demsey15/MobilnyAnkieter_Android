@@ -83,4 +83,5 @@
     </string>
     <string name="title_activity_answer_long_text_question">AnswerLongTextQuestionActivity</string>
     <string name="title_activity_login">Logowanie</string>
+    <string name="title_activity_send_surveys_template">"Wyślij szablony "</string>
 </resources>

@@ -91,12 +91,16 @@
             android:name="bohonos.demski.mieldzioc.fillingSurvey.SurveysSummary"
             android:label="@string/title_activity_answer_long_text_question" >
         </activity>
-        <activity
-            android:name="bohonos.demski.mieldzioc.login.Login">
+        <activity android:name="bohonos.demski.mieldzioc.login.Login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.sendingSurvey.SendSurveysTemplateActivity"
+            android:label="@string/title_activity_send_surveys_template" >
         </activity>
     </application>
 

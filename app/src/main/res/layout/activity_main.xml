@@ -24,5 +24,15 @@
         android:layout_toRightOf="@+id/new_survey_button"
         android:layout_marginLeft="40dp"
         android:text="@string/fill_survey_button"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/send_survey_button"
+        android:background="@color/button_color"
+        android:layout_below="@+id/fill_survey_button"
+        android:layout_marginTop="40dp"
+        android:text="@string/fill_survey_button"/>
+
 </RelativeLayout>
 </RelativeLayout>

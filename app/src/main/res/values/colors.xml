@@ -19,4 +19,7 @@
     <color name="login_color_hint">#AA9C85</color>
     <color name="button_color">#A5A19A</color>
     <color name="inactive_button_color">#EBEAE5</color>
+    <color name="during_sending_button">#EFC600</color>
+    <color name="sent_button">#00B917</color>
+    <color name="cant_send_button">#EF1C00</color>
 </resources>

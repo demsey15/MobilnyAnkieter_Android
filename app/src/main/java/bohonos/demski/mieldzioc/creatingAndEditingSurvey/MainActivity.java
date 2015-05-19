@@ -25,6 +25,8 @@ import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyAdapter;
 import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyToFillActivity;
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
 import bohonos.demski.mieldzioc.networkConnection.ServerConnectionFacade;
+import bohonos.demski.mieldzioc.sendingSurvey.SendSurveysTemplateActivity;
+import bohonos.demski.mieldzioc.sendingSurvey.SendingNotSentSurveyAdapter;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -51,7 +53,15 @@ public class MainActivity extends ActionBarActivity {
             newSurveyButt.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
         }
 
+        Button sendSurveyButton = (Button) findViewById(R.id.send_survey_button);
 
+        sendSurveyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SendSurveysTemplateActivity.class);
+                startActivity(intent);
+            }
+        });
         Button fillSurveyButton = (Button) findViewById(R.id.fill_survey_button);
         fillSurveyButton.setOnClickListener(new View.OnClickListener() {
             @Override

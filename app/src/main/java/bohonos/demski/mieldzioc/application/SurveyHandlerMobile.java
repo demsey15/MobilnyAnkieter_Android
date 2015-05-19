@@ -43,7 +43,7 @@ public class SurveyHandlerMobile extends SurveyHandler {
     public SurveyHandlerMobile(Context context, int lastSurveysId, List<Survey> toFillSurveys) {
         super(lastSurveysId);
         this.context = context;
-
+        db = new DataBaseAdapter(context);
         for(Survey survey : toFillSurveys){
             super.loadSurveyTemplate(survey, SurveyHandler.ACTIVE);
         }
@@ -65,8 +65,9 @@ public class SurveyHandlerMobile extends SurveyHandler {
         if(survey == null) throw new NullPointerException("Przekazana ankieta nie mo¿e byæ nullem " +
                 "- próba dodania ankiety do bazy danych");
         String id =  super.addNewSurveyTemplate(survey);
-        super.setSurveyStatus(survey, SurveyHandler.ACTIVE);
-        if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()))) return null;
+        super.setSurveyStatus(survey, SurveyHandler.IN_PROGRESS);
+
+        if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()), false)) return null;
         ApplicationState.getInstance(context).saveLastAddedSurveyTemplateNumber(super.getMaxSurveysId());
         return id;
     }

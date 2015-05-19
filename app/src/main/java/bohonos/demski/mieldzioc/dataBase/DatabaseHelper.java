@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 10;
+    private static final int DB_VERSION = 11;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -53,6 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_SUMMARY = "Summary";
     public static final String SUMMARY_OPTIONS = "TEXT";
     public static final int SUMMARY_COLUMN = 8;
+    public static final String KEY_SENT = "Sent";  //czy wys³ana na serwer
+    public static final String SENT_OPTIONS = "INT NOT NULL CHECK(" + KEY_SENT + " IN(0, 1))";
+    public static final int SENT_COLUMN = 9;
 
 
     //tabela pytania
@@ -318,7 +321,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ", " + KEY_MODIFICATION_DATE + " " + MODIFICATION_DATE_OPTIONS + ", " +
             KEY_MODIFIED_BY + " " + MODIFIED_BY_OPTIONS + ", " + KEY_TITLE + " " + TITLE_OPTIONS +
             ", " + KEY_DESCRIPTION + " " + DESCRIPTION_OPTIONS + ", " + KEY_SUMMARY +
-            " " + SUMMARY_OPTIONS + ");";
+            " " + SUMMARY_OPTIONS + ", " + KEY_SENT + " " + SENT_OPTIONS +  ");";
 
     private static final String DB_CREATE_QUESTIONS_TABLE = "CREATE TABLE " +
             QUESTIONS_TABLE + "( " + KEY_ID_SURVEY_QDB + " " + ID_SURVEY_OPTIONS_QDB +

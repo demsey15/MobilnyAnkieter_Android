@@ -25,6 +25,7 @@ import bohonos.demski.mieldzioc.questions.Question;
 import bohonos.demski.mieldzioc.questions.ScaleQuestion;
 import bohonos.demski.mieldzioc.questions.TextQuestion;
 import bohonos.demski.mieldzioc.survey.Survey;
+import bohonos.demski.mieldzioc.survey.SurveyHandler;
 
 /**
  * Created by Dominik Demski on 2015-05-02.
@@ -68,9 +69,10 @@ public class DataBaseAdapter {
      * Dodaj ankietê do bazy danych.
      * Metoda sama dba o otwarcie i zamkniêcie po³¹czenia z baz¹ danych.
      * @param survey ankieta do dodania.
+     * @param isSent czy ankieta zosta³a wys³ana ju¿ na serwer.
      * @return
      */
-    public boolean addSurveyTemplate(Survey survey, int status){
+    public boolean addSurveyTemplate(Survey survey, int status, boolean isSent){
         open();
         String idOfSurveys = survey.getIdOfSurveys();
         int size = survey.questionListSize();
@@ -86,6 +88,7 @@ public class DataBaseAdapter {
         templateValues.put(DatabaseHelper.KEY_TITLE, survey.getTitle());
         templateValues.put(DatabaseHelper.KEY_DESCRIPTION, survey.getDescription());
         templateValues.put(DatabaseHelper.KEY_SUMMARY, survey.getSummary());
+        templateValues.put(DatabaseHelper.KEY_SENT, (isSent)? 1 : 0);
         db.insert(DatabaseHelper.SURVEY_TEMPLATE_TABLE, null, templateValues);
 
         for(int i = 0; i < size; i++){
@@ -491,5 +494,37 @@ public class DataBaseAdapter {
         if(cursor.moveToFirst())
             return cursor.getInt(0);
         else return -2;
+    }
+
+    /**
+     * Zwraca listê szablonów ankiet stworzonych przez ankietera, niewys³anych jeszcze na serwer.
+     * Nie zwraca null.
+     * @param interviewer
+     * @return
+     */
+    public List<Survey> getNotSentSurveysTemplateCreatedByInterviewer(Interviewer interviewer){
+        List<Survey> list = new ArrayList<>();
+        open();
+        Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
+                {DatabaseHelper.KEY_ID}, DatabaseHelper.KEY_INTERVIEWER + " = " + interviewer.getId()
+                + " AND " + DatabaseHelper.KEY_SENT + " = " + 1 + " AND " + DatabaseHelper.KEY_STATUS
+                + " = " + SurveyHandler.IN_PROGRESS,
+                null, null, null, null);
+        while(cursor.moveToNext()){
+            Survey survey = getSurveyTemplate(cursor.getString(0));
+            if(survey != null)
+                list.add(survey);
+        }
+        close();
+        return list;
+    }
+
+    public void setSurveySent(Survey survey, boolean isSent){
+        open();
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.KEY_SENT, (isSent)? 1 : 0);
+        db.update(DatabaseHelper.SURVEY_TEMPLATE_TABLE, values, DatabaseHelper.KEY_ID + " = " +
+                survey.getIdOfSurveys(), null);
+        close();
     }
 }

@@ -29,6 +29,7 @@ public class NetworkIssuesControl {
 
     private Context context;
     private ServerFacadeMobile serverFacadeMobile = new ServerFacadeMobile();
+    private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade();
 
     public NetworkIssuesControl(Context context) {
         this.context = context;
@@ -202,6 +203,17 @@ public class NetworkIssuesControl {
             return NO_NETWORK_CONNECTION;
         }
     }
+
+    public int sendSurveyTemplate(Survey survey){
+        if(isNetworkAvailable()) {
+            return serverConnectionFacade.sendSurveyTemplate(survey, ApplicationState.getInstance(context).
+                    getLoggedInterviewer().getId(), ApplicationState.getInstance(context).getPassword());
+        }
+        else{
+            return NO_NETWORK_CONNECTION;
+        }
+    }
+
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager

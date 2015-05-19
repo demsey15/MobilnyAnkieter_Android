@@ -75,8 +75,24 @@ public class ServerFacadeMobile{
 
         return asyncTask.get(40, TimeUnit.SECONDS);
     }
+/*
+    public int sendSurveyTemplate(Survey survey, final String usersId, final char[] password)
+            throws InterruptedException, ExecutionException, TimeoutException {
+        AsyncTask<Object, Void, Integer> asyncTask = (new AsyncTask<Object, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Object... params) {
+                return facade.sendSurveyTemplate((Survey) params[0], (String) params[1],
+                        (char[]) params[2]);
+            }
 
-
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+            }
+        }).execute(survey, usersId, password);
+        return asyncTask.get(40, TimeUnit.SECONDS);
+    }
+*/
     /*
     if(!isNetworkAvailable()) Toast.makeText(getApplicationContext(), "Brak sieci", Toast.LENGTH_SHORT).show();
     else Toast.makeText(getApplicationContext(), "Jest siec", Toast.LENGTH_SHORT).show();
