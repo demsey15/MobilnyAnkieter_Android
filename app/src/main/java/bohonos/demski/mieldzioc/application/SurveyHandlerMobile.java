@@ -3,6 +3,7 @@ package bohonos.demski.mieldzioc.application;
 import android.content.Context;
 
 import java.util.HashMap;
+import java.util.List;
 
 import bohonos.demski.mieldzioc.dataBase.DataBaseAdapter;
 import bohonos.demski.mieldzioc.survey.Survey;
@@ -30,6 +31,21 @@ public class SurveyHandlerMobile extends SurveyHandler {
         db.close();
         for(Survey survey : surveys.keySet()){
             super.loadSurveyTemplate(survey, surveys.get(survey));
+        }
+    }
+
+    /**
+     *
+     * @param context
+     * @param lastSurveysId ostatnio przyznane id grupy ankiet dla tego ankietera.
+     * @param toFillSurveys lista szablonów ankiet do dodania ze statusem aktywna.
+     */
+    public SurveyHandlerMobile(Context context, int lastSurveysId, List<Survey> toFillSurveys) {
+        super(lastSurveysId);
+        this.context = context;
+
+        for(Survey survey : toFillSurveys){
+            super.loadSurveyTemplate(survey, SurveyHandler.ACTIVE);
         }
     }
 

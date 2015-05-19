@@ -248,13 +248,19 @@ public class DataBaseAdapter {
         return templates;
     }
 
+    /**
+     *
+     * @param idOfSurveys
+     * @return null jesli nie ma ankiety o takim id.
+     */
     public Survey getSurveyTemplate(String idOfSurveys){
-        Survey survey = new Survey(null);
+        Survey survey = null;
         Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]{
                 DatabaseHelper.KEY_INTERVIEWER, DatabaseHelper.KEY_TITLE,
                 DatabaseHelper.KEY_DESCRIPTION, DatabaseHelper.KEY_SUMMARY}, DatabaseHelper.KEY_ID +
                 " = " + idOfSurveys, null, null, null, null);
-        if(cursor.moveToFirst()){
+        if(cursor.moveToFirst()) {
+            survey = new Survey(null);
             survey.setDescription(cursor.getString(2));
             survey.setIdOfSurveys(idOfSurveys);
             survey.setSummary(cursor.getString(3));
@@ -264,15 +270,15 @@ public class DataBaseAdapter {
                             {DatabaseHelper.KEY_CAN_CREATE_IDB},
                     DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = " + interviewerId,
                     null, null, null, null);
-            if(cursorInterviewer.moveToFirst()){        //jeœli mam takiego interveiwera w bazie, to
-                                                        //dodaj go do ankiety, jesli nie, to nie
+            if (cursorInterviewer.moveToFirst()) {        //jeœli mam takiego interveiwera w bazie, to
+                //dodaj go do ankiety, jesli nie, to nie
                 Interviewer interviewer = new Interviewer(null, null, interviewerId, null);
-                interviewer.setInterviewerPrivileges((cursorInterviewer.getInt(0) == 0)? false : true);
+                interviewer.setInterviewerPrivileges((cursorInterviewer.getInt(0) == 0) ? false : true);
             }
-        }
-        List<Question> questions = getSurveysQuestion(idOfSurveys);
-        for(Question question : questions){
-            survey.addQuestion(question);
+            List<Question> questions = getSurveysQuestion(idOfSurveys);
+            for (Question question : questions) {
+                survey.addQuestion(question);
+            }
         }
         return survey;
     }

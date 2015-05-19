@@ -5,16 +5,28 @@
     android:background="@color/xs_black"
     android:id="@+id/login_animator">
 
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:id="@+id/login_progress"
         />
-
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/login_progress"
+          android:layout_centerHorizontal="true"
+          android:text="Trwa"
+          android:id="@+id/text_progress"
+          android:textSize="15dp"/>
+  </RelativeLayout>
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
+    android:padding="10dp"
     >
 
     <TextView android:text="@string/login_hello"

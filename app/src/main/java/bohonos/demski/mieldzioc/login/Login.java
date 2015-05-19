@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
@@ -17,6 +19,7 @@ import bohonos.demski.mieldzioc.creatingAndEditingSurvey.MainActivity;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 import bohonos.demski.mieldzioc.dataBase.InterviewerDBAdapter;
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
+import bohonos.demski.mieldzioc.networkConnection.ServerConnectionFacade;
 
 public class Login extends ActionBarActivity {
 
@@ -28,7 +31,7 @@ public class Login extends ActionBarActivity {
         final ViewAnimator animator = (ViewAnimator) findViewById(R.id.login_animator);
         animator.setDisplayedChild(1);
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
         Button loginButton = (Button) findViewById(R.id.login_button);
@@ -43,6 +46,8 @@ public class Login extends ActionBarActivity {
                     String passw = passwordTxt.getText().toString();
                     if (passw.trim().equals("")) passwordTxt.setError("Hasło nie może być puste!");
                     else {
+                        TextView textProgress = (TextView) findViewById(R.id.text_progress);
+                        textProgress.setVisibility(View.INVISIBLE);
                         animator.setDisplayedChild(0);
                         char[] password = passw.toCharArray();
                         NetworkIssuesControl networkIssuesControl = new NetworkIssuesControl
@@ -69,10 +74,47 @@ public class Login extends ActionBarActivity {
                             animator.setDisplayedChild(1);
                             loginTxt.setError("Podano błędne dane");
                         }
-                        else if(result == 1){
-                            Intent intent = new Intent(Login.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                        else if(result == 1){    //udało się zalogować!
+
+                            textProgress.setText("Pobieranie uprawnień...");
+                            textProgress.setVisibility(View.VISIBLE);
+
+                            int canCreate = networkIssuesControl.updateInterviewerCanCreate(login);
+                            boolean goAheadCreate = false;
+                            boolean createEstablish = false;
+
+                            if(canCreate == NetworkIssuesControl.NO_NETWORK_CONNECTION ||   //przechodzimy dalej, ale nie możemy tworzyć ankiet
+                                    canCreate == NetworkIssuesControl.REQUEST_OUT_OF_TIME ||
+                                    canCreate == NetworkIssuesControl.UNKNOWN_ERROR_CONNECTION){
+                                goAheadCreate = true;
+                            }
+                            else if(canCreate == ServerConnectionFacade.BAD_PASSWORD){
+                                    animator.setDisplayedChild(1);
+                                    Toast.makeText(getApplicationContext(), "Wygląda na to, że zostałeś" +
+                                            " zwolniony", Toast.LENGTH_LONG).show();
+                            }
+                            else{       //ustalono uprawnienia
+                                goAheadCreate = true;
+                                createEstablish = true;
+                            }
+                            if(goAheadCreate){
+                                int fill = networkIssuesControl.prepareTemplatesToFill();
+                                if(fill == NetworkIssuesControl.REQUEST_OUT_OF_TIME ||
+                                        fill == NetworkIssuesControl.UNKNOWN_ERROR_CONNECTION){
+                                    animator.setDisplayedChild(1);
+                                    Toast.makeText(getApplicationContext(), "Nie można ustalić listy ankiet do wypełniania." +
+                                            " Spróbuj ponownie.", Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    startActivity(intent);
+                                    if(!createEstablish)
+                                        Toast.makeText(getApplicationContext(), "Nie można ustalić uprawnień." +
+                                            "\nSpróbuj ponownie później.", Toast.LENGTH_LONG).show();
+
+                                    finish();
+                                }
+                            }
                         }
 
                     }

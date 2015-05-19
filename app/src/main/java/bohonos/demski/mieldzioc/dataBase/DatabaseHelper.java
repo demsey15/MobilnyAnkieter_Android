@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 10;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -278,8 +278,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FILLED_SURVEYS_TABLE = "Filled_surveys";
 
     public static final String KEY_SURVEY_FSDB = "Survey";
-    public static final String SURVEY_OPTIONS_FSDB = "TEXT NOT NULL REFERENCES " +
-            SURVEY_TEMPLATE_TABLE;
+    public static final String SURVEY_OPTIONS_FSDB = "TEXT NOT NULL";
     public static final int SURVEY_COLUMN_FSDB  = 0;
     public static final String KEY_NO_FILLED_SURVEY_FSDB = "Filled_survey_number"; //numer wype³nionej ankiety
     public static final String NO_FILLED_OPTIONS_FSDB = "INT NOT NULL";
@@ -301,6 +300,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
     public static final int TO_DATE_COLUMN_FSDB = 4;
 
+
+    public static final String FILLING_PRIVILEGES_TABLE = "Filling_privileges";
+
+    public static final String KEY_INTERVIEWER_FPDB = "Interviewer";
+    public static final String INTERVIEWER_OPTIONS_FPDB = "TEXT NOT NULL";
+    public static final int INTERVIEWER_COLUMN_FPDB = 0;
+    public static final String KEY_SURVEY_FPDB = "Survey";
+    public static final String SURVEY_OPTIONS_FPDB = "TEXT NOT NULL";
+    public static final int SURVEY_COLUMN_FPDB = 1;
 
 
     private static final String DB_CREATE_SURVEY_TEMPLATE_TABLE = "CREATE TABLE " +
@@ -386,6 +394,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + QUESTION_NUMBER_OPTIONS_SADB + ", "  + KEY_ANSWER_SADB + " "
             + ANSWER_OPTIONS_SADB + ");";
 
+    private static final String DB_CREATE_FILLING_PRIVILEGES_TABLE = "CREATE TABLE " +
+            FILLING_PRIVILEGES_TABLE + "( " + KEY_INTERVIEWER_FPDB + " " + INTERVIEWER_OPTIONS_FPDB
+            + ", " + KEY_SURVEY_FPDB + " " + SURVEY_OPTIONS_FPDB + ");";
+
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -403,11 +415,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DB_CREATE_TEXT_CONSTRAINTS_TABLE);
         db.execSQL(DB_CREATE_FILLED_SURVEYS_TABLE);
         db.execSQL(DB_CREATE_ANSWERS_TABLE);
+        db.execSQL(DB_CREATE_FILLING_PRIVILEGES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String drop = "DROP TABLE IF EXISTS ";
+        db.execSQL(drop + FILLING_PRIVILEGES_TABLE);
+        db.execSQL(drop + ANSWERS_TABLE);
+        db.execSQL(drop + FILLED_SURVEYS_TABLE);
         db.execSQL(drop + TEXT_CONSTRAINTS_TABLE);
         db.execSQL(drop + NUMBER_CONSTRAINTS_TABLE);
         db.execSQL(drop + GRID_ROW_ANSWERS_TABLE);

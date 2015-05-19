@@ -35,18 +35,22 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         Button newSurveyButt = (Button) findViewById(R.id.new_survey_button);
-        newSurveyButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, create_new_survey.class);
-                startActivity(intent);
-            }
-        });
-        Interviewer interviewer;
-        ApplicationState.getInstance(getApplicationContext()).logIn((interviewer =
-                new Interviewer("Dominik", "Demski", "92110908338", new GregorianCalendar())));
-        InterviewerDBAdapter db = new InterviewerDBAdapter(getApplicationContext());
-        db.addInterviewer(interviewer, "abc".toCharArray());
+
+        if(ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer().
+                getInterviewerPrivileges()) {
+            newSurveyButt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, create_new_survey.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        else{
+            newSurveyButt.setActivated(false);
+            newSurveyButt.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
+        }
+
 
         Button fillSurveyButton = (Button) findViewById(R.id.fill_survey_button);
         fillSurveyButton.setOnClickListener(new View.OnClickListener() {

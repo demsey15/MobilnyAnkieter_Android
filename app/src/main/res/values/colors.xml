@@ -18,4 +18,5 @@
     <color name="login_color_text">#E2A42A</color>
     <color name="login_color_hint">#AA9C85</color>
     <color name="button_color">#A5A19A</color>
+    <color name="inactive_button_color">#EBEAE5</color>
 </resources>

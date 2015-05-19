@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
 
@@ -33,6 +35,7 @@ public class InterviewerDBAdapter {
             db = dbHelper.getWritableDatabase();
         }
         catch(SQLiteException e){
+            db = dbHelper.getReadableDatabase();
             Log.d(DEBUG_TAG, "Nie otrzymalem dostepu do bazy danych - przy operacji na ankieterze");
         }
         return this;
@@ -55,12 +58,29 @@ public class InterviewerDBAdapter {
         close();
     }
 
+    public void deleteInterviewer(String id){
+        open();
+        db.delete(DatabaseHelper.INTERVIEWERS_TABLE, DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = " +
+                id, null);
+        close();
+    }
+
+    public void setInterviewerCreatingPrivileges(String interviewerId, boolean canCreate){
+        open();
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.KEY_CAN_CREATE_IDB, (canCreate) ? 1 : 0);
+        db.update(DatabaseHelper.INTERVIEWERS_TABLE, values, DatabaseHelper.KEY_ID_INTERVIEWER_IDB +
+                " = " + interviewerId, null);
+        close();
+    }
+
     /**
      * Zwraca ankietera albo null, jeœli nie ma w bazie takiego ankietera.
      * @param id
      * @return
      */
     public Interviewer getInterviewer(String id){
+       open();
         Cursor cursor = db.query(DatabaseHelper.INTERVIEWERS_TABLE, new String[]
                 {DatabaseHelper.KEY_ID_INTERVIEWER_IDB, DatabaseHelper.KEY_CAN_CREATE_IDB},
                 DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = " + id,
@@ -69,9 +89,13 @@ public class InterviewerDBAdapter {
             boolean canCreate = cursor.getInt(1) == 1;
             Interviewer interviewer = new Interviewer("", "", id, new GregorianCalendar());
             interviewer.setInterviewerPrivileges(canCreate);
+            close();
             return interviewer;
         }
-        else return null;
+        else{
+            close();
+            return null;
+        }
     }
 
     /**
@@ -113,5 +137,44 @@ public class InterviewerDBAdapter {
             }
             else return false;
         }
+    }
+
+    /**
+     * Pobierz id szablonów ankiet, które mo¿e wype³niaæ dany ankieter. Nie trzeba otwieraæ i zamykaæ
+     * po³¹czenia.
+     * @param interviewer
+     * @return
+     */
+    public List<String> getSurveysToFillingForInterviewer(Interviewer interviewer){
+       open();
+        Cursor cursor = db.query(DatabaseHelper.FILLING_PRIVILEGES_TABLE, new String[]
+                        {DatabaseHelper.KEY_INTERVIEWER_FPDB, DatabaseHelper.KEY_SURVEY_FPDB},
+                DatabaseHelper.KEY_INTERVIEWER_FPDB + " = " + interviewer.getId(), null, null, null, null);
+        List<String> result = new ArrayList<>();
+        while (cursor.moveToNext()){
+            result.add(cursor.getString(1));
+        }
+        close();
+        return result;
+    }
+
+    /**
+     * Usuwa z bazy stare przywileje i wstawia nowe.
+     * @param interviewer
+     * @param ids
+     */
+    public void updateSurveysToFillingForInterviewer(Interviewer interviewer, List<String> ids){
+        open();
+        db.delete(DatabaseHelper.FILLING_PRIVILEGES_TABLE, DatabaseHelper.KEY_INTERVIEWER_FPDB +
+                " = " + interviewer.getId(), null);
+        ContentValues values = new ContentValues();
+        for(String id : ids){
+            values.put(DatabaseHelper.KEY_INTERVIEWER_FPDB, interviewer.getId());
+            values.put(DatabaseHelper.KEY_SURVEY_FPDB, id);
+        }
+        if(ids.size() > 0) {
+            db.insert(DatabaseHelper.FILLING_PRIVILEGES_TABLE, null, values);
+        }
+        close();
     }
 }
