@@ -46,7 +46,9 @@ public class InterviewerDBAdapter {
         open();
         ContentValues interviewerValues = new ContentValues();
         interviewerValues.put(DatabaseHelper.KEY_ID_INTERVIEWER_IDB, interviewer.getId());
-        interviewerValues.put(DatabaseHelper.KEY_PASSWORD_IDB, new String(password));   ///////DODAWANIE HASLA!!!!!!!!!!!
+        interviewerValues.put(DatabaseHelper.KEY_PASSWORD_IDB, new String(password));
+        interviewerValues.put(DatabaseHelper.KEY_CAN_CREATE_IDB,
+                (interviewer.getInterviewerPrivileges())? 1 : 0);
         if(db.insert(DatabaseHelper.INTERVIEWERS_TABLE, null, interviewerValues) != -1)
         Log.d(DEBUG_TAG, "Dodano ankietera: " + interviewer.getId());
         else Log.d(DEBUG_TAG, "Nie Dodano ankietera: " + interviewer.getId());

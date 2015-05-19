@@ -9,7 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+import android.widget.ViewAnimator;
 
+import bohonos.demski.mieldzioc.application.NetworkIssuesControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.MainActivity;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
 import bohonos.demski.mieldzioc.dataBase.InterviewerDBAdapter;
@@ -21,6 +24,9 @@ public class Login extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        final ViewAnimator animator = (ViewAnimator) findViewById(R.id.login_animator);
+        animator.setDisplayedChild(1);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -37,21 +43,38 @@ public class Login extends ActionBarActivity {
                     String passw = passwordTxt.getText().toString();
                     if (passw.trim().equals("")) passwordTxt.setError("Hasło nie może być puste!");
                     else {
+                        animator.setDisplayedChild(0);
                         char[] password = passw.toCharArray();
-                        InterviewerDBAdapter db = new InterviewerDBAdapter(getApplicationContext());
-                        db.open();
-                        Interviewer interviewer = db.getInterviewer(login);
-                        if (interviewer == null) {
-                            loginTxt.setError("Brak ankietera.");
-                        } else {
-                            if (db.checkPassword(login, password)) {
-                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                startActivity(intent);
-                            } else {
-                                loginTxt.setError("Podano błędne dane.");
-                            }
+                        NetworkIssuesControl networkIssuesControl = new NetworkIssuesControl
+                                (getApplicationContext());
+                        int result = networkIssuesControl.login(login, password);
+                        if(result == NetworkIssuesControl.NO_NETWORK_CONNECTION){
+                            Toast.makeText(getApplicationContext(), "Brak połączenia z internetem.",
+                                    Toast.LENGTH_LONG).show();
+                            animator.setDisplayedChild(1);
                         }
-                        db.close();
+                        else if(result == NetworkIssuesControl.REQUEST_OUT_OF_TIME){
+                            Toast.makeText(getApplicationContext(), "Serwer nie odpowiada, " +
+                                            "spróbuj ponownie.",
+                                    Toast.LENGTH_LONG).show();
+                            animator.setDisplayedChild(1);
+                        }
+                        else if(result == NetworkIssuesControl.UNKNOWN_ERROR_CONNECTION){
+                            Toast.makeText(getApplicationContext(), "Błąd połączenia z serwerem." +
+                                            " Spróbuj ponownie.",
+                                    Toast.LENGTH_LONG).show();
+                            animator.setDisplayedChild(1);
+                        }
+                        else if(result == 0){
+                            animator.setDisplayedChild(1);
+                            loginTxt.setError("Podano błędne dane");
+                        }
+                        else if(result == 1){
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
                     }
                 }
             }

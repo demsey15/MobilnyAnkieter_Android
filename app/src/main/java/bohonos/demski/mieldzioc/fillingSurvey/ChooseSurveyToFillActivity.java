@@ -50,19 +50,6 @@ public class ChooseSurveyToFillActivity extends ActionBarActivity {
                 intent.putExtra("SURVEY_DESCRIPTION", survey.getDescription());
                 intent.putExtra("SURVEY_SUMMARY", survey.getSummary());
 
-                if(!isNetworkAvailable()) Toast.makeText(getApplicationContext(), "Brak sieci", Toast.LENGTH_SHORT).show();
-                else Toast.makeText(getApplicationContext(), "Jest siec", Toast.LENGTH_SHORT).show();
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                            ServerConnectionFacade ser = new ServerConnectionFacade();
-                            ser.sendSurveyTemplate(survey, ApplicationState.
-                                            getInstance(getApplicationContext()).
-                                            getLoggedInterviewer().getId(),
-                                            new char[] {'a', 'b', 'c'});
-                    }
-                });
-                t.start();
                 startActivity(intent);
             }
         });
@@ -90,10 +77,5 @@ public class ChooseSurveyToFillActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
+
 }
