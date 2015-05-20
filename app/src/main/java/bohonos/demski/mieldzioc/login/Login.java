@@ -82,6 +82,7 @@ public class Login extends ActionBarActivity {
                                     animator.setDisplayedChild(1);
                                     loginTxt.setError("Podano błędne dane");
                                 } else if (result == 1) {    //udało się zalogować!
+                                    Toast.makeText(getApplicationContext(), "Udalo sie!", Toast.LENGTH_SHORT).show();
 
                                     (new AsyncTask<Object, Integer, Object[]>() {
                                         @Override
@@ -154,7 +155,7 @@ public class Login extends ActionBarActivity {
                             @Override
                             protected void onProgressUpdate(Integer... values) {
                                 if(values[0] == 1){
-                                    textProgress.setVisibility(View.INVISIBLE);
+                                    textProgress.setText("Logowanie...");
                                     animator.setDisplayedChild(0);
                                 }
                             }

@@ -30,7 +30,6 @@ public class NetworkIssuesControl {
     public static final int FIRST_LOG_IN = 103;
 
     private Context context;
-    private ServerFacadeMobile serverFacadeMobile = new ServerFacadeMobile();
     private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade();
 
     public NetworkIssuesControl(Context context) {
@@ -50,29 +49,17 @@ public class NetworkIssuesControl {
         Interviewer interviewer = db.getInterviewer(usersId);
 
         if (interviewer == null) {   //w bazie danych nie ma takiego ankietera
-            if(isNetworkAvailable()){
-                try {
-                    boolean result = serverFacadeMobile.authenticate(usersId, password);
-                    if(result){
-                        interviewer = new Interviewer("", "", usersId, new GregorianCalendar());
-                        interviewer.setInterviewerPrivileges(false);
-                        db.addInterviewer(interviewer, passwordToSave); //dodaj ankietera do bazy danych
-                                                                    // z brakiem uprawnień
-                                                                    //do tworzenia ankiet
-                    }
-                    else{
+            if(isNetworkAvailable()) {
+                boolean result = serverConnectionFacade.authenticate(usersId, password);
+                if (result) {
+                    interviewer = new Interviewer("", "", usersId, new GregorianCalendar());
+                    interviewer.setInterviewerPrivileges(false);
+                    db.addInterviewer(interviewer, passwordToSave); //dodaj ankietera do bazy danych
+                    // z brakiem uprawnień
+                    //do tworzenia ankiet
+                } else {
 
-                        return 0;  //nie zalogowano
-                    }
-                } catch (TimeoutException e) {
-
-                    return REQUEST_OUT_OF_TIME;
-                } catch (ExecutionException e) {
-
-                   return UNKNOWN_ERROR_CONNECTION;
-                } catch (InterruptedException e) {
-
-                    return UNKNOWN_ERROR_CONNECTION;
+                    return 0;  //nie zalogowano
                 }
             }
             else{
@@ -94,8 +81,7 @@ public class NetworkIssuesControl {
      */
     public int updateInterviewerCanCreate(String interviewerId){
         if(isNetworkAvailable()){
-            try {
-                int result = serverFacadeMobile.getInterviewerCreatingPrivileges(interviewerId, interviewerId,
+                int result = serverConnectionFacade.getInterviewerCreatingPrivileges(interviewerId, interviewerId,
                         ApplicationState.getInstance(context).getPassword());
                 if(result == ServerConnectionFacade.BAD_PASSWORD){ //nie ma takiego użytkownika, albo jest zwolniony
                     InterviewerDBAdapter db = new InterviewerDBAdapter(context);
@@ -109,25 +95,6 @@ public class NetworkIssuesControl {
                             setInterviewerPrivileges(result == 1);
                     return result;
                 }
-            } catch (InterruptedException e) {
-                InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartość w bazie danych
-                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartość w stanie użytkownika
-                        setInterviewerPrivileges(false);
-                return UNKNOWN_ERROR_CONNECTION;
-            } catch (ExecutionException e) {
-                InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartość w bazie danych
-                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartość w stanie użytkownika
-                        setInterviewerPrivileges(false);
-                return UNKNOWN_ERROR_CONNECTION;
-            } catch (TimeoutException e) {
-                InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartość w bazie danych
-                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartość w stanie użytkownika
-                        setInterviewerPrivileges(false);
-                return REQUEST_OUT_OF_TIME;
-            }
         }
         else{
             InterviewerDBAdapter db = new InterviewerDBAdapter(context);
@@ -156,10 +123,8 @@ public class NetworkIssuesControl {
         InterviewerDBAdapter dbInt = new InterviewerDBAdapter(context);
         DataBaseAdapter dataBaseAdapter = new DataBaseAdapter(context);
         if(isNetworkAvailable()){
-            ServerFacadeMobile facade = new ServerFacadeMobile();
-            try {
                 List<Survey> surveys = new ArrayList<>();
-                List<String> surveysId = facade.getActiveIdTemplateForInterviewer(interviewer.getId(),
+                List<String> surveysId = serverConnectionFacade.getActiveIdTemplateForInterviewer(interviewer.getId(),
                         interviewer.getId(), ApplicationState.getInstance(context).getPassword());
                 if(surveysId == null){
                     return ServerConnectionFacade.BAD_PASSWORD; //chyba zwolniono ankietera.
@@ -172,7 +137,7 @@ public class NetworkIssuesControl {
                         if(survey == null){     //jeżeli szablonu nie ma w bazie danych
                             Log.d("PREPARE SURVEYS", "SZABLONU " + survId + "  NIE MA W BAZIE - POBIERAM...");
                             if(isNetworkAvailable()){       //spróbuj go pobrać
-                                Survey s = facade.getSurveyTemplate(survId, interviewer.getId(),
+                                Survey s = serverConnectionFacade.getSurveyTemplate(survId, interviewer.getId(),
                                         ApplicationState.getInstance(context).getPassword());
                                 if(s != null){
                                     Log.d("PREPARE SURVEYS", "POBRANO ANKIETE: " + s.getTitle());
@@ -188,10 +153,10 @@ public class NetworkIssuesControl {
                             Log.d("PREPARE SURVEYS", "SZABLON " + survId + "  NIEAKTUALNY - POBIERAM...");
                             if(dataBaseAdapter.getSurveyStatus(survId) != SurveyHandler.ACTIVE){
                                 if(isNetworkAvailable()){       //spróbuj go pobrać
-                                    Survey s = facade.getSurveyTemplate(survId, interviewer.getId(),
+                                    Survey s = serverConnectionFacade.getSurveyTemplate(survId, interviewer.getId(),
                                             ApplicationState.getInstance(context).getPassword());
                                     if(s != null){
-                                        Log.d("PREPARE SURVEYS", "POBRANO ANKIETE: " + s.getTitle());
+                                        Log.d("PREPARE SURVEYS", "POBRANO ANKIETE: " + s.getTitle() + " pyt. 1: " + s.getQuestion(0).getQuestion());
                                         dataBaseAdapter.deleteSurveyTemplate(survId); //usuń stary szablon
                                         dataBaseAdapter.addSurveyTemplate(s, SurveyHandler.ACTIVE, true); //dodaj uaktualniony szablon
                                         surveys.add(s);     //dodaj nowy
@@ -208,13 +173,6 @@ public class NetworkIssuesControl {
                     ApplicationState.getInstance(context).prepareSurveyHandler(surveys);
                     return ServerConnectionFacade.OPERATION_OK;
                 }
-            } catch (InterruptedException e) {
-               return UNKNOWN_ERROR_CONNECTION;
-            } catch (ExecutionException e) {
-                return UNKNOWN_ERROR_CONNECTION;
-            } catch (TimeoutException e) {
-                return REQUEST_OUT_OF_TIME;
-            }
         }
         else {
             List<String> list = dbInt.getSurveysToFillingForInterviewer(interviewer);

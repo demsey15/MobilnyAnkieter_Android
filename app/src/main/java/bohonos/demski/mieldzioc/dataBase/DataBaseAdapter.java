@@ -97,34 +97,47 @@ public class DataBaseAdapter {
         for(int i = 0; i < size; i++){
             Question question = survey.getQuestion(i);
             String questionNumber = "" + idOfSurveys + i;
-            if(addQuestion(question, idOfSurveys, questionNumber) == -1) return false;
+            if(addQuestion(question, idOfSurveys, questionNumber) == -1){
+                close();
+                return false;
+            }
             int questionType = question.getQuestionType();
             if(questionType == Question.DROP_DOWN_QUESTION ||
                     questionType == Question.MULTIPLE_CHOICE_QUESTION || questionType ==
                     Question.ONE_CHOICE_QUESTION){
-                if(addChoiceAnswers(question, idOfSurveys, questionNumber) == -1)
+                if(addChoiceAnswers(question, idOfSurveys, questionNumber) == -1) {
+                    close();
                     return false;
+                }
             }
             else if(questionType == Question.GRID_QUESTION){
-                if(addGridAnswers((GridQuestion) question, idOfSurveys, questionNumber) == -1)
+                if(addGridAnswers((GridQuestion) question, idOfSurveys, questionNumber) == -1) {
+                    close();
                     return false;
+                }
             }
             else if(questionType == Question.SCALE_QUESTION){
-                if(addScaleAnswers((ScaleQuestion) question, idOfSurveys, questionNumber) == -1)
+                if(addScaleAnswers((ScaleQuestion) question, idOfSurveys, questionNumber) == -1) {
+                    close();
                     return false;
+                }
             }
             else if(questionType == Question.TEXT_QUESTION){
                 TextQuestion textQuestion = (TextQuestion) question;
                 IConstraint constraint = textQuestion.getConstraint();
                 if(constraint instanceof TextConstraint){
                     if(addTextConstraints((TextConstraint) constraint, idOfSurveys, questionNumber)
-                        == -1)
+                        == -1) {
+                        close();
                         return false;
+                    }
                 }
                 else if(constraint instanceof  NumberConstraint){
                     if(addNumberConstraints((NumberConstraint) constraint, idOfSurveys,
-                            questionNumber) == -1)
+                            questionNumber) == -1) {
+                        close();
                         return false;
+                    }
                 }
             }
         }

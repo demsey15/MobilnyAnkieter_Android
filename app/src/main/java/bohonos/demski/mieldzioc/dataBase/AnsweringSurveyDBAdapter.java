@@ -54,8 +54,10 @@ public class AnsweringSurveyDBAdapter {
         filledSurveyValues.put(DatabaseHelper.KEY_TO_DATE_FSDB, DateAndTimeService.
                 getDateAsDBString(survey.getFinishTime()));
 
-        if(db.insert(DatabaseHelper.FILLED_SURVEYS_TABLE, null, filledSurveyValues) == -1)
+        if(db.insert(DatabaseHelper.FILLED_SURVEYS_TABLE, null, filledSurveyValues) == -1) {
+            close();
             return false;
+        }
         for(int i = 0; i < survey.questionListSize(); i++) {
             Question question = survey.getQuestion(i);
             List<String> answers = question.getUserAnswersAsStringList();
@@ -65,7 +67,10 @@ public class AnsweringSurveyDBAdapter {
                 answersValues.put(DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB, survey.getNumberOfSurvey());
                 answersValues.put(DatabaseHelper.KEY_ANSWER_NUMBER_SADB, 0);
                 answersValues.put(DatabaseHelper.KEY_QUESTION_NUMBER_SADB, survey.getIdOfSurveys() + i);
-                if(db.insert(DatabaseHelper.ANSWERS_TABLE, null, answersValues) == -1) return false;
+                if(db.insert(DatabaseHelper.ANSWERS_TABLE, null, answersValues) == -1){
+                    close();
+                    return false;
+                }
             } else {
                 int j = 0;
                 for (String answer : answers) {
@@ -76,7 +81,10 @@ public class AnsweringSurveyDBAdapter {
                     answersValues.put(DatabaseHelper.KEY_QUESTION_NUMBER_SADB, survey.getIdOfSurveys() + i);
                     answersValues.put(DatabaseHelper.KEY_ANSWER_SADB, answer);
                     j++;
-                    if(db.insert(DatabaseHelper.ANSWERS_TABLE, null, answersValues) == -1) return false;
+                    if(db.insert(DatabaseHelper.ANSWERS_TABLE, null, answersValues) == -1){
+                        close();
+                        return false;
+                    }
                 }
             }
         }
