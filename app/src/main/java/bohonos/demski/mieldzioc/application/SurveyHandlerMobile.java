@@ -39,7 +39,7 @@ public class SurveyHandlerMobile extends SurveyHandler {
      *
      * @param context
      * @param lastSurveysId ostatnio przyznane id grupy ankiet dla tego ankietera.
-     * @param toFillSurveys lista szablonów ankiet do dodania ze statusem aktywna.
+     * @param toFillSurveys lista szablonÃ³w ankiet do dodania ze statusem aktywna.
      */
     public SurveyHandlerMobile(Context context, int lastSurveysId, List<Survey> toFillSurveys) {
         super(lastSurveysId);
@@ -58,13 +58,13 @@ public class SurveyHandlerMobile extends SurveyHandler {
     /**
      * Dodaje nowy szablon ankiety do klasy SurveyTemplate i do bazy danych.
      * @param survey ankieta do dodania.
-     * @return id dodanego szablonu (id grupy ankiet), jeœli nie uda³o siê dodaæ szablonu do bazy
+     * @return id dodanego szablonu (id grupy ankiet), jeÅ›li nie udaÅ‚o siÄ™ dodaÄ‡ szablonu do bazy
      * danych, zwraca -1.
      */
     @Override
     public String addNewSurveyTemplate(Survey survey) {
-        if(survey == null) throw new NullPointerException("Przekazana ankieta nie mo¿e byæ nullem " +
-                "- próba dodania ankiety do bazy danych");
+        if(survey == null) throw new NullPointerException("Przekazana ankieta nie moÅ¼e byÄ‡ nullem " +
+                "- prÃ³ba dodania ankiety do bazy danych");
         String id =  super.addNewSurveyTemplate(survey);
         super.setSurveyStatus(survey, SurveyHandler.IN_PROGRESS);
 

@@ -29,7 +29,7 @@ public class AnsweringSurveyDBAdapter {
 
     public AnsweringSurveyDBAdapter open(){
         dbHelper = new DatabaseHelper(context);
-        Log.d("Otwieram", "Otwieram po³¹czenie z baz¹!");
+        Log.d("Otwieram", "Otwieram poÅ‚Ä…czenie z bazÄ…!");
         try {
             db = dbHelper.getWritableDatabase();
         }

@@ -57,11 +57,11 @@ public class ApplicationState {
    public boolean prepareSurveyHandler(List<Survey> surveys){
        if(instance == null) return false;
        if(surveys == null) {
-           surveyHandler = new SurveyHandlerMobile(context, preferences.    //jeœli nie przekazano listy szablonów
+           surveyHandler = new SurveyHandlerMobile(context, preferences.    //jeÅ›li nie przekazano listy szablonÃ³w
                                                                         //pobierz wszystkie
                    getLastAddedSurveyTemplateNumber());
        }
-       else{                                                      //jeœli przekazano listê szablonów
+       else{                                                      //jeÅ›li przekazano listÄ™ szablonÃ³w
            surveyHandler = new SurveyHandlerMobile(context, preferences.
                    getLastAddedSurveyTemplateNumber(), surveys);
        }

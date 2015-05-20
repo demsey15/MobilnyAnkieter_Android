@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="red">#B7B6B8</color>
+    <color name="red">#ECE5EC</color>
     <color name="light_blue">#33B5E5</color>
     <color name="x_light_blue">#c5eaf8</color>
     <color name="xx_light_blue">#c5eaf8</color>
@@ -13,12 +13,12 @@
     <color name="oliwkowy">	#3a3a3a</color>
     <color name="black">#FEFEFE</color>
     <color name="hint_color">#BC8B00</color>
-    <color name="end_filling_button_color">#0A125B</color>
-    <color name="end_filling_button_text">#844B00</color>
+    <color name="end_filling_button_color">#726A76</color>
+    <color name="end_filling_button_text">#E5E5E6</color>
     <color name="login_color_text">#E2A42A</color>
     <color name="login_color_hint">#AA9C85</color>
-    <color name="button_color">#A5A19A</color>
-    <color name="inactive_button_color">#EBEAE5</color>
+    <color name="button_color">#EBEAE5</color>
+    <color name="inactive_button_color">#A5A19A</color>
     <color name="during_sending_button">#EFC600</color>
     <color name="sent_button">#00B917</color>
     <color name="cant_send_button">#EF1C00</color>

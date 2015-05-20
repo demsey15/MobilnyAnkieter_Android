@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/application/ApplicationState.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/application/DateAndTimeService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/application/NetworkIssuesControl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/application/ServerFacadeMobile.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/application/SurveyHandlerMobile.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/application/SurveysRepositoryMobile.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/application/UsersPreferences.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/EditChoiceQuestion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/EditDateTimeQuestion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/EditGridQuestion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/EditTextQuestion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/GenerateId.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/MainActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/NumberConstraintsFragment.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/QuestionsAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/TextConstraintsFragment.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/creatingAndEditingSurvey/create_new_survey.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/dataBase/AnsweringSurveyDBAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/dataBase/DataBaseAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/dataBase/DatabaseHelper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/dataBase/InterviewerDBAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/fillingSurvey/ChooseSurveyAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/fillingSurvey/ChooseSurveyToFillActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/sendingSurvey/SendSurveysTemplateActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/bohonos/demski/mieldzioc/sendingSurvey/SendingNotSentSurveyAdapter.java" charset="UTF-8" />
   </component>
 </project>

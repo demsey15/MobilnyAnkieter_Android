@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 public class DateAndTimeService {
 
     /**
-     * Je¿eli liczba jest jednocyfrowa dodaje wiod¹ce zero przed ni¹
+     * JeÅ¼eli liczba jest jednocyfrowa dodaje wiodÄ…ce zero przed niÄ…
      *
      * @param liczba
      * @return
@@ -27,7 +27,7 @@ public class DateAndTimeService {
     }
 
     /**
-     * @return zwraca obecn¹ datê i godzinê w postaci:  "YYYY-MM-DD HH:MM:SS.SSS"
+     * @return zwraca obecnÄ… datÄ™ i godzinÄ™ w postaci:  "YYYY-MM-DD HH:MM:SS.SSS"
      */
     public static String getToday() {
         GregorianCalendar today = new GregorianCalendar();
@@ -42,7 +42,7 @@ public class DateAndTimeService {
 
     /**
      * @param date data do konwersji
-     * @return zwraca zadan¹ datê i godzinê w postaci:  "YYYY-MM-DD HH:MM:SS.SSS"
+     * @return zwraca zadanÄ… datÄ™ i godzinÄ™ w postaci:  "YYYY-MM-DD HH:MM:SS.SSS"
      */
     public static String getDateAsDBString(GregorianCalendar date) {
         return date.get(GregorianCalendar.YEAR) + "-" +
@@ -57,7 +57,7 @@ public class DateAndTimeService {
     /**
      * Zwraca obiekt GregorianCalendar z zadanego stringa.
      * @param date data w formacie "yyyy-mm-dd hh:mm:ss".
-     * @return obiekt GregorianCalendar lub null, jeœli podano b³êdny format.
+     * @return obiekt GregorianCalendar lub null, jeÅ›li podano bÅ‚Ä™dny format.
      */
     public static GregorianCalendar getDateFromString(String date) {
         try {

@@ -53,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_SUMMARY = "Summary";
     public static final String SUMMARY_OPTIONS = "TEXT";
     public static final int SUMMARY_COLUMN = 8;
-    public static final String KEY_SENT = "Sent";  //czy wys≥ana na serwer
+    public static final String KEY_SENT = "Sent";  //czy wys≈Çana na serwer
     public static final String SENT_OPTIONS = "INT NOT NULL CHECK(" + KEY_SENT + " IN(0, 1))";
     public static final int SENT_COLUMN = 9;
 
@@ -258,12 +258,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int REGEX_COLUMN_TCDB = 5;
 
 
-    public static final String ANSWERS_TABLE = "Answers";  //do wype≥nionych ankiet
+    public static final String ANSWERS_TABLE = "Answers";  //do wype≈Çnionych ankiet
 
     public static final String KEY_SURVEY_SADB = "Survey";
     public static final String SURVEY_OPTIONS_SADB = "TEXT NOT NULL";
     public static final int SURVEY_COLUMN_SADB  = 0;
-    public static final String KEY_NO_FILLED_SURVEY_SADB = "Filled_survey_number"; //numer wype≥nionej ankiety
+    public static final String KEY_NO_FILLED_SURVEY_SADB = "Filled_survey_number"; //numer wype≈Çnionej ankiety
     public static final String NO_FILLED_SURVEY_OPTIONS_SADB = "INT NOT NULL";
     public static final int NO_FILLED_COLUMN_SADB = 1;
     public static final String KEY_ANSWER_NUMBER_SADB = "Answer_number"; //numer odpowiedzi w danym pytaniu
@@ -282,7 +282,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_SURVEY_FSDB = "Survey";
     public static final String SURVEY_OPTIONS_FSDB = "TEXT NOT NULL";
     public static final int SURVEY_COLUMN_FSDB  = 0;
-    public static final String KEY_NO_FILLED_SURVEY_FSDB = "Filled_survey_number"; //numer wype≥nionej ankiety
+    public static final String KEY_NO_FILLED_SURVEY_FSDB = "Filled_survey_number"; //numer wype≈Çnionej ankiety
     public static final String NO_FILLED_OPTIONS_FSDB = "INT NOT NULL";
     public static final int NO_FILLED_COLUMN_FSDB = 1;
     public static final String KEY_INTERVIEWER_FSDB = "Interviewer";

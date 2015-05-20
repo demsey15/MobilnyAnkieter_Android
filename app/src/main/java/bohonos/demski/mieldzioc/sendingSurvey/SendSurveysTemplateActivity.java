@@ -44,11 +44,6 @@ public class SendSurveysTemplateActivity extends ActionBarActivity {
                     @Override
                     protected Integer doInBackground(Survey... params) {
                         publishProgress();
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         NetworkIssuesControl control = new NetworkIssuesControl(getApplicationContext());
                         return control.sendSurveyTemplate(params[0]);
                     }

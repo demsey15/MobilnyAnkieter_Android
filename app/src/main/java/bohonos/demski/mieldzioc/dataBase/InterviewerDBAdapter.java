@@ -30,7 +30,7 @@ public class InterviewerDBAdapter {
 
     public InterviewerDBAdapter open(){
         dbHelper = new DatabaseHelper(context);
-        Log.d("Otwieram", "Otwieram po³¹czenie z baz¹!");
+        Log.d("Otwieram", "Otwieram poÅ‚Ä…czenie z bazÄ…!");
         try {
             db = dbHelper.getWritableDatabase();
         }
@@ -75,7 +75,7 @@ public class InterviewerDBAdapter {
     }
 
     /**
-     * Zwraca ankietera albo null, jeœli nie ma w bazie takiego ankietera.
+     * Zwraca ankietera albo null, jeÅ›li nie ma w bazie takiego ankietera.
      * @param id
      * @return
      */
@@ -99,7 +99,7 @@ public class InterviewerDBAdapter {
     }
 
     /**
-     * Sprawdza has³o dla danego ankietera, false, jeœli nie ma ankietera w bazie.
+     * Sprawdza hasÅ‚o dla danego ankietera, false, jeÅ›li nie ma ankietera w bazie.
      * @param id
      * @param password
      * @return
@@ -140,8 +140,8 @@ public class InterviewerDBAdapter {
     }
 
     /**
-     * Pobierz id szablonów ankiet, które mo¿e wype³niaæ dany ankieter. Nie trzeba otwieraæ i zamykaæ
-     * po³¹czenia.
+     * Pobierz id szablonÃ³w ankiet, ktÃ³re moÅ¼e wypeÅ‚niaÄ‡ dany ankieter. Nie trzeba otwieraÄ‡ i zamykaÄ‡
+     * poÅ‚Ä…czenia.
      * @param interviewer
      * @return
      */

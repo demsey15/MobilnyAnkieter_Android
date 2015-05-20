@@ -45,12 +45,12 @@ public class DataBaseAdapter {
     }
 
     /**
-     * Tê metodê wywo³aæ przed wszystkimi innymi.
+     * TÄ™ metodÄ™ wywoÅ‚aÄ‡ przed wszystkimi innymi.
      * @return
      */
     public DataBaseAdapter open(){
         dbHelper = new DatabaseHelper(context);
-        Log.d("Otwieram", "Otwieram po³¹czenie z baz¹!");
+        Log.d("Otwieram", "Otwieram poÅ‚Ä…czenie z bazÄ…!");
             db = dbHelper.getWritableDatabase();
         return this;
     }
@@ -66,10 +66,10 @@ public class DataBaseAdapter {
         return cursor.moveToFirst();
     }
     /**
-     * Dodaj ankietê do bazy danych.
-     * Metoda sama dba o otwarcie i zamkniêcie po³¹czenia z baz¹ danych.
+     * Dodaj ankietÄ™ do bazy danych.
+     * Metoda sama dba o otwarcie i zamkniÄ™cie poÅ‚Ä…czenia z bazÄ… danych.
      * @param survey ankieta do dodania.
-     * @param isSent czy ankieta zosta³a wys³ana ju¿ na serwer.
+     * @param isSent czy ankieta zostaÅ‚a wysÅ‚ana juÅ¼ na serwer.
      * @return
      */
     public boolean addSurveyTemplate(Survey survey, int status, boolean isSent){
@@ -142,8 +142,8 @@ public class DataBaseAdapter {
             }
         }
         close();
-        Log.d(DEBUG_TAG, "Dodano ankietê do bazy danych; id: " + survey.getIdOfSurveys() +
-                ", tytu³: " + survey.getTitle());
+        Log.d(DEBUG_TAG, "Dodano ankietÄ™ do bazy danych; id: " + survey.getIdOfSurveys() +
+                ", tytuÅ‚: " + survey.getTitle());
         return true;
     }
 
@@ -285,12 +285,12 @@ public class DataBaseAdapter {
             survey.setIdOfSurveys(idOfSurveys);
             survey.setSummary(cursor.getString(3));
             survey.setTitle((cursor.getString(1) == null) ? "" : cursor.getString(1));
-            String interviewerId = cursor.getString(0);     //spróbuj pobraæ ankietera
+            String interviewerId = cursor.getString(0);     //sprÃ³buj pobraÄ‡ ankietera
             Cursor cursorInterviewer = db.query(DatabaseHelper.INTERVIEWERS_TABLE, new String[]
                             {DatabaseHelper.KEY_CAN_CREATE_IDB},
                     DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = '" + interviewerId  + "' ",
                     null, null, null, null);
-            if (cursorInterviewer.moveToFirst()) {        //jeœli mam takiego interveiwera w bazie, to
+            if (cursorInterviewer.moveToFirst()) {        //jeÅ›li mam takiego interveiwera w bazie, to
                 //dodaj go do ankiety, jesli nie, to nie
                 Interviewer interviewer = new Interviewer(null, null, interviewerId, null);
                 interviewer.setInterviewerPrivileges((cursorInterviewer.getInt(0) == 0) ? false : true);
@@ -386,7 +386,7 @@ public class DataBaseAdapter {
         return questions;
     }
     /**
-     * Zwraca listê odpowiedzi dla danego szablonu ankiety.
+     * Zwraca listÄ™ odpowiedzi dla danego szablonu ankiety.
      * @param idOfSurveys id szablonu.
      * @param questionNumber numer pytania (cyfra).
      * @return Lista odpowiedzi.
@@ -431,7 +431,7 @@ public class DataBaseAdapter {
      * Zwraca ograniczenia liczbowe dla zadanego pytania.
      * @param idOfSurveys
      * @param questionNumber
-     * @return null, jesli nie ma ograniczeñ tekstowych.
+     * @return null, jesli nie ma ograniczeÅ„ tekstowych.
      */
     public NumberConstraint getNumberConstraints(String idOfSurveys, int questionNumber){
         String questionNo = idOfSurveys + questionNumber;
@@ -453,7 +453,7 @@ public class DataBaseAdapter {
      * Zwraca ograniczenia liczbowe dla zadanego pytania.
      * @param idOfSurveys
      * @param questionNumber
-     * @return null, jesli nie ma ograniczeñ tekstowych.
+     * @return null, jesli nie ma ograniczeÅ„ tekstowych.
      */
     public TextConstraint getTextConstraints(String idOfSurveys, int questionNumber){
         String questionNo = idOfSurveys + questionNumber;
@@ -477,11 +477,11 @@ public class DataBaseAdapter {
     }
 
     /**
-     * Zwraca ScaleQuestions z uzupe³nionymi tylko polami dotycz¹cymi rodzaju odpowiedzi (bez treœci
-     * pytania na przyk³ad!).
+     * Zwraca ScaleQuestions z uzupeÅ‚nionymi tylko polami dotyczÄ…cymi rodzaju odpowiedzi (bez treÅ›ci
+     * pytania na przykÅ‚ad!).
      * @param idOfSurveys
      * @param questionNumber
-     * @return null, jeœli nie ma takiego pytania.
+     * @return null, jeÅ›li nie ma takiego pytania.
      */
     public ScaleQuestion getScaleAnswers(String idOfSurveys, int questionNumber){
         String questionNo = idOfSurveys + questionNumber;
@@ -516,7 +516,7 @@ public class DataBaseAdapter {
     }
 
     /**
-     * Zwraca listê szablonów ankiet stworzonych przez ankietera, niewys³anych jeszcze na serwer.
+     * Zwraca listÄ™ szablonÃ³w ankiet stworzonych przez ankietera, niewysÅ‚anych jeszcze na serwer.
      * Nie zwraca null.
      * @param interviewer
      * @return
