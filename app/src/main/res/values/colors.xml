@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="red">#CC0000</color>
+    <color name="red">#B7B6B8</color>
     <color name="light_blue">#33B5E5</color>
     <color name="x_light_blue">#c5eaf8</color>
     <color name="xx_light_blue">#c5eaf8</color>
@@ -10,9 +10,9 @@
     <color name="pomaranczowy">#ff9900</color>
     <color name="silver">#d2d2d2</color>
     <color name="xs_black">#3a3a3a</color>
-    <color name="oliwkowy">	#B15500</color>
-    <color name="black">#35311D</color>
-    <color name="hint_color">#615F30</color>
+    <color name="oliwkowy">	#3a3a3a</color>
+    <color name="black">#FEFEFE</color>
+    <color name="hint_color">#BC8B00</color>
     <color name="end_filling_button_color">#0A125B</color>
     <color name="end_filling_button_text">#844B00</color>
     <color name="login_color_text">#E2A42A</color>

@@ -32,7 +32,7 @@
         android:background="@color/button_color"
         android:layout_below="@+id/fill_survey_button"
         android:layout_marginTop="40dp"
-        android:text="@string/fill_survey_button"/>
+        android:text="Wyślij \nszablony"/>
 
 </RelativeLayout>
 </RelativeLayout>

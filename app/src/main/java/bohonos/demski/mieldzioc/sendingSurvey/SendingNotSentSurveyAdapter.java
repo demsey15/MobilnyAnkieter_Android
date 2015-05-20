@@ -1,6 +1,7 @@
 package bohonos.demski.mieldzioc.sendingSurvey;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class SendingNotSentSurveyAdapter extends BaseAdapter{
         DataBaseAdapter dataBaseAdapter = new DataBaseAdapter(context);
         surveys = dataBaseAdapter.getNotSentSurveysTemplateCreatedByInterviewer
                 (ApplicationState.getInstance(context).getLoggedInterviewer());
+        Log.d("ADAPTER_WYSYLANIE", "Pobralem: " + surveys.size() + " ankiet");
     }
 
     @Override

@@ -61,7 +61,7 @@ public class DataBaseAdapter {
 
     public boolean ifSurveyTemplateInDB(String idOfSurveys){
         Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
-                {DatabaseHelper.KEY_ID}, DatabaseHelper.KEY_ID + " = " + idOfSurveys,
+                {DatabaseHelper.KEY_ID}, DatabaseHelper.KEY_ID + " = '" + idOfSurveys  + "' ",
                 null, null, null, null);
         return cursor.moveToFirst();
     }
@@ -80,7 +80,10 @@ public class DataBaseAdapter {
         ContentValues templateValues = new ContentValues();
         templateValues.put(DatabaseHelper.KEY_ID, idOfSurveys);
         templateValues.put(DatabaseHelper.KEY_STATUS, status);
-        templateValues.put(DatabaseHelper.KEY_INTERVIEWER, survey.getInterviewer().getId());
+        Interviewer interviewer = survey.getInterviewer();
+        if(interviewer != null) {
+            templateValues.put(DatabaseHelper.KEY_INTERVIEWER, interviewer.getId());
+        }
         templateValues.put(DatabaseHelper.KEY_CREATED_DATE, DateAndTimeService.getToday());
         templateValues.put(DatabaseHelper.KEY_MODIFICATION_DATE, DateAndTimeService.getToday());
         templateValues.put(DatabaseHelper.KEY_MODIFIED_BY, ApplicationState.getInstance(context).
@@ -257,11 +260,12 @@ public class DataBaseAdapter {
      * @return null jesli nie ma ankiety o takim id.
      */
     public Survey getSurveyTemplate(String idOfSurveys){
+        open();
         Survey survey = null;
         Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]{
                 DatabaseHelper.KEY_INTERVIEWER, DatabaseHelper.KEY_TITLE,
                 DatabaseHelper.KEY_DESCRIPTION, DatabaseHelper.KEY_SUMMARY}, DatabaseHelper.KEY_ID +
-                " = " + idOfSurveys, null, null, null, null);
+                " = '" + idOfSurveys + "'", null, null, null, null);
         if(cursor.moveToFirst()) {
             survey = new Survey(null);
             survey.setDescription(cursor.getString(2));
@@ -271,7 +275,7 @@ public class DataBaseAdapter {
             String interviewerId = cursor.getString(0);     //spróbuj pobraæ ankietera
             Cursor cursorInterviewer = db.query(DatabaseHelper.INTERVIEWERS_TABLE, new String[]
                             {DatabaseHelper.KEY_CAN_CREATE_IDB},
-                    DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = " + interviewerId,
+                    DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = '" + interviewerId  + "' ",
                     null, null, null, null);
             if (cursorInterviewer.moveToFirst()) {        //jeœli mam takiego interveiwera w bazie, to
                 //dodaj go do ankiety, jesli nie, to nie
@@ -283,6 +287,7 @@ public class DataBaseAdapter {
                 survey.addQuestion(question);
             }
         }
+        close();
         return survey;
     }
 
@@ -291,8 +296,8 @@ public class DataBaseAdapter {
                         DatabaseHelper.KEY_OBLIGATORY_QDB, DatabaseHelper.KEY_HINT_QDB,
                         DatabaseHelper.KEY_ERROR_QDB, DatabaseHelper.KEY_URL_QDB,
                         DatabaseHelper.KEY_TYPE_QDB, DatabaseHelper.KEY_QUESTION_QDB
-                        }, DatabaseHelper.KEY_ID_SURVEY_QDB + " = "
-                        + idOfSurveys, null, null, null,
+                        }, DatabaseHelper.KEY_ID_SURVEY_QDB + " = '"
+                        + idOfSurveys + "' ", null, null, null,
                         DatabaseHelper.KEY_QUESTION_NUMBER_QDB + " ASC");
         int i = 0;
         List<Question> questions = new ArrayList<>();
@@ -488,12 +493,13 @@ public class DataBaseAdapter {
     public int getSurveyStatus(String idOfSurveys){
         open();
         Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
-                        {DatabaseHelper.KEY_STATUS}, DatabaseHelper.KEY_ID + " = " + idOfSurveys,
+                        {DatabaseHelper.KEY_STATUS}, DatabaseHelper.KEY_ID + " = '" + idOfSurveys + "' ",
                         null, null, null, null);
-        close();
+        int toReturn = -2;
         if(cursor.moveToFirst())
-            return cursor.getInt(0);
-        else return -2;
+            toReturn =  cursor.getInt(0);
+        close();
+        return toReturn;
     }
 
     /**
@@ -506,11 +512,12 @@ public class DataBaseAdapter {
         List<Survey> list = new ArrayList<>();
         open();
         Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
-                {DatabaseHelper.KEY_ID}, DatabaseHelper.KEY_INTERVIEWER + " = " + interviewer.getId()
-                + " AND " + DatabaseHelper.KEY_SENT + " = " + 1 + " AND " + DatabaseHelper.KEY_STATUS
+                {DatabaseHelper.KEY_ID}, DatabaseHelper.KEY_INTERVIEWER + " = '" + interviewer.getId()
+                + "' AND " + DatabaseHelper.KEY_SENT + " = " + 0 + " AND " + DatabaseHelper.KEY_STATUS
                 + " = " + SurveyHandler.IN_PROGRESS,
                 null, null, null, null);
         while(cursor.moveToNext()){
+            Log.d("WYSYLANIE_BAZA", "Pobieram ankiete do wyslania o id: " + cursor.getString(0));
             Survey survey = getSurveyTemplate(cursor.getString(0));
             if(survey != null)
                 list.add(survey);
@@ -523,8 +530,29 @@ public class DataBaseAdapter {
         open();
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.KEY_SENT, (isSent)? 1 : 0);
-        db.update(DatabaseHelper.SURVEY_TEMPLATE_TABLE, values, DatabaseHelper.KEY_ID + " = " +
-                survey.getIdOfSurveys(), null);
+        db.update(DatabaseHelper.SURVEY_TEMPLATE_TABLE, values, DatabaseHelper.KEY_ID + " = '" +
+                survey.getIdOfSurveys() + "' ", null);
+        close();
+    }
+
+    public void deleteSurveyTemplate(String surveyId){
+        open();
+        db.delete(DatabaseHelper.TEXT_CONSTRAINTS_TABLE, DatabaseHelper.KEY_SURVEY_TCDB + " = '" +
+                surveyId + "' ", null);
+        db.delete(DatabaseHelper.NUMBER_CONSTRAINTS_TABLE, DatabaseHelper.KEY_SURVEY_NCDB + " = '" +
+                surveyId  + "' ", null);
+        db.delete(DatabaseHelper.GRID_ROW_ANSWERS_TABLE, DatabaseHelper.KEY_SURVEY_GRDB + " = '" +
+                surveyId  + "' ", null);
+        db.delete(DatabaseHelper.GRID_COLUMN_ANSWERS_TABLE, DatabaseHelper.KEY_SURVEY_GCDB + " = '" +
+                surveyId  + "' ", null);
+        db.delete(DatabaseHelper.SCALE_ANSWERS_TABLE, DatabaseHelper.KEY_SURVEY_SCDB + " = '" +
+                surveyId  + "' ", null);
+        db.delete(DatabaseHelper.CHOICE_ANSWERS_TABLE, DatabaseHelper.KEY_SURVEY_CHADB + " = '" +
+                surveyId  + "' ", null);
+        db.delete(DatabaseHelper.QUESTIONS_TABLE, DatabaseHelper.KEY_ID_SURVEY_QDB + " = '" +
+                surveyId  + "' ", null);
+        db.delete(DatabaseHelper.SURVEY_TEMPLATE_TABLE, DatabaseHelper.KEY_ID + " = '" +
+                surveyId  + "' ", null);
         close();
     }
 }

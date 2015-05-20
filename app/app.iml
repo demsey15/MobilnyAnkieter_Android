@@ -86,6 +86,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform (1)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-drive-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="controls" level="project" />
@@ -98,12 +99,14 @@
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="network" level="project" />
     <orderEntry type="library" exported="" name="play-services-plus-7.0.0" level="project" />
+    <orderEntry type="library" exported="" name="cloning-1.9.1" level="project" />
     <orderEntry type="library" exported="" name="common" level="project" />
     <orderEntry type="library" exported="" name="play-services-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-location-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-7.0.0" level="project" />
+    <orderEntry type="library" exported="" name="objenesis-2.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-safetynet-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="interviewer" level="project" />
     <orderEntry type="library" exported="" name="question" level="project" />

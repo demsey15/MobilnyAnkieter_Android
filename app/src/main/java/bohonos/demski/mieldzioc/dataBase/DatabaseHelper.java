@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 11;
+    private static final int DB_VERSION = 12;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -258,11 +258,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int REGEX_COLUMN_TCDB = 5;
 
 
-    public static final String ANSWERS_TABLE = "Answers";
+    public static final String ANSWERS_TABLE = "Answers";  //do wype³nionych ankiet
 
     public static final String KEY_SURVEY_SADB = "Survey";
-    public static final String SURVEY_OPTIONS_SADB = "TEXT NOT NULL REFERENCES " +
-            SURVEY_TEMPLATE_TABLE;
+    public static final String SURVEY_OPTIONS_SADB = "TEXT NOT NULL";
     public static final int SURVEY_COLUMN_SADB  = 0;
     public static final String KEY_NO_FILLED_SURVEY_SADB = "Filled_survey_number"; //numer wype³nionej ankiety
     public static final String NO_FILLED_SURVEY_OPTIONS_SADB = "INT NOT NULL";

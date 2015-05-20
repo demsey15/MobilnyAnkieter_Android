@@ -4,8 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +57,7 @@ public class NetworkIssuesControl {
                         interviewer = new Interviewer("", "", usersId, new GregorianCalendar());
                         interviewer.setInterviewerPrivileges(false);
                         db.addInterviewer(interviewer, passwordToSave); //dodaj ankietera do bazy danych
-                                                                    // z brakiem uprawnieñ
+                                                                    // z brakiem uprawnieÅ„
                                                                     //do tworzenia ankiet
                     }
                     else{
@@ -83,68 +85,68 @@ public class NetworkIssuesControl {
         }
 
     /**
-     * Uzgadnia z serwerem uprawnienia u¿ytkownika do tworzenia ankiet. Jeœli oka¿e siê, ¿e nie ma
-     * ju¿ takiego u¿ytkownika w serwerze (albo zosta³ zwolniony), usuwa u¿ytkownika z bazy danych
-     * komórki i zwraca BAD_PASSWORD
+     * Uzgadnia z serwerem uprawnienia uÅ¼ytkownika do tworzenia ankiet. JeÅ›li okaÅ¼e siÄ™, Å¼e nie ma
+     * juÅ¼ takiego uÅ¼ytkownika w serwerze (albo zostaÅ‚ zwolniony), usuwa uÅ¼ytkownika z bazy danych
+     * komÃ³rki i zwraca BAD_PASSWORD
      * @param interviewerId
      * @return BAD_PASSWORD, UNKNOWN_ERROR_CONNECTION, REQUEST_OUT_OF_TIME, NO_NETWORK_CONNECTION,
-     * 1 - jeœli ankieter mo¿e tworzyæ ankiety, 0, jeœli nie.
+     * 1 - jeÅ›li ankieter moÅ¼e tworzyÄ‡ ankiety, 0, jeÅ›li nie.
      */
     public int updateInterviewerCanCreate(String interviewerId){
         if(isNetworkAvailable()){
             try {
                 int result = serverFacadeMobile.getInterviewerCreatingPrivileges(interviewerId, interviewerId,
                         ApplicationState.getInstance(context).getPassword());
-                if(result == ServerConnectionFacade.BAD_PASSWORD){ //nie ma takiego u¿ytkownika, albo jest zwolniony
+                if(result == ServerConnectionFacade.BAD_PASSWORD){ //nie ma takiego uÅ¼ytkownika, albo jest zwolniony
                     InterviewerDBAdapter db = new InterviewerDBAdapter(context);
                     db.deleteInterviewer(interviewerId);
                     return ServerConnectionFacade.BAD_PASSWORD;
                 }
                 else if(result == 0 || result == 1){
                     InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-                    db.setInterviewerCreatingPrivileges(interviewerId, result == 1);    //ustaw wartoœæ w bazie danych
-                    ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoœæ w stanie u¿ytkownika
+                    db.setInterviewerCreatingPrivileges(interviewerId, result == 1);    //ustaw wartoÅ›Ä‡ w bazie danych
+                    ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoÅ›Ä‡ w stanie uÅ¼ytkownika
                             setInterviewerPrivileges(result == 1);
                     return result;
                 }
             } catch (InterruptedException e) {
                 InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoœæ w bazie danych
-                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoœæ w stanie u¿ytkownika
+                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoÅ›Ä‡ w bazie danych
+                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoÅ›Ä‡ w stanie uÅ¼ytkownika
                         setInterviewerPrivileges(false);
                 return UNKNOWN_ERROR_CONNECTION;
             } catch (ExecutionException e) {
                 InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoœæ w bazie danych
-                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoœæ w stanie u¿ytkownika
+                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoÅ›Ä‡ w bazie danych
+                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoÅ›Ä‡ w stanie uÅ¼ytkownika
                         setInterviewerPrivileges(false);
                 return UNKNOWN_ERROR_CONNECTION;
             } catch (TimeoutException e) {
                 InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoœæ w bazie danych
-                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoœæ w stanie u¿ytkownika
+                db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoÅ›Ä‡ w bazie danych
+                ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoÅ›Ä‡ w stanie uÅ¼ytkownika
                         setInterviewerPrivileges(false);
                 return REQUEST_OUT_OF_TIME;
             }
         }
         else{
             InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-            db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoœæ w bazie danych
-            ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoœæ w stanie u¿ytkownika
+            db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoÅ›Ä‡ w bazie danych
+            ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoÅ›Ä‡ w stanie uÅ¼ytkownika
                     setInterviewerPrivileges(false);
             return NO_NETWORK_CONNECTION;
         }
         InterviewerDBAdapter db = new InterviewerDBAdapter(context);
-        db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoœæ w bazie danych
-        ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoœæ w stanie u¿ytkownika
+        db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartoÅ›Ä‡ w bazie danych
+        ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartoÅ›Ä‡ w stanie uÅ¼ytkownika
                 setInterviewerPrivileges(false);
         return UNKNOWN_ERROR_CONNECTION;
     }
 
     /**
-     * Wczytaj ankiety, które mo¿e wype³niaæ u¿ytkownik do SurveyHandlerMobile.
-     * Jeœli jest po³¹czenie z sieci¹, pobrane sa dane z serwera, jesli nie,
-     * u¿ywa sie ostatnio pobranych danych.
+     * Wczytaj ankiety, ktÃ³re moÅ¼e wypeÅ‚niaÄ‡ uÅ¼ytkownik do SurveyHandlerMobile.
+     * JeÅ›li jest poÅ‚Ä…czenie z sieciÄ…, pobrane sa dane z serwera, jesli nie,
+     * uÅ¼ywa sie ostatnio pobranych danych.
      * @return FIRST_LOG_IN, BAD_PASSWORD; //chyba zwolniono ankietera, UNKNOWN_ERROR_CONNECTION;
      * REQUEST_OUT_OF_TIME, OPERATION_OK, NO_NETWORK_CONNECTION
      */
@@ -163,20 +165,44 @@ public class NetworkIssuesControl {
                     return ServerConnectionFacade.BAD_PASSWORD; //chyba zwolniono ankietera.
                 }
                 else{
+                    Log.d("PREPARE SURVEYS", "POBRALEM ID ANKIET DO WYPELNIANIA: " + Arrays.toString(surveysId.toArray()));
                     dbInt.updateSurveysToFillingForInterviewer(interviewer, surveysId);
                     for(String survId : surveysId){
                         Survey survey = dataBaseAdapter.getSurveyTemplate(survId);
-                        if(survey == null){     //je¿eli szablonu nie ma w bazie danych
-                            if(isNetworkAvailable()){       //spróbuj go pobraæ
+                        if(survey == null){     //jeÅ¼eli szablonu nie ma w bazie danych
+                            Log.d("PREPARE SURVEYS", "SZABLONU " + survId + "  NIE MA W BAZIE - POBIERAM...");
+                            if(isNetworkAvailable()){       //sprÃ³buj go pobraÄ‡
                                 Survey s = facade.getSurveyTemplate(survId, interviewer.getId(),
                                         ApplicationState.getInstance(context).getPassword());
                                 if(s != null){
+                                    Log.d("PREPARE SURVEYS", "POBRANO ANKIETE: " + s.getTitle());
+                                    dataBaseAdapter.addSurveyTemplate(s, SurveyHandler.ACTIVE, true); //dodaj uaktualniony szablon
                                     surveys.add(s);
+                                }
+                                else{
+                                    Log.d("PREPARE SURVEYS", "NIE UDALO SIE POBRAC: " + survId + " = " + s);
                                 }
                             }
                         }
-                        else{
-                            surveys.add(survey);
+                        else{                       //jesli w bazie szablon jest jako niekatywny
+                            Log.d("PREPARE SURVEYS", "SZABLON " + survId + "  NIEAKTUALNY - POBIERAM...");
+                            if(dataBaseAdapter.getSurveyStatus(survId) != SurveyHandler.ACTIVE){
+                                if(isNetworkAvailable()){       //sprÃ³buj go pobraÄ‡
+                                    Survey s = facade.getSurveyTemplate(survId, interviewer.getId(),
+                                            ApplicationState.getInstance(context).getPassword());
+                                    if(s != null){
+                                        Log.d("PREPARE SURVEYS", "POBRANO ANKIETE: " + s.getTitle());
+                                        dataBaseAdapter.deleteSurveyTemplate(survId); //usuÅ„ stary szablon
+                                        dataBaseAdapter.addSurveyTemplate(s, SurveyHandler.ACTIVE, true); //dodaj uaktualniony szablon
+                                        surveys.add(s);     //dodaj nowy
+                                    }
+                                    else{
+                                        Log.d("PREPARE SURVEYS", "NIE UDALO SIE POBRAC: " + survId + " = " + s);
+                                    }
+                                }
+                            }
+                            else
+                                surveys.add(survey);
                         }
                     }
                     ApplicationState.getInstance(context).prepareSurveyHandler(surveys);
@@ -212,6 +238,10 @@ public class NetworkIssuesControl {
         else{
             return NO_NETWORK_CONNECTION;
         }
+    }
+
+    public int sendFilledSurveys(){
+        return 0;
     }
 
 

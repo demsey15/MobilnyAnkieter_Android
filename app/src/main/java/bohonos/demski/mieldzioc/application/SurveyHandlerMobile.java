@@ -1,6 +1,7 @@
 package bohonos.demski.mieldzioc.application;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +68,7 @@ public class SurveyHandlerMobile extends SurveyHandler {
         String id =  super.addNewSurveyTemplate(survey);
         super.setSurveyStatus(survey, SurveyHandler.IN_PROGRESS);
 
+        Log.d("DODANIE_SZABLONU_BAZA", String.valueOf(super.getSurveyStatus(survey.getIdOfSurveys())));
         if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()), false)) return null;
         ApplicationState.getInstance(context).saveLastAddedSurveyTemplateNumber(super.getMaxSurveysId());
         return id;

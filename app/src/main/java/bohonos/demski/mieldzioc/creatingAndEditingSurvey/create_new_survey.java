@@ -3,11 +3,14 @@ package bohonos.demski.mieldzioc.creatingAndEditingSurvey;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.rits.cloning.Cloner;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
@@ -20,8 +23,10 @@ public class create_new_survey extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_survey);
         final CreatingSurveyControl control = CreatingSurveyControl.getInstance();
-        control.createNewSurvey(ApplicationState.getInstance(getApplicationContext()).
+        Log.d("CREATE_SURVEY", "Ankiete tworzy: " + ApplicationState.getInstance(getApplicationContext()).
                 getLoggedInterviewer());
+        control.createNewSurvey((new Cloner()).deepClone(ApplicationState.getInstance(getApplicationContext()).
+                getLoggedInterviewer()));
 
         ImageButton button = (ImageButton) findViewById(R.id.add_questions_button);
         button.setOnClickListener(new View.OnClickListener() {

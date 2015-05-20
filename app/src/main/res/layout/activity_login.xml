@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:layout_below="@+id/linear_login"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/button_login"
         android:id="@+id/login_button"
         android:background="@color/button_color"/>

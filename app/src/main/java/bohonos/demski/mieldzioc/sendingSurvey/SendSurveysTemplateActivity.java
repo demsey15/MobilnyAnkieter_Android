@@ -3,12 +3,14 @@ package bohonos.demski.mieldzioc.sendingSurvey;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import bohonos.demski.mieldzioc.application.NetworkIssuesControl;
@@ -18,6 +20,7 @@ import bohonos.demski.mieldzioc.networkConnection.ServerConnectionFacade;
 import bohonos.demski.mieldzioc.survey.Survey;
 
 public class SendSurveysTemplateActivity extends ActionBarActivity {
+
 
 
     @Override
@@ -32,14 +35,20 @@ public class SendSurveysTemplateActivity extends ActionBarActivity {
         chooseSurvey.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Button button = (Button) view;
+                Log.d("Wybor ankiety to send", "Wybrano ankiete do przeslania");
+                final TextView button = (TextView) view;
+                Log.d("Wybor ankiety to send", "Wybrano ankiete do przeslania");
                 final Survey survey = (Survey) adapter.getItem(position);
-
-                AsyncTask<Survey, Void, Integer> asyncTask = (new AsyncTask<Survey, Void, Integer>() {
+                Log.d("Wybor ankiety to send", "Wybrano ankiete do przeslania");
+                (new AsyncTask<Survey, Void, Integer>() {
                     @Override
                     protected Integer doInBackground(Survey... params) {
-                        button.setBackgroundColor(getResources().getColor(R.color.during_sending_button));
-
+                        publishProgress();
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         NetworkIssuesControl control = new NetworkIssuesControl(getApplicationContext());
                         return control.sendSurveyTemplate(params[0]);
                     }
@@ -63,6 +72,11 @@ public class SendSurveysTemplateActivity extends ActionBarActivity {
                             button.setBackgroundColor(getResources().getColor(R.color.sent_button));
                         }
                         else button.setBackgroundColor(getResources().getColor(R.color.cant_send_button));
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(Void... values) {
+                        button.setBackgroundColor(getResources().getColor(R.color.during_sending_button));
                     }
                 }).execute(survey);
             }
