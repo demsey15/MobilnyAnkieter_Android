@@ -59,15 +59,15 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
             button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             button.setId(GenerateId.generateViewId());
-            button.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
+            button.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {  //po kliknięciu zmień kolor odpowiedzi na czarny
                     if (!chosenAnswer.isEmpty() && chosenAnswer.contains(v)) { //jeśli kliknięto na zaznaczoną już odpowiedź
-                        v.setBackgroundColor(getResources().getColor(R.color.pomaranczowy)); //odznacz ją
+                        v.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button)); //odznacz ją
                         chosenAnswer.remove(v);
                     } else {
-                        v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybraną odpowiedź
+                        v.setBackgroundColor(getResources().getColor(R.color.chosen_answer_button)); //zaznacz wybraną odpowiedź
                         chosenAnswer.add((Button) v);
                     }
                 }

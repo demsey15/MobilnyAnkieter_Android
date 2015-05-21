@@ -62,22 +62,22 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
             button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             button.setId(GenerateId.generateViewId());
-            button.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
+            button.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {  //po kliknięciu zmień kolor odpowiedzi na czarny (
                     // resztę na ponarańczowy)
                     if (chosenAnswer != null && chosenAnswer.getId() == ((Button) v).getId()) { //jeśli kliknięto na zaznaczoną już odpowiedź
-                        v.setBackgroundColor(getResources().getColor(R.color.pomaranczowy)); //odznacz ją
+                        v.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button)); //odznacz ją
                         Log.d("WYPELNIANIE_ANKIETY", "Odznaczam odpowiedz jednokrotnego wyboru");
                         chosenAnswer = null;
                     } else {
                         if (chosenAnswer != null) {     //jeżeli jakaś odpowiedź już jest zaznaczona,
                             for (Button butt : answers) {        //odznacz ją
-                                butt.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
+                                butt.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button));
                             }
                         }
-                        v.setBackgroundColor(getResources().getColor(R.color.black)); //zaznacz wybraną odpowiedź
+                        v.setBackgroundColor(getResources().getColor(R.color.chosen_answer_button)); //zaznacz wybraną odpowiedź
                         chosenAnswer = (Button) v;
                     }
                 }
@@ -184,7 +184,7 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
         AnsweringSurveyControl control = ApplicationState.
                 getInstance(AnswerOneChoiceQuestionActivity.this).getAnsweringSurveyControl();
         if(question.isObligatory()){
-            if(chosenAnswer != null){     //jeśli pytanie jest obowiązkowe i nic nie dodano
+            if(chosenAnswer == null){     //jeśli pytanie jest obowiązkowe i nic nie dodano
                 Toast.makeText(AnswerOneChoiceQuestionActivity.this,
                         "To pytanie jest obowiązkowe, podaj odpowiedź!", Toast.LENGTH_SHORT).show();
                 return false;

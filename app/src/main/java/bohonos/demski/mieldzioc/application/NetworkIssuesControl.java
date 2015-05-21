@@ -156,7 +156,7 @@ public class NetworkIssuesControl {
                                     Survey s = serverConnectionFacade.getSurveyTemplate(survId, interviewer.getId(),
                                             ApplicationState.getInstance(context).getPassword());
                                     if(s != null){
-                                        Log.d("PREPARE SURVEYS", "POBRANO ANKIETE: " + s.getTitle() + " pyt. 1: " + s.getQuestion(0).getQuestion());
+                                      //  Log.d("PREPARE SURVEYS", "POBRANO ANKIETE: " + s.getTitle() + " pyt. 1: " + s.getQuestion(0).getQuestion());
                                         dataBaseAdapter.deleteSurveyTemplate(survId); //usuń stary szablon
                                         dataBaseAdapter.addSurveyTemplate(s, SurveyHandler.ACTIVE, true); //dodaj uaktualniony szablon
                                         surveys.add(s);     //dodaj nowy
