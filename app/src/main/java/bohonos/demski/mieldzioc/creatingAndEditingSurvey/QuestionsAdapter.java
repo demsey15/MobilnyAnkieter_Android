@@ -13,6 +13,8 @@ import bohonos.demski.mieldzioc.questions.Question;
 
 /**
  * Created by Dominik Demski on 2015-04-09.
+ *
+ * Adapter listy pytañ podczas tworzenia nowej ankiety.
  */
 public class QuestionsAdapter extends BaseAdapter {
 
@@ -37,23 +39,7 @@ public class QuestionsAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-/*
-    private int getLayoutId(int position){
-        int questionType = control.getQuestionType(position);
-        if(questionType == Question.ONE_CHOICE_QUESTION || questionType == Question.DROP_DOWN_QUESTION
-            || questionType == Question.MULTIPLE_CHOICE_QUESTION)
-            return R.layout.create_new_choice_question;
-        else if(questionType == Question.DATE_QUESTION || questionType == Question.TIME_QUESTION)
-            return R.layout.create_date_time_question;
-        else if(questionType == Question.GRID_QUESTION)
-            return R.layout.create_new_grid_question;
-        else if(questionType == Question.SCALE_QUESTION)
-            return R.layout.create_new_scale_question;
-        else if(questionType == Question.TEXT_QUESTION)
-            return R.layout.create_new_text_question;
-        else return 0;
-    }
-    */
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

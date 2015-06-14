@@ -16,7 +16,9 @@ import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.questions.Question;
 
-
+/**
+ * Klasa odpowiedzialna za dodawanie pytań do ankiety (i edycji pytań podczas tworzenia).
+ */
 public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
         implements ChoosingQuestionType.OnQuestionTypeChosenListener {
 

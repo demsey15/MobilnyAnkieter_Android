@@ -22,7 +22,7 @@ import bohonos.demski.mieldzioc.survey.Survey;
 public class ServerFacadeMobile{
 
 
-    ServerConnectionFacade facade = new ServerConnectionFacade();
+    ServerConnectionFacade facade = new ServerConnectionFacade(NetworkIssuesControl.SERVER_IP);
 
 
     public boolean authenticate(String usersId, char[] password) throws TimeoutException,

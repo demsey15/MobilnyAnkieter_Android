@@ -14,6 +14,8 @@ import bohonos.demski.mieldzioc.survey.Survey;
 
 /**
  * Created by Dominik on 2015-05-09.
+ *
+ * Adapter zajmujący się odpowiedziami ankietowanych.
  */
 public class AnsweringSurveyDBAdapter {
 

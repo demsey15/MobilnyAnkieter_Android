@@ -28,7 +28,9 @@ import bohonos.demski.mieldzioc.networkConnection.ServerConnectionFacade;
 import bohonos.demski.mieldzioc.sendingSurvey.SendSurveysTemplateActivity;
 import bohonos.demski.mieldzioc.sendingSurvey.SendingNotSentSurveyAdapter;
 
-
+/**
+ * Aktywnoœæ z ró¿nymi akcjami do wyboru.
+ */
 public class MainActivity extends ActionBarActivity {
 
     @Override

@@ -29,8 +29,10 @@ public class NetworkIssuesControl {
     public static final int UNKNOWN_ERROR_CONNECTION = 102;
     public static final int FIRST_LOG_IN = 103;
 
+    public static String SERVER_IP = "192.168.1.2";
+
     private Context context;
-    private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade();
+    private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade(SERVER_IP);
 
     public NetworkIssuesControl(Context context) {
         this.context = context;

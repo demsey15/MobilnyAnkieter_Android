@@ -21,6 +21,8 @@ import bohonos.demski.mieldzioc.questions.TextQuestion;
  * to handle interaction events.
  * Use the {} factory method to
  * create an instance of this fragment.
+ *
+ * Fragment ustalaj¹cy ograniczenia tekstowe w pytaniu typu tekstowego.
  */
 public class NumberConstraintsFragment extends Fragment {
     private OnNumberFragmentInteractionListener mListener;

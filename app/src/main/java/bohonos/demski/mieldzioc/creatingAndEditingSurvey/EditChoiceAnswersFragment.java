@@ -17,6 +17,9 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * Use the {@link EditChoiceAnswersFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * Klasa odpowiadająca za listę pytań w tworzeniu odpowiedzi do pytań wyboru. (po kliknięciu na edittext
+ * dodaje kolejny z możliwą odpowiedzią).
  */
 public class EditChoiceAnswersFragment extends Fragment {
 

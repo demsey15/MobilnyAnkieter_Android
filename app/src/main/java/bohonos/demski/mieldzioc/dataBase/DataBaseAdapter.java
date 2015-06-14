@@ -29,6 +29,7 @@ import bohonos.demski.mieldzioc.survey.SurveyHandler;
 
 /**
  * Created by Dominik Demski on 2015-05-02.
+ * Adapter zajmujący się szablonami ankiet.
  */
 public class DataBaseAdapter {
 

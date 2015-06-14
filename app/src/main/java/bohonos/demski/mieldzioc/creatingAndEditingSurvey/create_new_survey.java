@@ -16,6 +16,9 @@ import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 
 
+/**
+ * Tworzenie nowej ankiety - podawanie tytu³y, opisu i tekstu po¿egnania.
+ */
 public class create_new_survey extends ActionBarActivity {
 
     @Override

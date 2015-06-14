@@ -57,7 +57,7 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+              //  FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 DatePickerFragment fragmentAnswer = DatePickerFragment.newInstance(answerTxt.getId());
                 // fragmentTransaction.add(R.id.answer_linear_date, fragmentAnswer);
                 fragmentAnswer.show(fragmentManager, "MOJ_PICKER");

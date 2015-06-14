@@ -1,17 +1,13 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.inputmethodservice.Keyboard;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -25,7 +21,6 @@ import bohonos.demski.mieldzioc.application.ApplicationState;
 import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.GenerateId;
 import bohonos.demski.mieldzioc.creatingAndEditingSurvey.R;
-import bohonos.demski.mieldzioc.myControls.ToggleButtonGroupTableLayout;
 import bohonos.demski.mieldzioc.questions.GridQuestion;
 import bohonos.demski.mieldzioc.questions.Question;
 

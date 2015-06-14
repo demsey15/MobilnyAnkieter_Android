@@ -11,6 +11,7 @@ import bohonos.demski.mieldzioc.questions.Question;
 
 /**
  * Created by Dominik on 2015-04-09.
+ * Dialog służący do wyboru typu pytania.
  */
 public class ChoosingQuestionType extends DialogFragment {
     private OnQuestionTypeChosenListener activityListener;

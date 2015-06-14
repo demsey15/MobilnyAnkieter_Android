@@ -52,7 +52,7 @@ public class Login extends ActionBarActivity {
                         (new AsyncTask<Object, Integer, Integer>() {
                             @Override
                             protected Integer doInBackground(Object... params) {        //zaloguj
-                                ServerConnectionFacade s = new ServerConnectionFacade();
+                                ServerConnectionFacade s = new ServerConnectionFacade(NetworkIssuesControl.SERVER_IP);
 
                                 publishProgress(1);
                                 char[] password = passw.toCharArray();
