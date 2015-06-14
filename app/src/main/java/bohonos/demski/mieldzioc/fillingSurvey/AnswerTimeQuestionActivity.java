@@ -2,6 +2,7 @@ package bohonos.demski.mieldzioc.fillingSurvey;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +33,9 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_time_question);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         Log.d("WYPELNIANIE_ANKIETY", "Time - otrzymalem pytanie nr: " + myQuestionNumber);

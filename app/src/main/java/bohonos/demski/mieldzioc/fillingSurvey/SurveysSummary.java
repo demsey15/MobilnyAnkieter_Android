@@ -1,6 +1,7 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,9 +20,12 @@ public class SurveysSummary extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_surveys_summary);
 
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         TextView summaryTxt = (TextView) findViewById(R.id.summary_text);
         String summary = getIntent().getStringExtra("SURVEY_SUMMARY");
-        if(summary != null && !summary.trim().equals(""))
+        if(summary != null && !summary.trim().equals("") && !summary.equals("null"))
             summaryTxt.setText(summary);
         else summaryTxt.setText("Dziękujemy za wypełnienie ankiety!");
 

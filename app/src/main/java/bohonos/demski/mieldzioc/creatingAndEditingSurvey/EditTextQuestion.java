@@ -3,6 +3,7 @@ package bohonos.demski.mieldzioc.creatingAndEditingSurvey;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,10 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
         Intent intent = getIntent();
         question = (Question) intent.getSerializableExtra("QUESTION");
         questionNumber = intent.getIntExtra("QUESTION_NUMBER", 0);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
 
         final EditText titleTxt = (EditText) findViewById(R.id.question_text);
         final EditText hintTxt = (EditText) findViewById(R.id.hint_text);
@@ -118,6 +123,8 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
                     else if(checked == R.id.number_radio){
                         Double maxValue = numberConstraintsFragment.getMaxValue();
                         Double minValue = numberConstraintsFragment.getMinValue();
+
+                        Log.d("NUMBER_CONSTRAINT", "" + minValue);
 
                         Double notEquals = numberConstraintsFragment.getNotEquals();
                         Boolean notBetween = numberConstraintsFragment.isNotBetween();

@@ -235,13 +235,21 @@ public class DataBaseAdapter {
         constraintsValues.put(DatabaseHelper.KEY_SURVEY_NCDB, surveyId);
         constraintsValues.put(DatabaseHelper.KEY_QUESTION_NCDB, questionNumber);
         constraintsValues.put(DatabaseHelper.KEY_ANSWER_NUMBER_NCDB, questionNumber);
-        constraintsValues.put(DatabaseHelper.KEY_MIN_VALUE_NCDB, constraint.getMinValue());
-        constraintsValues.put(DatabaseHelper.KEY_MAX_VALUE_NCDB, constraint.getMaxValue());
+
+        if(constraint.getMinValue() == null) constraintsValues.putNull(DatabaseHelper.KEY_MIN_VALUE_NCDB);
+            else constraintsValues.put(DatabaseHelper.KEY_MIN_VALUE_NCDB, constraint.getMinValue());
+
+        if(constraint.getMaxValue() == null) constraintsValues.putNull(DatabaseHelper.KEY_MAX_VALUE_NCDB);
+            else constraintsValues.put(DatabaseHelper.KEY_MAX_VALUE_NCDB, constraint.getMaxValue());
+
         constraintsValues.put(DatabaseHelper.KEY_MUST_BE_INTEGER_NCDB, constraint.isMustBeInteger());
-        constraintsValues.put(DatabaseHelper.KEY_NOT_EQUALS_NCDB, constraint.getNotEquals());
+
+        if(constraint.getNotEquals() == null) constraintsValues.putNull(DatabaseHelper.KEY_NOT_EQUALS_NCDB);
+            else constraintsValues.put(DatabaseHelper.KEY_NOT_EQUALS_NCDB, constraint.getNotEquals());
+
         constraintsValues.put(DatabaseHelper.KEY_NOT_BETWEEN_NCDB,
                 constraint.isNotBetweenMaxAndMinValue());
-        return db.insert(DatabaseHelper.NUMBER_CONSTRAINTS_TABLE, null, constraintsValues);
+        return db.insert(DatabaseHelper.NUMBER_CONSTRAINTS_TABLE, null , constraintsValues);
     }
 
     public long addTextConstraints(TextConstraint constraint, String surveyId,
@@ -250,10 +258,18 @@ public class DataBaseAdapter {
         constraintsValues.put(DatabaseHelper.KEY_SURVEY_TCDB, surveyId);
         constraintsValues.put(DatabaseHelper.KEY_QUESTION_TCDB, questionNumber);
         constraintsValues.put(DatabaseHelper.KEY_ANSWER_NUMBER_TCDB, questionNumber);
-        constraintsValues.put(DatabaseHelper.KEY_MIN_LENGTH_TCDB, constraint.getMinLength());
-        constraintsValues.put(DatabaseHelper.KEY_MAX_LENGTH_TCDB, constraint.getMaxLength());
+
+        if(constraint.getMaxLength() == null)
+            constraintsValues.putNull(DatabaseHelper.KEY_MAX_LENGTH_TCDB);
+        else constraintsValues.put(DatabaseHelper.KEY_MAX_LENGTH_TCDB, constraint.getMaxLength());
+
+        if(constraint.getMinLength() == null)
+            constraintsValues.putNull(DatabaseHelper.KEY_MIN_LENGTH_TCDB);
+        else constraintsValues.put(DatabaseHelper.KEY_MIN_LENGTH_TCDB, constraint.getMinLength());
+
         if(constraint.getRegex() != null)
             constraintsValues.put(DatabaseHelper.KEY_REGEX_TCDB, constraint.getRegex().pattern());
+        else constraintsValues.putNull(DatabaseHelper.KEY_REGEX_TCDB);
         return db.insert(DatabaseHelper.TEXT_CONSTRAINTS_TABLE, null, constraintsValues);
     }
 
@@ -443,8 +459,10 @@ public class DataBaseAdapter {
                 questionNo, null, null, null, null, null);
         NumberConstraint numberConstraint = null;
         if(cursor.moveToFirst()){
-            numberConstraint = new NumberConstraint(cursor.getDouble(0),
-                    cursor.getDouble(1), (cursor.getInt(4) == 0)? false : true, cursor.getDouble(3),
+            Log.d("DB_NUMBER_CONSTRAINT", "" + cursor.isNull(0));
+            numberConstraint = new NumberConstraint((cursor.isNull(0))? null : cursor.getDouble(0),
+                    (cursor.isNull(1))? null : cursor.getDouble(1),
+                    (cursor.getInt(4) == 0)? false : true, (cursor.isNull(3))? null : cursor.getDouble(3),
                     (cursor.getInt(2) == 0)? false : true);
         }
         return numberConstraint;
@@ -464,15 +482,16 @@ public class DataBaseAdapter {
                 questionNo, null, null, null, null, null);
         TextConstraint textConstraint = null;
         if(cursor.moveToFirst()){
-            Pattern pattern;
-            try{
-                pattern = Pattern.compile(cursor.getString(2));
+            Pattern pattern = null;
+            if(!cursor.isNull(2)) {
+                try {
+                    pattern = Pattern.compile(cursor.getString(2));
+                } catch (Exception e) {
+                    pattern = null;
+                }
             }
-            catch(Exception e){
-                pattern = null;
-            }
-            textConstraint = new TextConstraint(cursor.getInt(0),
-                    cursor.getInt(1), pattern);
+            textConstraint = new TextConstraint((cursor.isNull(0))? null : cursor.getInt(0),
+                    (cursor.isNull(1))? null : cursor.getInt(1), pattern);
         }
         return textConstraint;
     }

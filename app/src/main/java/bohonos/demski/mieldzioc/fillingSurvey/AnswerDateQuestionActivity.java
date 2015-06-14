@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +35,9 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_date_question);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         Log.d("WYPELNIANIE_ANKIETY", "Date - otrzymalem pytanie nr: " + myQuestionNumber);

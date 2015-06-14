@@ -1,6 +1,7 @@
 package bohonos.demski.mieldzioc.creatingAndEditingSurvey;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +26,9 @@ public class EditDateTimeQuestion extends ActionBarActivity {
         Intent intent = getIntent();
         question = (Question) intent.getSerializableExtra("QUESTION");
         questionNumber = intent.getIntExtra("QUESTION_NUMBER", 0);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         final EditText titleTxt = (EditText) findViewById(R.id.question_date_time_text);
         final EditText hintTxt = (EditText) findViewById(R.id.hint_date_time_text);

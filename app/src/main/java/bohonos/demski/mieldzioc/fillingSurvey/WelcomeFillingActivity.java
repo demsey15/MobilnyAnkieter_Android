@@ -1,6 +1,7 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,9 @@ public class WelcomeFillingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_filling);
 
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         String title = getIntent().getStringExtra("SURVEY_TITLE");
         String description = getIntent().getStringExtra("SURVEY_DESCRIPTION");
         summary = getIntent().getStringExtra("SURVEY_SUMMARY");
@@ -31,8 +35,10 @@ public class WelcomeFillingActivity extends ActionBarActivity {
         TextView titleTxt = (TextView) findViewById(R.id.welcome_survey_title);
         TextView descriptionTxt = (TextView) findViewById(R.id.welcome_survey_description);
         Log.d("WYPELNIANIE ANKIETY", "Wypełniam ankietę: " + title);
-        titleTxt.setText(title);
-        descriptionTxt.setText(description);
+        if(title != null) titleTxt.setText(title);
+        else titleTxt.setText("");
+
+        descriptionTxt.setText((description == null)? "" : description);
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.welcome_next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {

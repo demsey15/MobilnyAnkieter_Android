@@ -1,6 +1,7 @@
 package bohonos.demski.mieldzioc.fillingSurvey;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,6 +36,9 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_multiple_choice_question);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         question = answeringSurveyControl.getQuestion(myQuestionNumber);
