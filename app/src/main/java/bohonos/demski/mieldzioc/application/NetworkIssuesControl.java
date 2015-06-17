@@ -29,7 +29,7 @@ public class NetworkIssuesControl {
     public static final int UNKNOWN_ERROR_CONNECTION = 102;
     public static final int FIRST_LOG_IN = 103;
 
-    public static String SERVER_IP = "192.168.1.2";
+    public static String SERVER_IP = "150.254.79.29";
 
     private Context context;
     private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade(SERVER_IP);
@@ -201,7 +201,10 @@ public class NetworkIssuesControl {
     }
 
     public int sendFilledSurveys(){
-        return 0;
+        if(isNetworkAvailable()){
+            return 1;
+        }
+        else return NO_NETWORK_CONNECTION;
     }
 
 

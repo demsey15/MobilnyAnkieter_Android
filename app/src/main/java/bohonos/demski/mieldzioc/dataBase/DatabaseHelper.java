@@ -269,7 +269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_ANSWER_NUMBER_SADB = "Answer_number"; //numer odpowiedzi w danym pytaniu
     public static final String ANSWER_NUMBER_OPTIONS_SADB = "INT NOT NULL";
     public static final int ANSWER_NUMBER_COLUMN_SADB = 2;
-    public static final String KEY_QUESTION_NUMBER_SADB = "Question_number";
+    public static final String KEY_QUESTION_NUMBER_SADB = "Question_number"; // idOfSurveys + numer pytania
     public static final String QUESTION_NUMBER_OPTIONS_SADB = "TEXT NOT NULL  REFERENCES " +
              "QUESTIONS_TABLE";
     public static final int QUESTION_NUMBER_COLUMN_SADB = 3;

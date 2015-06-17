@@ -2,13 +2,16 @@ package bohonos.demski.mieldzioc.dataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bohonos.demski.mieldzioc.application.DateAndTimeService;
+import bohonos.demski.mieldzioc.interviewer.Interviewer;
 import bohonos.demski.mieldzioc.questions.Question;
 import bohonos.demski.mieldzioc.survey.Survey;
 
@@ -45,6 +48,48 @@ public class AnsweringSurveyDBAdapter {
         dbHelper.close();
     }
 
+    public List<Survey> getAnswersForInterviewer(Interviewer interviewer){
+        open();
+        Cursor cursor = db.query(DatabaseHelper.FILLED_SURVEYS_TABLE, new String[]
+                        {DatabaseHelper.KEY_SURVEY_FSDB, DatabaseHelper.KEY_NO_FILLED_SURVEY_FSDB,
+                                DatabaseHelper.KEY_FROM_DATE_FSDB,
+                        DatabaseHelper.KEY_TO_DATE_FSDB},
+                DatabaseHelper.KEY_INTERVIEWER_FSDB + " = " + interviewer.getId(),
+                null, null, null, null);
+        while(cursor.moveToNext()){
+            DataBaseAdapter db = new DataBaseAdapter(context);
+            Survey survey = db.getSurveyTemplate(cursor.getString(0));
+            if(survey != null){
+                survey.setInterviewer(interviewer);
+                for(int j = 0; j < survey.questionListSize(); j++){
+                    List<String> answers = getAnswers(cursor.getString(0), j); //pobierz odpowiedzi dla i-tego pytania
+                    Question question = survey.getQuestion(j);
+                    question.setUserAnswers(answers);
+                }
+                survey.setNumberOfSurvey(cursor.getInt(1));
+                //survey ustaw from i to
+            }
+
+        }
+    }
+
+
+    public List<String> getAnswers(String idOfSurveys, int questionNumber){
+        Cursor cursor = db.query(DatabaseHelper.ANSWERS_TABLE, new String[]
+                        {DatabaseHelper.KEY_ANSWER_SADB, DatabaseHelper.KEY_ANSWER_NUMBER_SADB},
+                DatabaseHelper.KEY_SURVEY_SADB + " = " + idOfSurveys + " AND " +
+                        DatabaseHelper.KEY_QUESTION_NUMBER_SADB + " = " + idOfSurveys + questionNumber
+                        , null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_SADB + " ASC");
+
+        List<String> answers = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            String answer = (cursor.isNull(0))? null : cursor.getString(0);
+            answers.add(answer);
+        }
+        return answers;
+    }
+
     public boolean addAnswers(Survey survey){
         open();
         ContentValues filledSurveyValues = new ContentValues();
@@ -63,12 +108,13 @@ public class AnsweringSurveyDBAdapter {
         for(int i = 0; i < survey.questionListSize(); i++) {
             Question question = survey.getQuestion(i);
             List<String> answers = question.getUserAnswersAsStringList();
-            if (answers.size() == 0) {
+            if (answers.size() == 0) {                              //brak odpowiedzi użytkownika
                 ContentValues answersValues = new ContentValues();
                 answersValues.put(DatabaseHelper.KEY_SURVEY_SADB, survey.getIdOfSurveys());
                 answersValues.put(DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB, survey.getNumberOfSurvey());
                 answersValues.put(DatabaseHelper.KEY_ANSWER_NUMBER_SADB, 0);
                 answersValues.put(DatabaseHelper.KEY_QUESTION_NUMBER_SADB, survey.getIdOfSurveys() + i);
+                answersValues.putNull(DatabaseHelper.KEY_ANSWER_SADB);  //jeśli nie ma odpowiedzi wstaw null
                 if(db.insert(DatabaseHelper.ANSWERS_TABLE, null, answersValues) == -1){
                     close();
                     return false;
