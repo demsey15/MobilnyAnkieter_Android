@@ -56,7 +56,7 @@ public class DateAndTimeService {
 
     /**
      * Zwraca obiekt GregorianCalendar z zadanego stringa.
-     * @param date data w formacie "yyyy-mm-dd hh:mm:ss".
+     * @param date data w formacie "dd-mm-yyyy hh:mm:ss".
      * @return obiekt GregorianCalendar lub null, jeśli podano błędny format.
      */
     public static GregorianCalendar getDateFromString(String date) {
@@ -67,6 +67,26 @@ public class DateAndTimeService {
             int hour = Integer.valueOf(date.substring(11, 13));
             int minute = Integer.valueOf(date.substring(14, 16));
             int second = Integer.valueOf(date.substring(17));
+            GregorianCalendar toReturn = new GregorianCalendar(year, month - 1, day, hour, minute, second);
+            return toReturn;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Zwraca obiekt GregorianCalendar z zadanego stringa.
+     * @param date data w formacie "yyyy-mm-dd hh:mm:ss".  (miesiąc od 1 do 12)
+     * @return obiekt GregorianCalendar lub null, jeśli podano błędny format.
+     */
+    public static GregorianCalendar getDateFromStringYYYYMMDDHHMMSS(String date) {
+        try {
+            int year = Integer.valueOf(date.substring(0, 4));
+            int month = Integer.valueOf(date.substring(5, 7));
+            int day = Integer.valueOf(date.substring(8, 10));
+            int hour = Integer.valueOf(date.substring(11, 13));
+            int minute = Integer.valueOf(date.substring(14, 16));
+            int second = Integer.valueOf(date.substring(17, 19));
             GregorianCalendar toReturn = new GregorianCalendar(year, month - 1, day, hour, minute, second);
             return toReturn;
         } catch (Exception e) {

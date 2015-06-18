@@ -24,7 +24,7 @@
             android:label="@string/title_activity_create_new_survey" >
         </activity>
         <activity
-            android:name=".create_new_survey"
+            android:name=".CreateNewSurvey"
             android:label="@string/title_activity_create_new_survey" >
         </activity>
         <activity

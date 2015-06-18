@@ -19,7 +19,7 @@ import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 /**
  * Tworzenie nowej ankiety - podawanie tytu³y, opisu i tekstu po¿egnania.
  */
-public class create_new_survey extends ActionBarActivity {
+public class CreateNewSurvey extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class create_new_survey extends ActionBarActivity {
                 if(!description.equals("")) control.setSurveyDescription(description);
                 if(!summary.equals("")) control.setSurveySummary(summary);
 
-                Intent intent = new Intent(create_new_survey.this, CreateNewSurveyQuestionsActivity.class);
+                Intent intent = new Intent(CreateNewSurvey.this, CreateNewSurveyQuestionsActivity.class);
                 startActivity(intent);
                 finish();
             }

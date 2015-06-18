@@ -8,11 +8,13 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import bohonos.demski.mieldzioc.dataBase.AnsweringSurveyDBAdapter;
 import bohonos.demski.mieldzioc.dataBase.DataBaseAdapter;
 import bohonos.demski.mieldzioc.dataBase.InterviewerDBAdapter;
 import bohonos.demski.mieldzioc.interviewer.Interviewer;
@@ -29,7 +31,10 @@ public class NetworkIssuesControl {
     public static final int UNKNOWN_ERROR_CONNECTION = 102;
     public static final int FIRST_LOG_IN = 103;
 
-    public static String SERVER_IP = "150.254.79.29";
+    //public static String SERVER_IP = "150.254.79.29";
+    public static String SERVER_IP = "192.168.0.104";
+
+
 
     private Context context;
     private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade(SERVER_IP);
@@ -200,9 +205,26 @@ public class NetworkIssuesControl {
         }
     }
 
-    public int sendFilledSurveys(){
+    /**
+     * Wysyła na serwer wypełnioną ankietę, usuwa ją z bazy danych
+     * (nawet jeśli serwer jej nie przyjmie -
+     * z różnych powodów (może nie można już wypełniać ankiet albo taka ankieta jest już
+     * w serwerze.
+     * @param survey ankieta do wysłania
+     * @return RESULT_OK albo NO_NETWORK_CONNECTION
+     */
+    public int sendFilledSurvey(Survey survey){
         if(isNetworkAvailable()){
-            return 1;
+            ApplicationState applicationState =  ApplicationState.getInstance(context);
+            Interviewer interviewer =applicationState.getLoggedInterviewer();
+            AnsweringSurveyDBAdapter db = new AnsweringSurveyDBAdapter(context);
+
+            Log.d("SEND_FILLED", "Wysyłam: " + survey.getIdOfSurveys() + " : " + survey.getNumberOfSurvey());
+            serverConnectionFacade.sendFilledSurvey(survey,
+                    interviewer.getId(), applicationState.getPassword());
+
+            db.deleteAnswers(survey);
+            return ServerConnectionFacade.OPERATION_OK;
         }
         else return NO_NETWORK_CONNECTION;
     }

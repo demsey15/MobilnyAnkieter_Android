@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 12;
+    private static final int DB_VERSION = 13;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -276,6 +276,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_ANSWER_SADB = "Answer";
     public static final String ANSWER_OPTIONS_SADB = "TEXT";
     public static final int ANSWER_COLUMN_SADB = 4;
+    public static final String KEY_INTERVIEWER_SADB = "Interviewer";
+    public static final String INTERVIEWER_OPTIONS_SADB = "TEXT CHECK(" + KEY_INTERVIEWER_SADB + " " +
+            "GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')";
+    public static final int INTERVIEWER_COLUMN_SADB = 2;
 
     public static final String FILLED_SURVEYS_TABLE = "Filled_surveys";
 
@@ -394,7 +398,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             KEY_NO_FILLED_SURVEY_SADB + " " + NO_FILLED_SURVEY_OPTIONS_SADB + ", " + KEY_ANSWER_NUMBER_SADB +
             " " + ANSWER_NUMBER_OPTIONS_SADB + ", " + KEY_QUESTION_NUMBER_SADB + " "
             + QUESTION_NUMBER_OPTIONS_SADB + ", "  + KEY_ANSWER_SADB + " "
-            + ANSWER_OPTIONS_SADB + ");";
+            + ANSWER_OPTIONS_SADB + ", " + KEY_INTERVIEWER_SADB + " " + INTERVIEWER_OPTIONS_SADB +
+            ");";
 
     private static final String DB_CREATE_FILLING_PRIVILEGES_TABLE = "CREATE TABLE " +
             FILLING_PRIVILEGES_TABLE + "( " + KEY_INTERVIEWER_FPDB + " " + INTERVIEWER_OPTIONS_FPDB

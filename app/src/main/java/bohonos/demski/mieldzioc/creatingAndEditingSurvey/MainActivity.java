@@ -1,35 +1,28 @@
 package bohonos.demski.mieldzioc.creatingAndEditingSurvey;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.ViewAnimator;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.GregorianCalendar;
+import java.util.List;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
-import bohonos.demski.mieldzioc.dataBase.InterviewerDBAdapter;
-import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyAdapter;
+import bohonos.demski.mieldzioc.application.NetworkIssuesControl;
+import bohonos.demski.mieldzioc.dataBase.AnsweringSurveyDBAdapter;
 import bohonos.demski.mieldzioc.fillingSurvey.ChooseSurveyToFillActivity;
-import bohonos.demski.mieldzioc.interviewer.Interviewer;
-import bohonos.demski.mieldzioc.networkConnection.ServerConnectionFacade;
 import bohonos.demski.mieldzioc.sendingSurvey.SendSurveysTemplateActivity;
-import bohonos.demski.mieldzioc.sendingSurvey.SendingNotSentSurveyAdapter;
+import bohonos.demski.mieldzioc.survey.Survey;
 
 /**
- * Aktywno�� z r�nymi akcjami do wyboru.
+ * Aktywność z różnymi akcjami do wyboru.
  */
 public class MainActivity extends ActionBarActivity {
 
@@ -38,6 +31,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        prepareSendFilledSurveysButton();
+
         Button newSurveyButt = (Button) findViewById(R.id.new_survey_button);
 
         if(ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer().
@@ -45,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
             newSurveyButt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, create_new_survey.class);
+                    Intent intent = new Intent(MainActivity.this, CreateNewSurvey.class);
                     startActivity(intent);
                 }
             });
@@ -70,6 +65,70 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChooseSurveyToFillActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+
+    private void prepareSendFilledSurveysButton(){
+        Button sendFilledSurveysButton = (Button) findViewById(R.id.send_filled_survey_button);
+        final ViewAnimator animator = (ViewAnimator) findViewById(R.id.main_animator);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.sending_survey_progress);
+
+        sendFilledSurveysButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                (new AsyncTask<Void, Integer, Integer>(){
+
+                    @Override
+                    protected Integer doInBackground(Void... params) {
+                        publishProgress(new Integer[] {-1, -1});
+                        List<Survey> toSend = (new AnsweringSurveyDBAdapter(getApplicationContext()))
+                                .getAnswersForInterviewer(ApplicationState.
+                                        getInstance(getApplicationContext()).getLoggedInterviewer());
+
+                        NetworkIssuesControl networkIssuesControl =
+                                new NetworkIssuesControl(getApplicationContext());
+                        for(int i = 0; i < toSend.size(); i++){
+                            int result = networkIssuesControl.sendFilledSurvey(toSend.get(i));
+                            if(result == NetworkIssuesControl.NO_NETWORK_CONNECTION){
+                                return -1;
+                            }
+                            publishProgress(new Integer[] {i, toSend.size()});
+                        }
+                        return toSend.size();
+                    }
+
+
+                    @Override
+                    protected void onPostExecute(Integer integer) {
+                        String text;
+                        animator.setDisplayedChild(0);
+                        if(integer == -1)
+                            text = "Brak połączenia z internetem. Spróbuj ponownie później.";
+                        else{
+                            text = "Ankiety zostały wysłane.";
+                        }
+                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(Integer... values) {
+                        int i = values[0];
+                        int size = values[1];
+                        float progress = (i == -1)? 0 : ((i + 1) / size * 100);
+
+                        if(progress == 0) {
+                            animator.setDisplayedChild(1);
+                            progressBar.setProgress(0);
+                        }
+                        else{
+                            progressBar.setMax(size);
+                            progressBar.setProgress(i + 1);
+                        }
+                    }
+                }).execute();
             }
         });
     }
