@@ -92,6 +92,7 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
                                 getInstance(getApplicationContext()).getSurveysRepository())) {
                             Intent intent = new Intent(AnswerDateQuestionActivity.this, SurveysSummary.class);
                             intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             finish();
                         } else
@@ -107,6 +108,7 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
                         if (answeringSurveyControl.finishAnswering(ApplicationState.
                                 getInstance(getApplicationContext()).getSurveysRepository())) {
                             Intent intent = new Intent(getApplicationContext(), WelcomeFillingActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wypełnianie nowej ankiety
                                     ApplicationState.getInstance(getApplicationContext()).getLoggedInterviewer());
                             intent.putExtra("SURVEY_TITLE", answeringSurveyControl.getSurveysTitle());
@@ -184,8 +186,10 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
                 intent = new Intent(AnswerDateQuestionActivity.this, AnswerGridQuestionActivity.class);
             } else if (questionType == Question.TEXT_QUESTION) {
                 intent = new Intent(AnswerDateQuestionActivity.this, AnswerTextQuestionActivity.class);
-            } else
+            } else{
                 intent = new Intent(AnswerDateQuestionActivity.this, SurveysSummary.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            }
             intent.putExtra("QUESTION_NUMBER", myQuestionNumber + 1);
             intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
             startActivity(intent);

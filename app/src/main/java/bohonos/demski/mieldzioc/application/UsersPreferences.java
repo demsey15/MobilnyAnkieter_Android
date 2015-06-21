@@ -16,6 +16,17 @@ public class UsersPreferences {
                 Context.MODE_PRIVATE);
     }
 
+    public void changeAutoSending(){
+        SharedPreferences.Editor editor = preferences.edit();
+        boolean autoSending = preferences.getBoolean("autoSending", false);
+        editor.putBoolean("autoSending", !autoSending);
+        editor.commit();
+    }
+
+    public boolean isAutoSending(){
+        return preferences.getBoolean("autoSending", false);
+    }
+
     public void saveLastAddedSurveyTemplateNumber(int lastTemplateNumber) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("lastTemplateNumber", lastTemplateNumber);

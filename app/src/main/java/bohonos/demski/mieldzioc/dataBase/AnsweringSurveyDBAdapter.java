@@ -115,7 +115,8 @@ public class AnsweringSurveyDBAdapter {
 
         while (cursor.moveToNext()) {
             String answer = (cursor.isNull(0))? null : cursor.getString(0);
-            answers.add(answer);
+            if(answer != null)
+                answers.add(answer);
         }
         Log.d("GET_ANSWERS_DB", "Odczytałem " + answers.size() + " odpowiedzi: " + Arrays.toString(answers.toArray()));
         return answers;

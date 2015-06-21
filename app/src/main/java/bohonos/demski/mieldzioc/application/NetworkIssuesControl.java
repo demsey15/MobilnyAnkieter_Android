@@ -32,7 +32,8 @@ public class NetworkIssuesControl {
     public static final int FIRST_LOG_IN = 103;
 
     //public static String SERVER_IP = "150.254.79.29";
-    public static String SERVER_IP = "192.168.0.104";
+   // public static String SERVER_IP = "95.108.59.60";
+    public static String SERVER_IP = "192.168.1.2";
 
 
 
@@ -230,7 +231,7 @@ public class NetworkIssuesControl {
     }
 
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

@@ -88,4 +88,12 @@ public class ApplicationState {
         return loggedInterviewer;
     }
 
+    public boolean isAutoSending(){
+        return preferences.isAutoSending();
+    }
+
+    public void changeAutoSending(){
+        preferences.changeAutoSending();
+    }
+
 }

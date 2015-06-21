@@ -34,6 +34,7 @@ public class SurveysSummary extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SurveysSummary.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
