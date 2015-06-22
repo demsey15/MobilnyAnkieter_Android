@@ -33,8 +33,10 @@ public class NetworkIssuesControl {
     public static final int UNKNOWN_ERROR_CONNECTION = 102;
     public static final int FIRST_LOG_IN = 103;
 
+    public final static int SERVER_UNAVAILABLE = 38;
+
     //public static String SERVER_IP = "150.254.79.29";
-    public static String SERVER_IP;
+    public static String SERVER_IP = "95.108.42.87";
   // public static String SERVER_IP = "192.168.145.1";
   //  public static String SERVER_IP = "50.16.43.97";
   //  public static String SERVER_IP = "37.152.19.249";
@@ -44,15 +46,7 @@ public class NetworkIssuesControl {
     private Context context;
     private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade(SERVER_IP);
 
-    static {
-        try {
-            SERVER_IP = InetAddress.getByName("demsey-ankieter.rhcloud.com").getHostAddress();
-          //  SERVER_IP = "127.0.0.1";
-            System.out.println(SERVER_IP);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-    }
+
     public NetworkIssuesControl(Context context) {
         this.context = context;
     }
@@ -65,6 +59,7 @@ public class NetworkIssuesControl {
      * 0 - nie zalogowano.
      */
     public int login(String usersId, char[] password){
+        Log.d("LOGIN", "Zaczynam logowanie");
         InterviewerDBAdapter db = new InterviewerDBAdapter(context);
         char[] passwordToSave = password.clone();
         Interviewer interviewer = db.getInterviewer(usersId);
@@ -79,13 +74,20 @@ public class NetworkIssuesControl {
                     // z brakiem uprawnień
                     //do tworzenia ankiet
                 } else {
-
-                    return 0;  //nie zalogowano
+                        return 0;  //nie zalogowano (nie ważne, czy jest połączenie z serwerem)
                 }
             }
             else{
-
                 return NO_NETWORK_CONNECTION;
+            }
+        }
+        else{
+            Log.d("LOGIN", "sprawdzam haslo w bazie");
+            InterviewerDBAdapter db2 = new InterviewerDBAdapter(context);
+            db2.open();
+            if(!db2.checkPassword(interviewer.getId(), password)){
+                db2.close();
+                return 0;
             }
         }
         db.close();
@@ -104,7 +106,7 @@ public class NetworkIssuesControl {
         if(isNetworkAvailable()){
                 int result = serverConnectionFacade.getInterviewerCreatingPrivileges(interviewerId, interviewerId,
                         ApplicationState.getInstance(context).getPassword());
-                if(result == ServerConnectionFacade.BAD_PASSWORD){ //nie ma takiego użytkownika, albo jest zwolniony
+                if(result == ServerConnectionFacade.BAD_PASSWORD) { //nie ma takiego użytkownika, albo jest zwolniony
                     InterviewerDBAdapter db = new InterviewerDBAdapter(context);
                     db.deleteInterviewer(interviewerId);
                     return ServerConnectionFacade.BAD_PASSWORD;
@@ -115,6 +117,13 @@ public class NetworkIssuesControl {
                     ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartość w stanie użytkownika
                             setInterviewerPrivileges(result == 1);
                     return result;
+                }
+                else if(result == SERVER_UNAVAILABLE){
+                    InterviewerDBAdapter db = new InterviewerDBAdapter(context);
+                    db.setInterviewerCreatingPrivileges(interviewerId, false);    //ustaw wartość w bazie danych
+                    ApplicationState.getInstance(context).getLoggedInterviewer(). //ustaw wartość w stanie użytkownika
+                            setInterviewerPrivileges(false);
+                    return SERVER_UNAVAILABLE;
                 }
         }
         else{
@@ -148,7 +157,20 @@ public class NetworkIssuesControl {
                 List<String> surveysId = serverConnectionFacade.getActiveIdTemplateForInterviewer(interviewer.getId(),
                         interviewer.getId(), ApplicationState.getInstance(context).getPassword());
                 if(surveysId == null){
-                    return ServerConnectionFacade.BAD_PASSWORD; //chyba zwolniono ankietera.
+                    if(serverConnectionFacade.tryConnection())
+                        return ServerConnectionFacade.BAD_PASSWORD; //chyba zwolniono ankietera.
+                    else{
+                        List<String> list = dbInt.getSurveysToFillingForInterviewer(interviewer);
+                        List<Survey> surveys2 = new ArrayList<>();
+                        for(String survey : list){
+                            Survey s = dataBaseAdapter.getSurveyTemplate(survey);
+                            if(s != null){
+                                surveys2.add(s);
+                            }
+                        }
+                        ApplicationState.getInstance(context).prepareSurveyHandler(surveys);
+                        return SERVER_UNAVAILABLE;
+                    }
                 }
                 else{
                     Log.d("PREPARE SURVEYS", "POBRALEM ID ANKIET DO WYPELNIANIA: " + Arrays.toString(surveysId.toArray()));

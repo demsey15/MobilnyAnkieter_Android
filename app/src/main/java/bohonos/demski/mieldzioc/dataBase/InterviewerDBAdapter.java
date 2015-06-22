@@ -106,9 +106,9 @@ public class InterviewerDBAdapter {
      * @return
      */
     public boolean checkPassword(String id, char[] password){
-        Interviewer interviewer = getInterviewer(id);
-        if(interviewer == null) return false;
-        else{
+      //  Interviewer interviewer = getInterviewer(id);
+       // if(interviewer == null) return false;
+       // else{
             Cursor cursor = db.query(DatabaseHelper.INTERVIEWERS_TABLE, new String[]
                             {DatabaseHelper.KEY_ID_INTERVIEWER_IDB, DatabaseHelper.KEY_PASSWORD_IDB},
                     DatabaseHelper.KEY_ID_INTERVIEWER_IDB + " = " + id,
@@ -137,7 +137,7 @@ public class InterviewerDBAdapter {
                 return true;
             }
             else return false;
-        }
+        //}
     }
 
     /**

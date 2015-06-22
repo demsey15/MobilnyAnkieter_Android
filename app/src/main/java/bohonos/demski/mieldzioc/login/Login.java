@@ -97,7 +97,8 @@ public class Login extends ActionBarActivity {
 
                                             if (canCreate == NetworkIssuesControl.NO_NETWORK_CONNECTION ||   //przechodzimy dalej, ale nie możemy tworzyć ankiet
                                                     canCreate == NetworkIssuesControl.REQUEST_OUT_OF_TIME ||
-                                                    canCreate == NetworkIssuesControl.UNKNOWN_ERROR_CONNECTION) {
+                                                    canCreate == NetworkIssuesControl.UNKNOWN_ERROR_CONNECTION
+                                                    || canCreate == NetworkIssuesControl.SERVER_UNAVAILABLE) {
                                                 goAheadCreate = true;
                                             } else if (canCreate == ServerConnectionFacade.BAD_PASSWORD) {
                                                 publishProgress(3);
