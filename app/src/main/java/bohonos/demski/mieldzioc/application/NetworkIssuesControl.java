@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,7 +34,7 @@ public class NetworkIssuesControl {
     public static final int FIRST_LOG_IN = 103;
 
     //public static String SERVER_IP = "150.254.79.29";
-    public static String SERVER_IP = "95.108.42.87";
+    public static String SERVER_IP;
   // public static String SERVER_IP = "192.168.145.1";
   //  public static String SERVER_IP = "50.16.43.97";
   //  public static String SERVER_IP = "37.152.19.249";
@@ -42,6 +44,15 @@ public class NetworkIssuesControl {
     private Context context;
     private ServerConnectionFacade serverConnectionFacade = new ServerConnectionFacade(SERVER_IP);
 
+    static {
+        try {
+            SERVER_IP = InetAddress.getByName("demsey-ankieter.rhcloud.com").getHostAddress();
+          //  SERVER_IP = "127.0.0.1";
+            System.out.println(SERVER_IP);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
     public NetworkIssuesControl(Context context) {
         this.context = context;
     }
