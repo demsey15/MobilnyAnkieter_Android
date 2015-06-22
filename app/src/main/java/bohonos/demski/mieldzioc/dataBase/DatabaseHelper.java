@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 13;
+    private static final int DB_VERSION = 15;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 

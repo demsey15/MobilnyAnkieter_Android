@@ -32,8 +32,10 @@ public class NetworkIssuesControl {
     public static final int FIRST_LOG_IN = 103;
 
     //public static String SERVER_IP = "150.254.79.29";
-   // public static String SERVER_IP = "95.108.59.60";
-    public static String SERVER_IP = "192.168.1.2";
+    public static String SERVER_IP = "95.108.42.87";
+  // public static String SERVER_IP = "192.168.145.1";
+  //  public static String SERVER_IP = "50.16.43.97";
+  //  public static String SERVER_IP = "37.152.19.249";
 
 
 

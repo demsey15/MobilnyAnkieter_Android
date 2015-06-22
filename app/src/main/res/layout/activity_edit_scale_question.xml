@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/xxx_light_blue"
+    android:background="@color/xs_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,11 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/question_scale_text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:hint="@string/question_one_ch_hint"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:id="@+id/hint_scale_text"
         android:hint="@string/hint_text_hint"
         android:layout_below="@+id/question_scale_text"/>
@@ -26,12 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/error_scale_text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:hint="@string/error_text_hint"
         android:layout_below="@+id/hint_scale_text"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:id="@+id/scale_label_txt"
         android:textSize="25dp"
         android:text="@string/scale_label"
@@ -42,6 +49,7 @@
         android:layout_toRightOf="@+id/scale_label_txt"
         android:layout_below="@+id/error_scale_text"
         android:inputType="number"
+        android:textColor="@color/black"
         android:singleLine="true"
         android:id="@+id/from_scale"
         />
@@ -51,6 +59,8 @@
         android:text="@string/scale_to"
         android:id="@+id/scale_to_label"
         android:textSize="25dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:layout_below="@id/error_scale_text"
         android:layout_toRightOf="@+id/from_scale"/>
 
@@ -60,6 +70,8 @@
         android:layout_toRightOf="@+id/scale_to_label"
         android:layout_below="@+id/error_scale_text"
         android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:inputType="number"
         android:id="@+id/to_scale"
         />
@@ -73,6 +85,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:text="1:"
         android:textSize="25dp"
         android:layout_below="@+id/to_scale"
@@ -81,6 +95,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/scale_label_hint"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:layout_below="@+id/to_scale"
         android:layout_toRightOf="@+id/label_label_from"
         android:singleLine="true"
@@ -88,6 +104,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:text="2:"
         android:textSize="25dp"
         android:paddingTop="10dp"
@@ -95,6 +113,8 @@
         android:id="@+id/label_label_to"/>
     <EditText
         android:layout_width="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:layout_height="wrap_content"
         android:hint="@string/scale_label_hint"
         android:layout_below="@+id/from_label"
@@ -106,8 +126,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/obligatory_checkbox"
         android:text="@string/obligatory_check_box"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:layout_below="@+id/label_label_to"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="15dp"
         android:layout_alignParentRight="true"/>
 
     <Button
@@ -115,9 +137,10 @@
         android:layout_height="wrap_content"
         android:text="@string/save_text"
         android:layout_below="@id/obligatory_checkbox"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
         android:layout_marginRight="5dp"
-        android:id="@+id/save_question"/>
+        android:id="@+id/save_question"
+        android:background="@color/button_color"/>
 </RelativeLayout>
 </ScrollView>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
+import bohonos.demski.mieldzioc.application.NetworkIssuesControl;
 import bohonos.demski.mieldzioc.constraints.IConstraint;
 import bohonos.demski.mieldzioc.constraints.NumberConstraint;
 import bohonos.demski.mieldzioc.constraints.TextConstraint;
@@ -42,7 +43,7 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_answer_text_question);
 
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        actionBar.setTitle(answeringSurveyControl.getSurveysTitle());
 
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         question = answeringSurveyControl.getQuestion(myQuestionNumber);
@@ -287,22 +288,54 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_answer_short_text_question, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem autoSending = menu.findItem(R.id.auto_sending);
+        NetworkIssuesControl networkIssuesControl = new NetworkIssuesControl(getApplicationContext());
+        if(autoSending == null) Log.d("NULL_DD", "null");
+        if(networkIssuesControl.isNetworkAvailable()){
+            ApplicationState applicationState = ApplicationState.getInstance(getApplicationContext());
+            if(applicationState.isAutoSending()) {
+                autoSending.setIcon(R.drawable.send_green);
+                autoSending.setTitle("Ustawione automatyczne wysyłanie wypełnionych ankiet.");
+            }
+            else{
+                autoSending.setIcon(R.drawable.send_red);
+                autoSending.setTitle("Nie ustawiono automatycznego wysyłania wypełnionych ankiet.");
+            }
+        }
+        else{
+            autoSending.setIcon(R.drawable.send_inactive);
+            autoSending.setTitle("Automatyczne wysyłanie niemożliwe - brak połączenia z internetem.");
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.auto_sending:
+                NetworkIssuesControl networkIssuesControl = new NetworkIssuesControl(getApplicationContext());
+                ApplicationState applicationState = ApplicationState.getInstance(getApplicationContext());
+                if (networkIssuesControl.isNetworkAvailable()) {
+                    if (applicationState.isAutoSending()) {
+                        applicationState.changeAutoSending();
+                        item.setIcon(R.drawable.send_red);
+                        item.setTitle("Nie ustawiono automatycznego wysyłania wypełnionych ankiet.");
+                    } else {
+                        applicationState.changeAutoSending();
+                        item.setIcon(R.drawable.send_green);
+                        item.setTitle("Ustawione automatyczne wysyłanie wypełnionych ankiet.");
+                    }
+                } else {
+                    item.setIcon(R.drawable.send_inactive);
+                    item.setTitle("Automatyczne wysyłanie niemożliwe - brak połączenia z internetem.");
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -108,8 +108,11 @@ public class MainActivity extends ActionBarActivity {
                         animator.setDisplayedChild(0);
                         if(integer == -1)
                             text = "Brak połączenia z internetem. Spróbuj ponownie później.";
+                        else if(integer == 0) {
+                            text = "Brak ankiet do wysłania.";
+                        }
                         else{
-                            text = "Ankiety zostały wysłane.";
+                            text = "Liczba wysłanych ankiet " + integer;
                         }
                         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     }

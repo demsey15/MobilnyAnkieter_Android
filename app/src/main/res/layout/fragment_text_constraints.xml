@@ -2,18 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/xxx_light_blue">
+    android:background="@color/xs_black">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/min_length_txt"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:text="@string/min_length_constraint"
         android:textSize="22dp"
         />
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:id="@+id/min_length_edit"
         android:inputType="number"
         android:layout_toRightOf="@+id/min_length_txt"
@@ -22,6 +26,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:id="@+id/max_length_txt"
         android:text="@string/max_length_constraint"
         android:textSize="22dp"
@@ -30,6 +36,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:id="@+id/max_length_edit"
         android:inputType="number"
         android:layout_below="@id/min_length_edit"
@@ -38,6 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/regex_txt"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:text="@string/regex_constraint"
         android:textSize="22dp"
         android:layout_marginTop="20dp"
@@ -46,6 +56,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/regex_edit"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:layout_below="@id/regex_txt"
         />
 </RelativeLayout>

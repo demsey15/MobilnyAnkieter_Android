@@ -95,6 +95,7 @@ public class EditChoiceAnswersFragment extends Fragment {
         answ.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         answ.setId(GenerateId.generateViewId());
+        answ.setTextColor(getResources().getColor(R.color.black));
         editTexts.add(answ);
         return answ;
     }

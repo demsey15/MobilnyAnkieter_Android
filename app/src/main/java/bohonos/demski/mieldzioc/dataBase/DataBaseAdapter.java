@@ -89,9 +89,15 @@ public class DataBaseAdapter {
         templateValues.put(DatabaseHelper.KEY_MODIFICATION_DATE, DateAndTimeService.getToday());
         templateValues.put(DatabaseHelper.KEY_MODIFIED_BY, ApplicationState.getInstance(context).
                 getLoggedInterviewer().getId());
-        templateValues.put(DatabaseHelper.KEY_TITLE, survey.getTitle());
-        templateValues.put(DatabaseHelper.KEY_DESCRIPTION, survey.getDescription());
-        templateValues.put(DatabaseHelper.KEY_SUMMARY, survey.getSummary());
+        String title = survey.getTitle();
+        if(title == null) templateValues.putNull(DatabaseHelper.KEY_TITLE);
+        else templateValues.put(DatabaseHelper.KEY_TITLE, title);
+        String description = survey.getDescription();
+        if(description == null) templateValues.putNull(DatabaseHelper.KEY_DESCRIPTION);
+        else templateValues.put(DatabaseHelper.KEY_DESCRIPTION, description);
+        String summary = survey.getSummary();
+        if(summary == null) templateValues.putNull(DatabaseHelper.KEY_SUMMARY);
+        else templateValues.put(DatabaseHelper.KEY_SUMMARY, summary);
         templateValues.put(DatabaseHelper.KEY_SENT, (isSent)? 1 : 0);
         db.insert(DatabaseHelper.SURVEY_TEMPLATE_TABLE, null, templateValues);
 
@@ -298,10 +304,10 @@ public class DataBaseAdapter {
                 " = '" + idOfSurveys + "'", null, null, null, null);
         if(cursor.moveToFirst()) {
             survey = new Survey(null);
-            survey.setDescription(cursor.getString(2));
+            survey.setDescription((cursor.isNull(2)) ? null : cursor.getString(2));
             survey.setIdOfSurveys(idOfSurveys);
-            survey.setSummary(cursor.getString(3));
-            survey.setTitle((cursor.getString(1) == null) ? "" : cursor.getString(1));
+            survey.setSummary((cursor.isNull(3))? null : cursor.getString(3));
+            survey.setTitle((cursor.isNull(1))? "" : cursor.getString(1));
             String interviewerId = cursor.getString(0);     //spróbuj pobrać ankietera
             Cursor cursorInterviewer = db.query(DatabaseHelper.INTERVIEWERS_TABLE, new String[]
                             {DatabaseHelper.KEY_CAN_CREATE_IDB},

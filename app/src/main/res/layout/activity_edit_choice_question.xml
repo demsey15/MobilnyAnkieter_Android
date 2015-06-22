@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
     <ScrollView android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@color/xxx_light_blue"
+    android:background="@color/xs_black"
     xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout
     android:layout_width="match_parent"
@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/question_choice_text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:hint="@string/question_one_ch_hint"/>
 
     <EditText
@@ -19,6 +21,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/hint_choice_text"
         android:hint="@string/hint_text_hint"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:layout_below="@+id/question_choice_text"/>
 
     <EditText
@@ -26,6 +30,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/error_choice_text"
         android:hint="@string/error_text_hint"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:layout_below="@+id/hint_choice_text"/>
 
     <CheckBox
@@ -35,6 +41,7 @@
         android:layout_below="@+id/error_choice_text"
         android:id="@+id/obligatory_choice_checkbox"
         android:layout_alignParentRight="true"
+        android:textColor="@color/black"
         android:layout_marginRight="5dp"/>
 
     <TextView
@@ -43,6 +50,8 @@
         android:layout_below="@+id/obligatory_choice_checkbox"
         android:layout_marginLeft="5dp"
         android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
         android:text="@string/answers_List"/>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -59,8 +68,9 @@
         android:layout_height="wrap_content"
         android:text="@string/save_text"
         android:layout_below="@id/choice_question_linear"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/button_color"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
 

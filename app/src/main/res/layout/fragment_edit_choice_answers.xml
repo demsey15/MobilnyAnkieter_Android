@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/xs_black"
     tools:context="bohonos.demski.mieldzioc.creatingAndEditingSurvey.EditChoiceAnswersFragment">
 
    <LinearLayout
@@ -13,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/answers_choice_list"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_text_color"
         android:hint="@string/add_answer_hint"
         android:layout_marginTop="10dp"
         android:editable="false"

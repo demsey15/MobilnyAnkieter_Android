@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@color/xxx_light_blue"
+    android:background="@color/xs_black"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,12 +12,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/question_grid_text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_text_color"
             android:hint="@string/question_one_ch_hint"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/hint_grid_text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_text_color"
             android:hint="@string/hint_text_hint"
             android:layout_below="@+id/question_grid_text"/>
 
@@ -26,22 +30,26 @@
             android:layout_height="wrap_content"
             android:id="@+id/error_grid_text"
             android:hint="@string/error_text_hint"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_text_color"
             android:layout_below="@+id/hint_grid_text"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/obligatory_check_box"
+            android:textColor="@color/black"
             android:layout_below="@+id/error_grid_text"
             android:id="@+id/obligatory_grid_checkbox"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="15dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/obligatory_grid_checkbox"
             android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
             android:textSize="25dp"
             android:text="@string/grid_question_row_labels_text"
             android:id="@+id/grid_row_labels"/>
@@ -62,6 +70,7 @@
             android:layout_below="@+id/grid_question_linear_rows"
             android:layout_marginLeft="5dp"
             android:textSize="25dp"
+            android:textColor="@color/black"
             android:text="@string/grid_question_column_labels_text"
             android:id="@+id/grid_column_labels"/>
         <LinearLayout
@@ -80,8 +89,9 @@
             android:layout_height="wrap_content"
             android:text="@string/save_text"
             android:layout_below="@id/grid_question_linear_columns"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="25dp"
+            android:background="@color/button_color"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:id="@+id/save_grid_question_button"

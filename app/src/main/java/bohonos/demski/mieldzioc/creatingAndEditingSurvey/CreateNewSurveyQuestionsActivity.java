@@ -3,6 +3,7 @@ package bohonos.demski.mieldzioc.creatingAndEditingSurvey;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import bohonos.demski.mieldzioc.application.ApplicationState;
+import bohonos.demski.mieldzioc.application.NetworkIssuesControl;
 import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.questions.Question;
 
@@ -31,26 +33,16 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
 
         initializeQuestionsList();
 
-        ImageButton addQuestionButt = (ImageButton) findViewById(R.id.add_question_button);
-        addQuestionButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChoosingQuestionType c = new ChoosingQuestionType();
-                c.show(getFragmentManager(), "missilies");
-            }
-        });
-
         Button finishCreating = (Button) findViewById(R.id.finish_creating_survey_button);
         finishCreating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(control.finishCreating(ApplicationState.getInstance(
+                if (control.finishCreating(ApplicationState.getInstance(
                         getApplicationContext()).
-                        getSurveyHandler()) == null){           //nie udało się dodać do bazy danych
+                        getSurveyHandler()) == null) {           //nie udało się dodać do bazy danych
                     Toast.makeText(CreateNewSurveyQuestionsActivity.this,
                             "Nie udało się dodać ankiety do bazy danych", Toast.LENGTH_LONG).show();
-                }
-                else Toast.makeText(CreateNewSurveyQuestionsActivity.this, "Dodano ankietę",
+                } else Toast.makeText(CreateNewSurveyQuestionsActivity.this, "Dodano ankietę",
                         Toast.LENGTH_SHORT).show();
                 CreateNewSurveyQuestionsActivity.this.finish();
             }
@@ -70,27 +62,7 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_new_survey, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     /**
      * Metoda wywołana po wybraniu typu pytania, który chcemy dodać do ankiety.
@@ -217,4 +189,27 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
             questionsAdapter.notifyDataSetChanged();
             }
         }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.create_new_survey_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case R.id.add_question:
+                ChoosingQuestionType c = new ChoosingQuestionType();
+                c.show(getFragmentManager(), "missilies");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
