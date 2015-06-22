@@ -36,6 +36,8 @@ public class AnswerDropDownListQuestionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_drop_down_list_question);
 
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(answeringSurveyControl.getSurveysTitle());
 
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         question = answeringSurveyControl.getQuestion(myQuestionNumber);

@@ -57,7 +57,7 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
 
         answerTxt = (EditText) findViewById(R.id.answer_date);
 
-        ImageButton chooseDateButt = (ImageButton) findViewById(R.id.answer_choose_date_date);
+        Button chooseDateButt = (Button) findViewById(R.id.answer_choose_date_date);
         chooseDateButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -37,7 +37,7 @@
 
         <EditText
             android:id="@+id/answer_date"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:lines="1"
             android:inputType="date"
@@ -46,12 +46,12 @@
 
             />
 
-        <ImageButton
-            android:layout_width="45dp"
+        <Button
+            android:layout_width="55dp"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/data"
+            android:background="@drawable/data_orange"
             android:layout_toEndOf="@+id/answer_date"
             android:layout_toRightOf="@+id/answer_date"
             android:layout_below="@id/answer_hint_date"
