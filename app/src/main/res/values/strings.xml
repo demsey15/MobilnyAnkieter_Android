@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bezpieczny ankieter</string>
+    <string name="app_name">Mobilny ankieter</string>
 
 <!-- buttons   -->
     <string name="new_survey_button">Nowa ankieta</string>
@@ -11,7 +11,7 @@
     <!-- login -->
 
     <string name="login_hint">Wpisz PESEL</string>
-    <string name="login_hello">BEZPIECZNY ANKIETER </string>
+    <string name="login_hello">MOBILNY ANKIETER </string>
     <string name="logging">LOGOWANIE</string>
     <string name="password_hint">Podaj swoje hasło</string>
     <string name="button_login">Zaloguj</string>
