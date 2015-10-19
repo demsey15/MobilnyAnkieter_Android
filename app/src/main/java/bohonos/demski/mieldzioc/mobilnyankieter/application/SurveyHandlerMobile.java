@@ -3,7 +3,7 @@ package bohonos.demski.mieldzioc.mobilnyankieter.application;
 import android.content.Context;
 import android.util.Log;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.database.DataBaseAdapter;
 import bohonos.demski.mieldzioc.survey.Survey;
@@ -26,9 +26,9 @@ public class SurveyHandlerMobile extends SurveyHandler {
         super(lastSurveysId);
         this.context = context;
         db = new DataBaseAdapter(context);
-        db.open();
-        HashMap<Survey, Integer> surveys = db.getAllSurveyTemplates();
-        db.close();
+
+        Map<Survey, Integer> surveys = db.getAllSurveyTemplates();
+
         for(Survey survey : surveys.keySet()){
             super.loadSurveyTemplate(survey, surveys.get(survey));
         }

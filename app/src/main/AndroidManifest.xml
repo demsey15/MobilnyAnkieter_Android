@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bohonos.demski.mieldzioc.mobilnyankieter" >
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/survey"
@@ -89,6 +92,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.SendSurveysTemplateActivity"
+            android:label="@string/title_activity_send_surveys_template" >
         </activity>
     </application>
 

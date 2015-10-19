@@ -19,7 +19,7 @@
           android:layout_height="wrap_content"
           android:layout_below="@id/login_progress"
           android:layout_centerHorizontal="true"
-          android:text="Trwa"
+          android:text="Logowanie..."
           android:id="@+id/text_progress"
           android:textSize="15dp"/>
   </RelativeLayout>

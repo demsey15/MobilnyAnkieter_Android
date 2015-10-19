@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import bohonos.demski.mieldzioc.constraints.IConstraint;
@@ -272,7 +273,9 @@ public class DataBaseAdapter {
         return db.insert(DatabaseHelper.TEXT_CONSTRAINTS_TABLE, null, constraintsValues);
     }
 
-    public HashMap<Survey, Integer> getAllSurveyTemplates(){
+    public Map<Survey, Integer> getAllSurveyTemplates(){
+        open();
+
         HashMap<Survey, Integer> templates = new HashMap<>();
         Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
                 {DatabaseHelper.KEY_ID, DatabaseHelper.KEY_STATUS}, null, null, null, null, null);
@@ -280,6 +283,27 @@ public class DataBaseAdapter {
             Survey survey = getSurveyTemplate(cursor.getString(0));
             templates.put(survey, cursor.getInt(1));
         }
+
+        close();
+
+        return templates;
+    }
+
+    public Map<Survey, Boolean> getAllSurveyTemplatesWithSendStatus(){
+        open();
+
+        HashMap<Survey, Boolean> templates = new HashMap<>();
+
+        Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
+                {DatabaseHelper.KEY_ID, DatabaseHelper.KEY_SENT}, null, null, null, null, null);
+
+        while(cursor.moveToNext()){
+            Survey survey = getSurveyTemplate(cursor.getString(0));
+
+            templates.put(survey, cursor.getInt(1) == 1);
+        }
+
+        close();
         return templates;
     }
 
@@ -534,6 +558,20 @@ public class DataBaseAdapter {
         db.update(DatabaseHelper.SURVEY_TEMPLATE_TABLE, values, DatabaseHelper.KEY_ID + " = '" +
                 survey.getIdOfSurveys() + "' ", null);
         close();
+    }
+
+    public boolean isSurveySent(Survey survey){
+        open();
+        Cursor cursor = db.query(DatabaseHelper.SURVEY_TEMPLATE_TABLE, new String[]
+                {DatabaseHelper.KEY_SENT}, DatabaseHelper.KEY_ID + " = '" +
+                survey.getIdOfSurveys() + "' ", null, null, null, null);
+        if(cursor.moveToNext()){
+            return cursor.getInt(0) == 1;
+        }
+
+        close();
+
+        return false;
     }
 
     public void deleteSurveyTemplate(String surveyId){

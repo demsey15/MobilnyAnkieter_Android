@@ -42,6 +42,8 @@ public class Login extends ActionBarActivity {
                 else{
                     if(isPasswordCorrect(password)){
                         Intent intent = new Intent(Login.this, MainActivity.class);
+
+                        finish();
                         startActivity(intent);
                     }
                     else{
