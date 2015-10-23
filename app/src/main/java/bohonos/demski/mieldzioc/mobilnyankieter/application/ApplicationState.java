@@ -1,11 +1,14 @@
 package bohonos.demski.mieldzioc.mobilnyankieter.application;
 
 import android.content.Context;
+import android.util.Log;
 
-import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
-import bohonos.demski.mieldzioc.controls.SurveysTemplateControl;
-import bohonos.demski.mieldzioc.survey.SurveyHandler;
-import bohonos.demski.mieldzioc.survey.SurveysRepository;
+import java.util.Arrays;
+
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.AnsweringSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.SurveysTemplateControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
 
 /**
  * Created by Dominik Demski on 2015-05-02.
@@ -46,18 +49,61 @@ public class ApplicationState {
 
     private ApplicationState(Context context){
         this.context = context;
+
+        preferences = new UsersPreferences(context);
     }
 
-    public boolean logIn(String password){
+    public boolean logIn(char[] password){
         if(instance == null){
+            clearPasswordArray(password);
+
             return false;
         }
 
-        preferences = new UsersPreferences(context);
+        if(!checkUserPassword(password)){
+            clearPasswordArray(password);
+
+            return false;
+
+        }
+
+        clearPasswordArray(password);
 
         prepareSurveyHandler();
 
+        Log.d("LOGOWANIE", "HASLO OK");
+
         return true;
+    }
+
+    private boolean checkUserPassword(char[] password){
+        char[] userPassword = preferences.getPassword();
+
+        if(checkIfPasswordIsEmpty(password)){
+            return false;
+        }
+        else{
+            if(userPassword.length != password.length){
+                return false;
+            }
+            else{
+                for(int i = 0; i < userPassword.length; i++){
+                    if(password[i] != userPassword[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+    }
+
+    private boolean checkIfPasswordIsEmpty(char[] password){
+        return password.length == 0;
+    }
+
+    private void clearPasswordArray(char[] password){
+        Arrays.fill(password, '0');
     }
 
     private boolean prepareSurveyHandler(){
@@ -80,5 +126,54 @@ public class ApplicationState {
 
     public String getDeviceId() {
         return deviceId;
+    }
+
+    public void saveUserPassword(char[] password){
+        preferences.savePassword(password);
+    }
+
+    public char[] getUserPassword(){
+        return preferences.getPassword();
+    }
+
+    public void saveHelpQuestion(String helpQuestion){
+        preferences.saveHelpQuestion(helpQuestion);
+    }
+
+    public String getHelpQuestion(){
+        return preferences.getHelpQuestion();
+    }
+
+    public void saveHelpQuestionAnswer(String helpQuestionAnswer){
+        preferences.saveHelpQuestionAnswer(helpQuestionAnswer);
+    }
+
+    public String getHelpQuestionAnswer(){
+        return preferences.getHelpQuestionAnswer();
+    }
+
+    public boolean checkIfUsersPasswordIsSet(){
+        char[] usersPassword = preferences.getPassword();
+
+        boolean passwordIsSet = !checkIfPasswordIsEmpty(usersPassword);
+        clearPasswordArray(usersPassword);
+
+        return  passwordIsSet;
+    }
+
+    public void saveRememberPassword(boolean shouldRemember){
+        preferences.saveRememberPassword(shouldRemember);
+    }
+
+    public boolean ifShouldRememberPassword(){
+        return preferences.ifShouldRememberPassword();
+    }
+
+    public void saveDontLogOut(boolean shouldDontLogOut){
+        preferences.saveDontLogOut(shouldDontLogOut);
+    }
+
+    public boolean ifShouldDontLogOut(){
+        return preferences.ifShouldDontLogOut();
     }
 }

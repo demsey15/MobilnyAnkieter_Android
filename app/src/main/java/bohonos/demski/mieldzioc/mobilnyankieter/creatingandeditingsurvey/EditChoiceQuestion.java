@@ -16,9 +16,9 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.questions.Question;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 
 
 public class EditChoiceQuestion extends ActionBarActivity {

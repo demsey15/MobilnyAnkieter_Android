@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.questions.Question;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 
 /**
  * Created by Dominik Demski on 2015-04-09.

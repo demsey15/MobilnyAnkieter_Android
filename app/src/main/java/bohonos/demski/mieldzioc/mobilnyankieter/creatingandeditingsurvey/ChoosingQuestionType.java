@@ -8,7 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.questions.Question;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 
 /**
  * Created by Dominik on 2015-04-09.

@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
-import bohonos.demski.mieldzioc.questions.Question;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 
 /**
  * Klasa odpowiedzialna za dodawanie pytań do ankiety (i edycji pytań podczas tworzenia).

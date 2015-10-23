@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
 
 
 /**

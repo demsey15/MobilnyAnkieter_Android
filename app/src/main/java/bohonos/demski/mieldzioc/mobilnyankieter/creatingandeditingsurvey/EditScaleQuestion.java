@@ -12,10 +12,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.questions.Question;
-import bohonos.demski.mieldzioc.questions.ScaleQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.ScaleQuestion;
 
 
 public class EditScaleQuestion extends ActionBarActivity {

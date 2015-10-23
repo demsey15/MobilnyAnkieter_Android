@@ -35,23 +35,23 @@
         android:layout_width="140dp"
         android:layout_height="90dp"
         android:layout_marginLeft="15dp"
-        android:id="@+id/send_survey_button"
+        android:id="@+id/survey_template_button"
         android:background="@color/button_color"
         android:layout_below="@+id/fill_survey_button"
         android:layout_marginTop="40dp"
-        android:text="Wyślij \nszablony"/>
+        android:text="Szablony\nankiet"/>
 
     <Button
         android:layout_width="140dp"
         android:layout_height="90dp"
         android:layout_marginRight="15dp"
-        android:id="@+id/send_filled_survey_button"
+        android:id="@+id/filled_survey_button"
         android:background="@color/button_color"
         android:layout_below="@+id/fill_survey_button"
-        android:layout_toRightOf="@+id/send_survey_button"
+        android:layout_toRightOf="@+id/survey_template_button"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="40dp"
-        android:text="Wyślij wypełnione\n ankiety"/>
+        android:text="Wypełnione\n ankiety"/>
     </RelativeLayout>
 </RelativeLayout>
 

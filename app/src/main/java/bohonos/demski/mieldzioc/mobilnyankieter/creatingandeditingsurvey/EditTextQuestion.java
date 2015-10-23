@@ -18,13 +18,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
-import bohonos.demski.mieldzioc.constraints.IConstraint;
-import bohonos.demski.mieldzioc.constraints.NumberConstraint;
-import bohonos.demski.mieldzioc.constraints.TextConstraint;
-import bohonos.demski.mieldzioc.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.questions.Question;
-import bohonos.demski.mieldzioc.questions.TextQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.IConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.NumberConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.TextConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.TextQuestion;
 
 
 public class EditTextQuestion extends ActionBarActivity implements TextConstraintsFragment.OnTextFragmentInteractionListener, NumberConstraintsFragment.OnNumberFragmentInteractionListener {

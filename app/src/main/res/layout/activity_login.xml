@@ -5,24 +5,6 @@
     android:background="@color/xs_black"
     android:id="@+id/login_animator">
 
-  <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/login_progress"
-        />
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/login_progress"
-          android:layout_centerHorizontal="true"
-          android:text="Logowanie..."
-          android:id="@+id/text_progress"
-          android:textSize="15dp"/>
-  </RelativeLayout>
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -64,7 +46,24 @@
         android:hint="@string/password_hint"
         android:textColorHint="@color/login_color_hint"
         android:textColor="@color/login_color_hint"
+        android:layout_centerHorizontal="true"
        />
+
+    <CheckBox
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remember_password"
+        android:textColor="@color/black"
+        android:id="@+id/rememberPasswordChcBox"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dont_logout"
+        android:textColor="@color/black"
+        android:id="@+id/dontLogOutChcBox"/>
+
 </LinearLayout>
     <Button
         android:layout_width="wrap_content"
@@ -77,4 +76,22 @@
         android:background="@color/button_color"/>
 
 </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/login_progress"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_progress"
+            android:layout_centerHorizontal="true"
+            android:text="Logowanie..."
+            android:id="@+id/text_progress"
+            android:textSize="15dp"/>
+    </RelativeLayout>
 </ViewAnimator>

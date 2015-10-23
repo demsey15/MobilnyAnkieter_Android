@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,91 +12,94 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.client.MainActivity"
+            android:name=".client.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.CreateNewSurveyQuestionsActivity"
+            android:name=".creatingandeditingsurvey.CreateNewSurveyQuestionsActivity"
             android:label="@string/title_activity_create_new_survey" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.CreateNewSurvey"
+            android:name=".creatingandeditingsurvey.CreateNewSurvey"
             android:label="@string/title_activity_create_new_survey" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.EditDateTimeQuestion"
+            android:name=".creatingandeditingsurvey.EditDateTimeQuestion"
             android:label="@string/title_activity_edit_date_time_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.EditScaleQuestion"
+            android:name=".creatingandeditingsurvey.EditScaleQuestion"
             android:label="@string/title_activity_edit_scale_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.EditChoiceQuestion"
+            android:name=".creatingandeditingsurvey.EditChoiceQuestion"
             android:label="@string/title_activity_edit_choice_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.EditTextQuestion"
+            android:name=".creatingandeditingsurvey.EditTextQuestion"
             android:label="@string/title_activity_edit_text_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.EditGridQuestion"
+            android:name=".creatingandeditingsurvey.EditGridQuestion"
             android:label="@string/title_activity_edit_grid_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerDropDownListQuestionActivity"
+            android:name=".fillingSurvey.AnswerDropDownListQuestionActivity"
             android:label="@string/title_activity_answer_drop_down_list_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.ChooseSurveyToFillActivity"
+            android:name=".fillingSurvey.ChooseSurveyToFillActivity"
             android:label="@string/title_activity_choose_survey_to_fill" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerOneChoiceQuestionActivity"
+            android:name=".fillingSurvey.AnswerOneChoiceQuestionActivity"
             android:label="@string/title_activity_answer_one_choice_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerMultipleChoiceQuestionActivity"
+            android:name=".fillingSurvey.AnswerMultipleChoiceQuestionActivity"
             android:label="@string/title_activity_answer_multiple_choice_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerScaleQuestionActivity"
+            android:name=".fillingSurvey.AnswerScaleQuestionActivity"
             android:label="@string/title_activity_answer_scale_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.WelcomeFillingActivity"
+            android:name=".fillingSurvey.WelcomeFillingActivity"
             android:label="@string/title_activity_welcome_filling" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerDateQuestionActivity"
+            android:name=".fillingSurvey.AnswerDateQuestionActivity"
             android:label="@string/title_activity_answer_date_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerTimeQuestionActivity"
+            android:name=".fillingSurvey.AnswerTimeQuestionActivity"
             android:label="@string/title_activity_answer_time_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerGridQuestionActivity"
+            android:name=".fillingSurvey.AnswerGridQuestionActivity"
             android:label="@string/title_activity_answer_grid_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.AnswerTextQuestionActivity"
+            android:name=".fillingSurvey.AnswerTextQuestionActivity"
             android:label="@string/title_activity_answer_short_text_question" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.SurveysSummary"
+            android:name=".fillingSurvey.SurveysSummary"
             android:label="@string/title_activity_answer_long_text_question" >
         </activity>
-        <activity android:name="bohonos.demski.mieldzioc.mobilnyankieter.login.Login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".login.Login" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".sendingsurvey.SendSurveysTemplateActivity"
+            android:label="@string/title_activity_send_surveys_template" >
         </activity>
         <activity
-            android:name="bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.SendSurveysTemplateActivity"
-            android:label="@string/title_activity_send_surveys_template" >
+            android:name=".login.Register"
+            android:label="@string/title_activity_register" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

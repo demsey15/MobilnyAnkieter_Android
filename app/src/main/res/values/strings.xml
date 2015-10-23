@@ -15,6 +15,19 @@
     <string name="logging">LOGOWANIE</string>
     <string name="password_hint">Podaj swoje hasło</string>
     <string name="button_login">Zaloguj</string>
+    <string name="dont_logout">Nie wylogowuj mnie</string>
+    <string name="remember_password">Zapamiętaj hasło</string>
+
+    <!-- register -->
+    <string name="hello_application_text">Witaj w aplikacji\nMobilny Ankieter!</string>
+    <string name="create_password_text">Stwórz swoje hasło
+        i podaj pytanie pomocnicze. Pytanie posłuży do zresetowania hasła, jeśli je zapomnisz. Jeśli go nie podasz,
+    nie będzie można odzyskać zapomnianego hasła!</string>
+    <string name="help_question_hint">Podaj pytanie pomocnicze.</string>
+    <string name="help_question_answer_hint">Podaj odpowiedź na podane pytanie pomocnicze.</string>
+    <string name="register_button_text">Zarejestruj i zaloguj</string>
+    <string name="new_password_again_hint">Powtórz hasło</string>
+
 <!-- creating survey -->
     <string name="survey_title_hint">Podaj tytuł ankiety</string>
     <string name="survey_description_hint">Podaj opis ankiety</string>
@@ -84,4 +97,5 @@
     <string name="title_activity_answer_long_text_question">AnswerLongTextQuestionActivity</string>
     <string name="title_activity_login">Logowanie</string>
     <string name="title_activity_send_surveys_template">"Wyślij szablony "</string>
+    <string name="title_activity_register">Register</string>
 </resources>

@@ -6,8 +6,8 @@ import android.util.Log;
 import java.util.Map;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.database.DataBaseAdapter;
-import bohonos.demski.mieldzioc.survey.Survey;
-import bohonos.demski.mieldzioc.survey.SurveyHandler;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
 
 /**
  * Created by Dominik on 2015-05-04.
@@ -19,7 +19,7 @@ public class SurveyHandlerMobile extends SurveyHandler {
 
     /**
      *
-     * @param context
+     * @param context context aplikacji
      * @param lastSurveysId ostatnio przyznane id grupy ankiet dla tego ankietera.
      */
     public SurveyHandlerMobile(Context context, int lastSurveysId) {

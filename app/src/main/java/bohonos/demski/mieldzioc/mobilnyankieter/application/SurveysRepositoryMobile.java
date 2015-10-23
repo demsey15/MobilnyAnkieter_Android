@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.database.AnsweringSurveyDBAdapter;
-import bohonos.demski.mieldzioc.survey.Survey;
-import bohonos.demski.mieldzioc.survey.SurveysRepository;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
 
 /**
  * Created by Dominik on 2015-05-10.

@@ -12,19 +12,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import bohonos.demski.mieldzioc.constraints.IConstraint;
-import bohonos.demski.mieldzioc.constraints.NumberConstraint;
-import bohonos.demski.mieldzioc.constraints.TextConstraint;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.DateAndTimeService;
-import bohonos.demski.mieldzioc.questions.DateTimeQuestion;
-import bohonos.demski.mieldzioc.questions.GridQuestion;
-import bohonos.demski.mieldzioc.questions.MultipleChoiceQuestion;
-import bohonos.demski.mieldzioc.questions.OneChoiceQuestion;
-import bohonos.demski.mieldzioc.questions.Question;
-import bohonos.demski.mieldzioc.questions.ScaleQuestion;
-import bohonos.demski.mieldzioc.questions.TextQuestion;
-import bohonos.demski.mieldzioc.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.IConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.NumberConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.TextConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.DateTimeQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.GridQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.MultipleChoiceQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.OneChoiceQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.ScaleQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.TextQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 
 /**
  * Created by Dominik Demski on 2015-05-02.

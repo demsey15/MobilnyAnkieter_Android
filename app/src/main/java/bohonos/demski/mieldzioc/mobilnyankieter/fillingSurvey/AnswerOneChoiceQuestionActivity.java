@@ -16,11 +16,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.AnsweringSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 import bohonos.demski.mieldzioc.mobilnyankieter.utilities.GenerateId;
-import bohonos.demski.mieldzioc.questions.Question;
 
 public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
 

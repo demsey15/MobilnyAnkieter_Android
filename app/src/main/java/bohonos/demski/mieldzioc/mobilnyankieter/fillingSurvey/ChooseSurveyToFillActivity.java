@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import bohonos.demski.mieldzioc.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
-import bohonos.demski.mieldzioc.survey.Survey;
-import bohonos.demski.mieldzioc.survey.SurveyHandler;
+import bohonos.demski.mieldzioc.mobilnyankieter.controls.AnsweringSurveyControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
 
 public class ChooseSurveyToFillActivity extends ActionBarActivity {
 

@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import bohonos.demski.mieldzioc.constraints.IConstraint;
-import bohonos.demski.mieldzioc.constraints.TextConstraint;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.questions.TextQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.IConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.TextConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.TextQuestion;
 
 
 /**

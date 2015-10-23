@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import bohonos.demski.mieldzioc.constraints.IConstraint;
-import bohonos.demski.mieldzioc.constraints.NumberConstraint;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.questions.TextQuestion;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.IConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.constraints.NumberConstraint;
+import bohonos.demski.mieldzioc.mobilnyankieter.questions.TextQuestion;
 
 
 /**

@@ -11,7 +11,7 @@ import java.util.List;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
-import bohonos.demski.mieldzioc.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 
 /**
  * Created by Dominik on 2015-05-05.
