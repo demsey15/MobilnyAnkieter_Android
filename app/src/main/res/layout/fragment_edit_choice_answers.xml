@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/xs_black"
-    tools:context="bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.EditChoiceAnswersFragment">
+    tools:context="bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.creatingandeditingsurvey.EditChoiceAnswersFragment">
 
    <LinearLayout
        android:layout_width="match_parent"

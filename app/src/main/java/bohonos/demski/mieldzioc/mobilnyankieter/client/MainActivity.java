@@ -7,20 +7,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.ViewAnimator;
-
-import java.util.List;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
-import bohonos.demski.mieldzioc.mobilnyankieter.creatingandeditingsurvey.CreateNewSurvey;
-import bohonos.demski.mieldzioc.mobilnyankieter.database.AnsweringSurveyDBAdapter;
-import bohonos.demski.mieldzioc.mobilnyankieter.fillingSurvey.ChooseSurveyToFillActivity;
-import bohonos.demski.mieldzioc.mobilnyankieter.login.Login;
-import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.SendSurveysTemplateActivity;
-import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.creatingsurveysfiles.SurveyFileCreator;
-import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.login.Login;
+import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.FilledSurveysActivity;
+import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.fillingSurvey.ChooseSurveyToFillActivity;
+import bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.SurveyTemplateActivity;
+import bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.creatingandeditingsurvey.CreateNewSurvey;
 
 /**
  * Aktywność z różnymi akcjami do wyboru.
@@ -32,29 +26,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        prepareSendFilledSurveysButton();
+        prepareNewSurveyTemplateButton();
+        prepareFillSurveyButton();
+        prepareSurveyTemplatesButton();
+        prepareFilledSurveysButton();
+    }
 
-        Button newSurveyButt = (Button) findViewById(R.id.new_survey_button);
-
-        newSurveyButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateNewSurvey.class);
-                startActivity(intent);
-            }
-        });
-
-
-        Button sendSurveyButton = (Button) findViewById(R.id.survey_template_button);
-
-        sendSurveyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SendSurveysTemplateActivity.class);
-                startActivity(intent);
-            }
-        });
-
+    private void prepareFillSurveyButton() {
         Button fillSurveyButton = (Button) findViewById(R.id.fill_survey_button);
         fillSurveyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,20 +43,38 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    private void prepareSendFilledSurveysButton() {
+    private void prepareNewSurveyTemplateButton() {
+        Button newSurveyButt = (Button) findViewById(R.id.new_survey_button);
+
+        newSurveyButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CreateNewSurvey.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void prepareSurveyTemplatesButton() {
+        Button surveyTemplateButton = (Button) findViewById(R.id.survey_template_button);
+
+        surveyTemplateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SurveyTemplateActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void prepareFilledSurveysButton() {
         Button sendFilledSurveysButton = (Button) findViewById(R.id.filled_survey_button);
-        final ViewAnimator animator = (ViewAnimator) findViewById(R.id.main_animator);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.sending_survey_progress);
 
         sendFilledSurveysButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnsweringSurveyDBAdapter answeringSurveyDBAdapter = new AnsweringSurveyDBAdapter(getApplicationContext());
-
-                List<Survey> surveys = answeringSurveyDBAdapter.getAllAnswers();
-
-                SurveyFileCreator surveyFileCreator = new SurveyFileCreator();
-                surveyFileCreator.saveSurveyAnswers(surveys, getApplicationContext());
+                Intent intent = new Intent(MainActivity.this, FilledSurveysActivity.class);
+                startActivity(intent);
             }
         });
     }
