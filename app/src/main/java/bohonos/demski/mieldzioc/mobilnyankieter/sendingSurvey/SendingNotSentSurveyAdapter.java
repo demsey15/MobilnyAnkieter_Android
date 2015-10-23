@@ -14,7 +14,7 @@ import java.util.Map;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.database.DataBaseAdapter;
-import bohonos.demski.mieldzioc.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 
 /**
  * Created by Dominik on 2015-05-19.

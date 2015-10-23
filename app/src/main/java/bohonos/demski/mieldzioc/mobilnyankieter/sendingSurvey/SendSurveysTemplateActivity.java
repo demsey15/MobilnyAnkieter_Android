@@ -1,5 +1,9 @@
 package bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey;
 
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,12 +14,36 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.database.DataBaseAdapter;
-import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.bluetoothconnection.Bluetooth;
-import bohonos.demski.mieldzioc.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.creatingsurveysfiles.SurveyFileCreator;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 
 public class SendSurveysTemplateActivity extends ActionBarActivity {
+    // Create a BroadcastReceiver for ACTION_FOUND
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Get the BluetoothDevice object from the Intent
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                // Add the name and address to an array adapter to show in a ListView
+                devices.add(device.getName() + "\n" + device.getAddress());
+
+                Log.d("BLUETOOTH_DD", Arrays.toString(devices.toArray()));
+            }
+        }
+    };
+
+    private List<String> devices = new ArrayList<>();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,18 +66,15 @@ public class SendSurveysTemplateActivity extends ActionBarActivity {
                     protected Integer doInBackground(Survey... params) {
                         publishProgress();
 
-                        if(Bluetooth.isDeviceSupportingBluetooth()){
-                            Bluetooth.requestBluetoothToBeEnabledIfItIsNot(SendSurveysTemplateActivity.this);
-                        }
+                        SurveyFileCreator surveyFileCreator = new SurveyFileCreator();
+                        surveyFileCreator.saveSurveyTemplate(survey, getApplicationContext());
 
                         return 1;
                     }
 
                     @Override
                     protected void onPostExecute(Integer i) {
-                        boolean result = false;
-
-                        result = i == 1;
+                        boolean result = i == 1;
 
                         if(result) {
                             DataBaseAdapter dataBaseAdapter = new DataBaseAdapter(getApplicationContext());
@@ -66,6 +91,11 @@ public class SendSurveysTemplateActivity extends ActionBarActivity {
                 }).execute(survey);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

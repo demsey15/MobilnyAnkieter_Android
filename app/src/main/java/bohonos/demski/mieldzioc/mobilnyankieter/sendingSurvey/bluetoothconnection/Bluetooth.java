@@ -2,7 +2,11 @@ package bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.bluetoothconnecti
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
@@ -23,5 +27,11 @@ public class Bluetooth {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(activity, enableBtIntent, 1, null);
         }
+    }
+
+    public static List<BluetoothDevice> getPairedDevices(){
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        return new ArrayList<>(mBluetoothAdapter.getBondedDevices());
     }
 }
