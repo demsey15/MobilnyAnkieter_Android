@@ -55,6 +55,7 @@ public class SurveyHandlerMobile extends SurveyHandler {
         Log.d("DODANIE_SZABLONU_BAZA", String.valueOf(super.getSurveyStatus(survey.getIdOfSurveys())));
         if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()), false)) return null;
         ApplicationState.getInstance(context).saveLastAddedSurveyTemplateNumber(super.getMaxSurveysId());
+
         return id;
     }
 }

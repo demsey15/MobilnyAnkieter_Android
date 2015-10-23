@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.SurveysTemplateControl;
+import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.creatingsurveysfiles.FileHandler;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
 
@@ -70,6 +71,9 @@ public class ApplicationState {
         clearPasswordArray(password);
 
         prepareSurveyHandler();
+
+        FileHandler fileHandler = new FileHandler();
+        fileHandler.prepareLoadingDirectories();
 
         Log.d("LOGOWANIE", "HASLO OK");
 
