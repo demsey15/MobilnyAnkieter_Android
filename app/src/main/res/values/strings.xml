@@ -100,4 +100,5 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_survey_template">Szablony ankiet</string>
     <string name="title_activity_filled_surveys">Wypełnione ankiety</string>
+    <string name="title_activity_sending_survey_answers">Wysyłanie wyników ankiet</string>
 </resources>

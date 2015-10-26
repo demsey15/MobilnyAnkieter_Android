@@ -109,6 +109,10 @@
             android:name=".filledsurveys.FilledSurveysActivity"
             android:label="@string/title_activity_filled_surveys" >
         </activity>
+        <activity
+            android:name=".sendingsurvey.SendingSurveyAnswersActivity"
+            android:label="@string/title_activity_sending_survey_answers" >
+        </activity>
     </application>
 
 </manifest>

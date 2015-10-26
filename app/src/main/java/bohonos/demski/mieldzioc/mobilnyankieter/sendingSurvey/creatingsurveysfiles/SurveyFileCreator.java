@@ -2,9 +2,7 @@ package bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.creatingsurveysfi
 
 import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,30 +56,47 @@ public class SurveyFileCreator {
                  now + survey.getTitle() + ".json";
     }
 
-    public void saveSurveyAnswers(List<Survey> surveys, Context context){
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
-                getSurveyAnswersFileName());
+    public Pair<Boolean, String> saveSurveyAnswers(List<Survey> surveys, Context context, String sendStatus){
+        if(fileHandler.isExternalStorageWritable()) {
+            if (surveys != null && !surveys.isEmpty()) {
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                        getSurveyAnswersFileName(surveys.get(0), sendStatus));
 
-        file.getParentFile().mkdirs();
+                file.getParentFile().mkdirs();
 
-        try {
-            JsonSurveySerializator jsonSurveySerializator = new JsonSurveySerializator();
-            String jsonSurvey = jsonSurveySerializator.serializeListOfSurveys(surveys);
+                try {
+                    JsonSurveySerializator jsonSurveySerializator = new JsonSurveySerializator();
+                    String jsonSurvey = jsonSurveySerializator.serializeListOfSurveys(surveys);
 
-            fileHandler.saveToFile(file, jsonSurvey);
+                    fileHandler.saveToFile(file, jsonSurvey);
 
-            Log.d("FILE_SURVEY_TEMP_PATH", file.getCanonicalPath());
-        } catch (IOException e) {
-            Toast.makeText(context, "Nie można zapisać pliku - możliwy brak miejsca w pamięci urządzenia", Toast.LENGTH_LONG);
+                    String surveySavedTxt = "Wyniki zostały zapisane (" + file.getAbsolutePath() + ")";
 
-            e.printStackTrace();
+                    return new Pair<>(true, surveySavedTxt);
+                } catch (IOException e) {
+                    String errorTooLowMemoryTxt = "Nie można zapisać pliku - możliwy brak miejsca w pamięci urządzenia";
+
+                    e.printStackTrace();
+
+                    return new Pair<>(false, errorTooLowMemoryTxt);
+                }
+            } else{
+                String emptySurveyListMessage = "Brak zapisanych odpowiedzi dla wybranej ankiety.";
+
+                return new Pair<>(false, emptySurveyListMessage);
+            }
+        }
+        else{
+            String errorLackOfMemoryTxt = "Brak załączonej pamięci zewnętrznej. Załącz pamięć i spróbuj ponownie.";
+
+            return new Pair<>(false, errorLackOfMemoryTxt);
         }
     }
 
-   private String getSurveyAnswersFileName(){
+   private String getSurveyAnswersFileName(Survey survey, String sendStatus){
        String now = DateAndTimeService.getToday();
 
        return "mobilnyankieter" + File.separator + "wynikiAnkiet" + File.separator +
-                 now + "_answers.json";
+                 survey.getTitle() + "_" + sendStatus + "_" + now + "_answers.json";
    }
 }

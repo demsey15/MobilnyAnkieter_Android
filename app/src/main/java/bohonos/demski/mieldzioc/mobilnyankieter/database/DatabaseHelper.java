@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -235,30 +235,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String KEY_SURVEY_SADB = "Survey";
     public static final String SURVEY_OPTIONS_SADB = "TEXT NOT NULL";
-    public static final int SURVEY_COLUMN_SADB  = 0;
     public static final String KEY_NO_FILLED_SURVEY_SADB = "Filled_survey_number"; //numer wypełnionej ankiety
     public static final String NO_FILLED_SURVEY_OPTIONS_SADB = "INT NOT NULL";
-    public static final int NO_FILLED_COLUMN_SADB = 1;
     public static final String KEY_ANSWER_NUMBER_SADB = "Answer_number"; //numer odpowiedzi w danym pytaniu
     public static final String ANSWER_NUMBER_OPTIONS_SADB = "INT NOT NULL";
-    public static final int ANSWER_NUMBER_COLUMN_SADB = 2;
     public static final String KEY_QUESTION_NUMBER_SADB = "Question_number"; // idOfSurveys + numer pytania
     public static final String QUESTION_NUMBER_OPTIONS_SADB = "TEXT NOT NULL  REFERENCES " +
              "QUESTIONS_TABLE";
-    public static final int QUESTION_NUMBER_COLUMN_SADB = 3;
     public static final String KEY_ANSWER_SADB = "Answer";
     public static final String ANSWER_OPTIONS_SADB = "TEXT";
-    public static final int ANSWER_COLUMN_SADB = 4;
 
 
     public static final String FILLED_SURVEYS_TABLE = "Filled_surveys";
 
     public static final String KEY_SURVEY_FSDB = "Survey";
     public static final String SURVEY_OPTIONS_FSDB = "TEXT NOT NULL";
-    public static final int SURVEY_COLUMN_FSDB  = 0;
     public static final String KEY_NO_FILLED_SURVEY_FSDB = "Filled_survey_number"; //numer wypełnionej ankiety
     public static final String NO_FILLED_OPTIONS_FSDB = "INT NOT NULL";
-    public static final int NO_FILLED_COLUMN_FSDB = 1;
     public static final String KEY_FROM_DATE_FSDB = "From_date";
     public static final String FROM_DATE_OPTIONS_FSDB = "TEXT NOT NULL CHECK(" +
             KEY_FROM_DATE_FSDB + " GLOB '[1-3][0-9][0-9][0-9]-" +
@@ -271,7 +264,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
     public static final String KEY_FILLED_BY_DEVICE_ID_FSDB = "Filled_by";
     public static final String FILLED_BY_DEVICE_OPTIONS_FSDB = "TEXT NOT NULL";
-
+    public static final String KEY_IS_SENT_FSDB = "Is_Sent";
+    public static final String IS_SENT_OPTIONS_FSDB = "INT NOT NULL CHECK(" + KEY_IS_SENT_FSDB + " IN(0, 1))";
 
 
     private static final String DB_CREATE_SURVEY_TEMPLATE_TABLE = "CREATE TABLE " +
@@ -343,7 +337,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             FILLED_SURVEYS_TABLE + "( " + KEY_SURVEY_FSDB + " " + SURVEY_OPTIONS_FSDB + ", " +
            KEY_NO_FILLED_SURVEY_FSDB + " " + NO_FILLED_OPTIONS_FSDB + ", " + KEY_FROM_DATE_FSDB +
             " " + FROM_DATE_OPTIONS_FSDB  + ", " + KEY_TO_DATE_FSDB + " " + TO_DATE_OPTIONS_FSDB + ", " +
-            KEY_FILLED_BY_DEVICE_ID_FSDB + " " + FILLED_BY_DEVICE_OPTIONS_FSDB + ");";
+            KEY_FILLED_BY_DEVICE_ID_FSDB + " " + FILLED_BY_DEVICE_OPTIONS_FSDB + ", " + KEY_IS_SENT_FSDB
+            + " " + IS_SENT_OPTIONS_FSDB + ");";
 
     private static final String DB_CREATE_ANSWERS_TABLE = "CREATE TABLE " +
             ANSWERS_TABLE + "( " + KEY_SURVEY_SADB + " " + SURVEY_OPTIONS_SADB + ", " +

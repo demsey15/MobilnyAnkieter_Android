@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_filter"
+        android:title="filtruj"
+        android:orderInCategory="100"
+        app:showAsAction="always">
+
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/filter_sent"
+                android:title="wysłane"/>
+
+                <item android:id="@+id/filter_not_sent"
+                    android:title="nie wysłane"
+                    android:checked="true"/>
+
+                <item android:id="@+id/filter_all"
+                    android:title="wszystkie"/>
+            </group>
+        </menu>
+    </item>
+
+</menu>

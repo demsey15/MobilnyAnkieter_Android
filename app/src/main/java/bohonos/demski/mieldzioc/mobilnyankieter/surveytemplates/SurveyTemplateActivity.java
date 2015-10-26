@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.View;
@@ -96,31 +97,13 @@ public class SurveyTemplateActivity extends ActionBarActivity {
                             Toast.makeText(getApplicationContext(), result.second, Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            StringBuilder communicateBuilder = new StringBuilder();
-
                             Integer[] statistics = result.first;
 
-                            int amountOfNotLoadedTemplates = statistics[statistics.length - 1] - statistics[LoadingSurveyTemplates.SURVEY_ADDED];
-
-                            communicateBuilder.append("Liczba nie załadowanych szablonów: ");
-                            communicateBuilder.append(amountOfNotLoadedTemplates);
-                            communicateBuilder.append("\nNapraw błędy i/lub spróbuj ponownie.");
-                            communicateBuilder.append("\n\nSzczegóły:\n\nLiczba załadowanych ankiet: ");
-                            communicateBuilder.append(statistics[LoadingSurveyTemplates.SURVEY_ADDED]);
-                            communicateBuilder.append("\nLiczba plików w złym formacie: ");
-                            communicateBuilder.append(statistics[LoadingSurveyTemplates.WRONG_FILE_FORMAT]);
-                            communicateBuilder.append("\nLiczba wypełnionych ankiet zamiast szablonów ankiet: ");
-                            communicateBuilder.append(statistics[LoadingSurveyTemplates.SURVEY_ANSWER_INSTEAD_OF_SURVEY_TEMPLATE]);
-                            communicateBuilder.append("\nLiczba istniejących już wczesniej ankiet: ");
-                            communicateBuilder.append(statistics[LoadingSurveyTemplates.SURVEY_TEMPLATE_ALREADY_EXISTS]);
-                            communicateBuilder.append("\nLiczba plików, których nie mogę odczytać: ");
-                            communicateBuilder.append(statistics[LoadingSurveyTemplates.CANNOT_READ_FILE]);
-                            communicateBuilder.append("\nLiczba błędów podczas dodawania do bazy danych: ");
-                            communicateBuilder.append(statistics[LoadingSurveyTemplates.ERROR_DURING_ADDING_TO_DB]);
+                            String communicate =  gerErrorLoadingSurveyMessage(statistics);
 
                             (new AlertDialog.Builder(SurveyTemplateActivity.this)
                                     .setTitle("Podsumowanie")
-                                    .setMessage(communicateBuilder.toString())
+                                    .setMessage(communicate)
                                     .setIcon(android.R.drawable.ic_dialog_info)
                                     .setPositiveButton(android.R.string.ok, null))
                                     .show();
@@ -142,6 +125,31 @@ public class SurveyTemplateActivity extends ActionBarActivity {
                 }).execute();
             }
         });
+    }
+
+    @NonNull
+    private String gerErrorLoadingSurveyMessage(Integer[] statistics) {
+        StringBuilder communicateBuilder = new StringBuilder();
+
+        int amountOfNotLoadedTemplates = statistics[statistics.length - 1] - statistics[LoadingSurveyTemplates.SURVEY_ADDED];
+
+        communicateBuilder.append("Liczba nie załadowanych szablonów: ");
+        communicateBuilder.append(amountOfNotLoadedTemplates);
+        communicateBuilder.append("\nNapraw błędy i/lub spróbuj ponownie.");
+        communicateBuilder.append("\n\nSzczegóły:\n\nLiczba załadowanych ankiet: ");
+        communicateBuilder.append(statistics[LoadingSurveyTemplates.SURVEY_ADDED]);
+        communicateBuilder.append("\nLiczba plików w złym formacie: ");
+        communicateBuilder.append(statistics[LoadingSurveyTemplates.WRONG_FILE_FORMAT]);
+        communicateBuilder.append("\nLiczba wypełnionych ankiet zamiast szablonów ankiet: ");
+        communicateBuilder.append(statistics[LoadingSurveyTemplates.SURVEY_ANSWER_INSTEAD_OF_SURVEY_TEMPLATE]);
+        communicateBuilder.append("\nLiczba istniejących już wczesniej ankiet: ");
+        communicateBuilder.append(statistics[LoadingSurveyTemplates.SURVEY_TEMPLATE_ALREADY_EXISTS]);
+        communicateBuilder.append("\nLiczba plików, których nie mogę odczytać: ");
+        communicateBuilder.append(statistics[LoadingSurveyTemplates.CANNOT_READ_FILE]);
+        communicateBuilder.append("\nLiczba błędów podczas dodawania do bazy danych: ");
+        communicateBuilder.append(statistics[LoadingSurveyTemplates.ERROR_DURING_ADDING_TO_DB]);
+
+        return communicateBuilder.toString();
     }
 
 }

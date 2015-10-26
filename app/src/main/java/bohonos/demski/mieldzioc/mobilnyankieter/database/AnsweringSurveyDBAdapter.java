@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,15 +51,61 @@ public class AnsweringSurveyDBAdapter {
         dbHelper.close();
     }
 
-    public void deleteAnswers(Survey survey){
+    public void deleteAnswers(String idOfSurveys, boolean sent, boolean notSent, boolean all){
         open();
-        db.delete(DatabaseHelper.ANSWERS_TABLE, DatabaseHelper.KEY_SURVEY_SADB + " = " +
-                survey.getIdOfSurveys() + " AND " + DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB + " = "
-                + survey.getNumberOfSurvey(), null);
-        db.delete(DatabaseHelper.FILLED_SURVEYS_TABLE, DatabaseHelper.KEY_SURVEY_FSDB + " = " +
-                survey.getIdOfSurveys() + " AND " + DatabaseHelper.KEY_NO_FILLED_SURVEY_FSDB + " = "
-                + survey.getNumberOfSurvey(), null);
+
+        if((sent && notSent) || (sent && all) || (all && notSent)){
+            throw new IllegalArgumentException("sent, notSent, all mustn't be true at the same time.");
+        }
+
+        String whereAnswers = "";
+        String whereSurveys = "";
+
+        if(all) {
+            whereAnswers = DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "'";
+            whereSurveys = DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "'";
+        }
+        else if(sent){
+            String in = getInExpression(true);
+
+            whereAnswers = DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "' AND " +
+                    DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB + " IN " + in;
+            whereSurveys = DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "' AND " +
+                    DatabaseHelper.KEY_IS_SENT_FSDB + " = " + 1;
+        }
+        else if(notSent){
+            String in = getInExpression(false);
+
+            whereAnswers = DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "' AND " +
+                    DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB + " IN " + in;
+            whereSurveys = DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "' AND " +
+                    DatabaseHelper.KEY_IS_SENT_FSDB + " = " + 0;
+        }
+
+        if(sent || notSent || all) {
+            db.delete(DatabaseHelper.ANSWERS_TABLE, whereAnswers, null);
+            db.delete(DatabaseHelper.FILLED_SURVEYS_TABLE, whereSurveys, null);
+        }
         close();
+    }
+
+    @NonNull
+    private String getInExpression(boolean ifSent) {
+        int sentStatus = (ifSent)? 1 : 0;
+
+        Cursor cursor = db.query(DatabaseHelper.FILLED_SURVEYS_TABLE, new String[] {DatabaseHelper.KEY_NO_FILLED_SURVEY_FSDB},
+                DatabaseHelper.KEY_IS_SENT_FSDB + " = " + sentStatus, null, null, null, null);
+
+        String in = "(";
+        while(cursor.moveToNext()){
+            if(!cursor.isNull(0)) {
+                in += cursor.getInt(0) + ",";
+            }
+        }
+
+        in = in.substring(0, in.length() - 1) + ")";
+
+        return in;
     }
 
     public boolean addAnswers(Survey survey){
@@ -70,6 +118,7 @@ public class AnsweringSurveyDBAdapter {
                 getDateAsDBString(survey.getStartTime()));
         filledSurveyValues.put(DatabaseHelper.KEY_TO_DATE_FSDB, DateAndTimeService.
                 getDateAsDBString(survey.getFinishTime()));
+        filledSurveyValues.put(DatabaseHelper.KEY_IS_SENT_FSDB, 0);
 
         if(db.insert(DatabaseHelper.FILLED_SURVEYS_TABLE, null, filledSurveyValues) == -1) {
             close();
@@ -118,15 +167,17 @@ public class AnsweringSurveyDBAdapter {
      * Zwraca listę wszystkich odpowiedzi dla ankiet, które przeprowadził dany ankieter.
      * @return
      */
-    public List<Survey> getAllAnswers(){
+    public List<Pair<Survey, Boolean>> getAllAnswersWithSentStatus(){
         open();
         Cursor cursor = db.query(DatabaseHelper.FILLED_SURVEYS_TABLE, new String[]
                         {DatabaseHelper.KEY_SURVEY_FSDB, DatabaseHelper.KEY_NO_FILLED_SURVEY_FSDB,
                                 DatabaseHelper.KEY_FROM_DATE_FSDB,
-                                DatabaseHelper.KEY_TO_DATE_FSDB, DatabaseHelper.KEY_FILLED_BY_DEVICE_ID_FSDB}, null,
+                                DatabaseHelper.KEY_TO_DATE_FSDB, DatabaseHelper.KEY_FILLED_BY_DEVICE_ID_FSDB,
+                                DatabaseHelper.KEY_IS_SENT_FSDB}, null,
                 null, null, null, null);
 
-        List<Survey> surveys = new ArrayList<>();
+        List<Pair<Survey, Boolean>> surveys = new ArrayList<>();
+
         while(cursor.moveToNext()){
             DataBaseAdapter db = new DataBaseAdapter(context);
             Survey survey = db.getSurveyTemplate(cursor.getString(0));
@@ -144,21 +195,22 @@ public class AnsweringSurveyDBAdapter {
                 if(from != null && to != null){
                     survey.setStartTime(from);
                     survey.setFinishTime(to);
-                    surveys.add(survey);
+                    surveys.add(new Pair<>(survey, (cursor.getInt(5) == 1)));
                 }
             }
         }
         close();
+
         return surveys;
     }
 
 
-    public List<String> getAnswers(String idOfSurveys, int questionNumber){
+    private List<String> getAnswers(String idOfSurveys, int questionNumber){
         Cursor cursor = db.query(DatabaseHelper.ANSWERS_TABLE, new String[]
                         {DatabaseHelper.KEY_ANSWER_SADB, DatabaseHelper.KEY_ANSWER_NUMBER_SADB},
-                DatabaseHelper.KEY_SURVEY_SADB + " = " + idOfSurveys + " AND " +
-                        DatabaseHelper.KEY_QUESTION_NUMBER_SADB + " = " + idOfSurveys + questionNumber
-                , null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_SADB + " ASC");
+                DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "' AND " +
+                        DatabaseHelper.KEY_QUESTION_NUMBER_SADB + " = '" + idOfSurveys + questionNumber
+                + "'", null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_SADB + " ASC");
 
         List<String> answers = new ArrayList<>();
 
@@ -169,5 +221,15 @@ public class AnsweringSurveyDBAdapter {
         }
         Log.d("GET_ANSWERS_DB", "Odczytałem " + answers.size() + " odpowiedzi: " + Arrays.toString(answers.toArray()));
         return answers;
+    }
+
+    public void setSurveyAnswersAsSent(String idOfSurveys){
+        open();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.KEY_IS_SENT_FSDB, 1);
+
+        db.update(DatabaseHelper.FILLED_SURVEYS_TABLE, contentValues,
+                DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "'", null);
+        close();
     }
 }
