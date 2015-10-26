@@ -20,10 +20,21 @@ public class ChooseSurveyAdapter extends BaseAdapter {
     private Context context;
     private List<Survey> surveys;
 
+    private int status;
+
     public ChooseSurveyAdapter(Context context, int status) {
+        this.status = status;
         this.context = context;
         surveys = ApplicationState.getInstance(context).getSurveysTemplateControl().
                 getSurveysWithId(status);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        surveys = ApplicationState.getInstance(context).getSurveysTemplateControl().
+                getSurveysWithId(status);
+
+        super.notifyDataSetChanged();
     }
 
     @Override

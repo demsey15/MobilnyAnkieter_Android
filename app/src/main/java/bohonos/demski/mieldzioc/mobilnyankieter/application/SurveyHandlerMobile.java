@@ -58,4 +58,12 @@ public class SurveyHandlerMobile extends SurveyHandler {
 
         return id;
     }
+
+    @Override
+    public void deleteSurvey(Survey survey) {
+        super.deleteSurvey(survey);
+
+        DataBaseAdapter db = new DataBaseAdapter(context);
+        db.deleteSurveyTemplate(survey.getIdOfSurveys());
+    }
 }

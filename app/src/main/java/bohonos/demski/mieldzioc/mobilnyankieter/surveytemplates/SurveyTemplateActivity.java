@@ -28,6 +28,17 @@ public class SurveyTemplateActivity extends ActionBarActivity {
 
         prepareSendSurveyTemplatesButton();
         prepareLoadSurveyTemplatesButton();
+
+        Button deleteSurveyTemplatesButton = (Button) findViewById(R.id.delete_survey_templates_button);
+        deleteSurveyTemplatesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SurveyTemplateActivity.this, DeleteSurveyTemplateActivity.class);
+
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void prepareSendSurveyTemplatesButton() {

@@ -117,6 +117,10 @@
             android:name=".application.login.CheckHelpQuestionActivity"
             android:label="@string/title_activity_check_help_question" >
         </activity>
+        <activity
+            android:name=".surveytemplates.DeleteSurveyTemplateActivity"
+            android:label="@string/title_activity_delete_survey_template" >
+        </activity>
     </application>
 
 </manifest>

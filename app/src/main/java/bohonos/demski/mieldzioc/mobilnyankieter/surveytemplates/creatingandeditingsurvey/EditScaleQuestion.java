@@ -36,7 +36,6 @@ public class EditScaleQuestion extends ActionBarActivity {
 
         final EditText titleTxt = (EditText) findViewById(R.id.question_scale_text);
         final EditText hintTxt = (EditText) findViewById(R.id.hint_scale_text);
-        final EditText errorTxt = (EditText) findViewById(R.id.error_scale_text);
         final CheckBox obligatory = (CheckBox) findViewById(R.id.obligatory_checkbox);
         Button addButton = (Button) findViewById(R.id.save_question);
 
@@ -51,7 +50,6 @@ public class EditScaleQuestion extends ActionBarActivity {
 
         if(question.getQuestion() != null) titleTxt.setText(question.getQuestion());
         if(question.getHint() != null) hintTxt.setText(question.getHint());
-        if(question.getErrorMessage() != null) errorTxt.setText(question.getErrorMessage());
         obligatory.setChecked(question.isObligatory());
 
 
@@ -77,7 +75,6 @@ public class EditScaleQuestion extends ActionBarActivity {
                         CreatingSurveyControl control = CreatingSurveyControl.getInstance();
                         control.setQuestionText(questionNumber, titleTxt.getText().toString());
                         control.setQuestionHint(questionNumber, hintTxt.getText().toString());
-                        control.setQuestionErrorMessage(questionNumber, errorTxt.getText().toString());
                         control.setQuestionObligatory(questionNumber, obligatory.isChecked());
 
                         control.setScaleQuestionMaxValue(questionNumber, Integer.valueOf(toEdit.getText().toString()));

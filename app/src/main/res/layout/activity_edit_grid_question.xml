@@ -23,23 +23,14 @@
             android:textColor="@color/black"
             android:textColorHint="@color/hint_text_color"
             android:hint="@string/hint_text_hint"
-            android:layout_below="@+id/question_grid_text"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/error_grid_text"
-            android:hint="@string/error_text_hint"
-            android:textColor="@color/black"
-            android:textColorHint="@color/hint_text_color"
-            android:layout_below="@+id/hint_grid_text"/>
+            android:layout_below="@id/question_grid_text"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/obligatory_check_box"
             android:textColor="@color/black"
-            android:layout_below="@+id/error_grid_text"
+            android:layout_below="@id/hint_grid_text"
             android:id="@+id/obligatory_grid_checkbox"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"/>
@@ -47,7 +38,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/obligatory_grid_checkbox"
+            android:layout_below="@id/obligatory_grid_checkbox"
             android:layout_marginLeft="5dp"
             android:textColor="@color/black"
             android:textSize="25dp"
@@ -60,14 +51,14 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
-            android:layout_below="@+id/grid_row_labels">
+            android:layout_below="@id/grid_row_labels">
 
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/grid_question_linear_rows"
+            android:layout_below="@id/grid_question_linear_rows"
             android:layout_marginLeft="5dp"
             android:textSize="25dp"
             android:textColor="@color/black"
@@ -80,7 +71,7 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
-            android:layout_below="@+id/grid_column_labels">
+            android:layout_below="@id/grid_column_labels">
 
         </LinearLayout>
 

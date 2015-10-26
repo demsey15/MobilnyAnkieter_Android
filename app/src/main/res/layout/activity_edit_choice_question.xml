@@ -25,20 +25,12 @@
         android:textColorHint="@color/hint_text_color"
         android:layout_below="@+id/question_choice_text"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/error_choice_text"
-        android:hint="@string/error_text_hint"
-        android:textColor="@color/black"
-        android:textColorHint="@color/hint_text_color"
-        android:layout_below="@+id/hint_choice_text"/>
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/obligatory_check_box"
-        android:layout_below="@+id/error_choice_text"
+        android:layout_below="@+id/hint_choice_text"
         android:id="@+id/obligatory_choice_checkbox"
         android:layout_alignParentRight="true"
         android:textColor="@color/black"

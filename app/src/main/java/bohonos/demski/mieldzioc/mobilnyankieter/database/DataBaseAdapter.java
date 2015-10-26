@@ -159,7 +159,6 @@ public class DataBaseAdapter {
         questionValues.put(DatabaseHelper.KEY_QUESTION_QDB, question.getQuestion());
         questionValues.put(DatabaseHelper.KEY_OBLIGATORY_QDB, (question.isObligatory())? 1 : 0);
         questionValues.put(DatabaseHelper.KEY_HINT_QDB, question.getHint());
-        questionValues.put(DatabaseHelper.KEY_ERROR_QDB, question.getErrorMessage());
         questionValues.put(DatabaseHelper.KEY_TYPE_QDB, question.getQuestionType());
         questionValues.put(DatabaseHelper.KEY_CREATED_DATE_QDB, DateAndTimeService.getToday());
         questionValues.put(DatabaseHelper.KEY_MODIFICATION_DATE_QDB, DateAndTimeService.getToday());
@@ -340,7 +339,6 @@ public class DataBaseAdapter {
     private List<Question> getSurveysQuestion(String idOfSurveys) {
         Cursor cursor = db.query(DatabaseHelper.QUESTIONS_TABLE, new String[]{
                         DatabaseHelper.KEY_OBLIGATORY_QDB, DatabaseHelper.KEY_HINT_QDB,
-                        DatabaseHelper.KEY_ERROR_QDB, DatabaseHelper.KEY_TYPE_QDB,
                         DatabaseHelper.KEY_QUESTION_QDB
                         }, DatabaseHelper.KEY_ID_SURVEY_QDB + " = '"
                         + idOfSurveys + "' ", null, null, null,
@@ -349,7 +347,7 @@ public class DataBaseAdapter {
         List<Question> questions = new ArrayList<>();
         while (cursor.moveToNext()) {
             Question question = null;
-            int questionType = cursor.getInt(3);
+            int questionType = cursor.getInt(2);
             if(questionType == Question.DROP_DOWN_QUESTION) {
                 question = new OneChoiceQuestion("");
                 List<String> list = getChoiceAnswers(idOfSurveys, i);
@@ -410,8 +408,7 @@ public class DataBaseAdapter {
             }
             question.setObligatory(cursor.getInt(0) != 0);
             question.setHint(cursor.getString(1));
-            question.setErrorMessage(cursor.getString(2));
-            question.setQuestion(cursor.getString(4));
+            question.setQuestion(cursor.getString(2));
             questions.add(question);
             i++;
         }
@@ -527,7 +524,7 @@ public class DataBaseAdapter {
                 DatabaseHelper.KEY_QUESTION_SCDB + " = " +
                 questionNo, null, null, null, null, null);
         if(cursor.moveToFirst()){
-            scaleQuestion = new ScaleQuestion("", false, "", "", cursor.getInt(0),
+            scaleQuestion = new ScaleQuestion("", false, "", cursor.getInt(0),
                     cursor.getInt(1), cursor.getString(2), cursor.getString(3));
         }
         return scaleQuestion;

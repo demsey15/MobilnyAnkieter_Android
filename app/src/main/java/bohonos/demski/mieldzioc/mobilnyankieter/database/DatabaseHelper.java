@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -74,9 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_HINT_QDB = "Hint";
     public static final String HINT_OPTIONS_QDB = "TEXT";
     public static final int HINT_COLUMN_QDB = 4;
-    public static final String KEY_ERROR_QDB = "Error";
-    public static final String ERROR_OPTIONS_QDB = "TEXT";
-    public static final int ERROR_COLUMN_QDB = 5;
     public static final String KEY_TYPE_QDB = "Type";
     public static final String TYPE_OPTIONS_QDB = "INTEGER CHECK(" + KEY_TYPE_QDB + " >= 0 AND " +
     KEY_TYPE_QDB + " <= 7)";
@@ -282,8 +279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ", " + KEY_QUESTION_NUMBER_QDB + " " + QUESTION_NUMBER_OPTIONS_QDB +
             ", " + KEY_QUESTION_QDB + " " + QUESTION_OPTIONS_QDB + ", " +
             KEY_OBLIGATORY_QDB + " " + OBLIGATORY_OPTIONS_QDB + ", " +
-            KEY_HINT_QDB + " " + HINT_OPTIONS_QDB + ", " + KEY_ERROR_QDB + " " + ERROR_OPTIONS_QDB +
-            ", " + KEY_TYPE_QDB + " " + TYPE_OPTIONS_QDB
+            KEY_HINT_QDB + " " + HINT_OPTIONS_QDB + ", " + KEY_TYPE_QDB + " " + TYPE_OPTIONS_QDB
             + ", " + KEY_CREATED_DATE_QDB + " " + CREATED_DATE_OPTIONS_QDB + ", " +
             KEY_MODIFICATION_DATE_QDB + " " + MODIFICATION_DATE_OPTIONS_QDB + ", " + KEY_MODIFIED_BY
             + " " + MODIFIED_BY_OPTIONS_QDB + ", " + FK_QDB + ");";

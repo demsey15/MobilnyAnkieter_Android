@@ -24,16 +24,7 @@
         android:textColorHint="@color/hint_text_color"
         android:id="@+id/hint_scale_text"
         android:hint="@string/hint_text_hint"
-        android:layout_below="@+id/question_scale_text"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/error_scale_text"
-        android:textColor="@color/black"
-        android:textColorHint="@color/hint_text_color"
-        android:hint="@string/error_text_hint"
-        android:layout_below="@+id/hint_scale_text"/>
+        android:layout_below="@id/question_scale_text"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,12 +33,12 @@
         android:id="@+id/scale_label_txt"
         android:textSize="25dp"
         android:text="@string/scale_label"
-        android:layout_below="@+id/error_scale_text"/>
+        android:layout_below="@id/hint_scale_text"/>
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/scale_label_txt"
-        android:layout_below="@+id/error_scale_text"
+        android:layout_toRightOf="@id/scale_label_txt"
+        android:layout_below="@id/hint_scale_text"
         android:inputType="number"
         android:textColor="@color/black"
         android:singleLine="true"
@@ -61,14 +52,14 @@
         android:textSize="25dp"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
-        android:layout_below="@id/error_scale_text"
-        android:layout_toRightOf="@+id/from_scale"/>
+        android:layout_below="@id/hint_scale_text"
+        android:layout_toRightOf="@id/from_scale"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/scale_to_label"
-        android:layout_below="@+id/error_scale_text"
+        android:layout_below="@id/hint_scale_text"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
@@ -79,8 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/bad_scale_error"
-        android:layout_toRightOf="@+id/to_scale"
-        android:layout_below="@+id/error_scale_text"
+        android:layout_toRightOf="@id/to_scale"
+        android:layout_below="@id/hint_scale_text"
         android:textColor="@color/red"/>
     <TextView
         android:layout_width="wrap_content"
@@ -89,7 +80,7 @@
         android:textColorHint="@color/hint_text_color"
         android:text="1:"
         android:textSize="25dp"
-        android:layout_below="@+id/to_scale"
+        android:layout_below="@id/to_scale"
         android:id="@+id/label_label_from"/>
     <EditText
         android:layout_width="wrap_content"
@@ -97,8 +88,8 @@
         android:hint="@string/scale_label_hint"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
-        android:layout_below="@+id/to_scale"
-        android:layout_toRightOf="@+id/label_label_from"
+        android:layout_below="@id/to_scale"
+        android:layout_toRightOf="@id/label_label_from"
         android:singleLine="true"
         android:id="@+id/from_label"/>
     <TextView
@@ -109,7 +100,7 @@
         android:text="2:"
         android:textSize="25dp"
         android:paddingTop="10dp"
-        android:layout_below="@+id/label_label_from"
+        android:layout_below="@id/label_label_from"
         android:id="@+id/label_label_to"/>
     <EditText
         android:layout_width="wrap_content"
@@ -117,8 +108,8 @@
         android:textColorHint="@color/hint_text_color"
         android:layout_height="wrap_content"
         android:hint="@string/scale_label_hint"
-        android:layout_below="@+id/from_label"
-        android:layout_toRightOf="@+id/label_label_to"
+        android:layout_below="@id/from_label"
+        android:layout_toRightOf="@id/label_label_to"
         android:singleLine="true"
         android:id="@+id/to_label"/>
     <CheckBox
@@ -128,7 +119,7 @@
         android:text="@string/obligatory_check_box"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
-        android:layout_below="@+id/label_label_to"
+        android:layout_below="@id/label_label_to"
         android:layout_marginRight="15dp"
         android:layout_alignParentRight="true"/>
 

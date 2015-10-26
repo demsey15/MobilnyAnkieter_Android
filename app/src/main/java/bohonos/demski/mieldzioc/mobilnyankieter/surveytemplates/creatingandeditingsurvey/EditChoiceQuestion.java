@@ -45,7 +45,6 @@ public class EditChoiceQuestion extends ActionBarActivity {
     private void prepareView(){
         final EditText titleTxt = (EditText) findViewById(R.id.question_choice_text);
         final EditText hintTxt = (EditText) findViewById(R.id.hint_choice_text);
-        final EditText errorTxt = (EditText) findViewById(R.id.error_choice_text);
         final CheckBox obligatory = (CheckBox) findViewById(R.id.obligatory_choice_checkbox);
         Button addButton = (Button) findViewById(R.id.save_choice_question_button);
 
@@ -55,7 +54,6 @@ public class EditChoiceQuestion extends ActionBarActivity {
                 CreatingSurveyControl control = CreatingSurveyControl.getInstance();
                 control.setQuestionText(questionNumber, titleTxt.getText().toString());
                 control.setQuestionHint(questionNumber, hintTxt.getText().toString());
-                control.setQuestionErrorMessage(questionNumber, errorTxt.getText().toString());
                 control.setQuestionObligatory(questionNumber, obligatory.isChecked());
 
                 List<String> answers = fragment.getAnswers();
@@ -70,7 +68,6 @@ public class EditChoiceQuestion extends ActionBarActivity {
 
         if(question.getQuestion() != null) titleTxt.setText(question.getQuestion());
         if(question.getHint() != null) hintTxt.setText(question.getHint());
-        if(question.getErrorMessage() != null) errorTxt.setText(question.getErrorMessage());
         obligatory.setChecked(question.isObligatory());
     }
     private void addAnswersFragment(){

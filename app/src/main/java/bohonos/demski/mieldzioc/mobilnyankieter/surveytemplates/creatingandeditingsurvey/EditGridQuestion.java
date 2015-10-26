@@ -48,7 +48,6 @@ public class EditGridQuestion extends ActionBarActivity {
     private void prepareView(){
         final EditText titleTxt = (EditText) findViewById(R.id.question_grid_text);
         final EditText hintTxt = (EditText) findViewById(R.id.hint_grid_text);
-        final EditText errorTxt = (EditText) findViewById(R.id.error_grid_text);
         final CheckBox obligatory = (CheckBox) findViewById(R.id.obligatory_grid_checkbox);
         Button addButton = (Button) findViewById(R.id.save_grid_question_button);
 
@@ -58,7 +57,6 @@ public class EditGridQuestion extends ActionBarActivity {
                 CreatingSurveyControl control = CreatingSurveyControl.getInstance();
                 control.setQuestionText(questionNumber, titleTxt.getText().toString());
                 control.setQuestionHint(questionNumber, hintTxt.getText().toString());
-                control.setQuestionErrorMessage(questionNumber, errorTxt.getText().toString());
                 control.setQuestionObligatory(questionNumber, obligatory.isChecked());
 
                 List<String> rowLabels = rowFragment.getAnswers();
@@ -74,7 +72,6 @@ public class EditGridQuestion extends ActionBarActivity {
 
         if(question.getQuestion() != null) titleTxt.setText(question.getQuestion());
         if(question.getHint() != null) hintTxt.setText(question.getHint());
-        if(question.getErrorMessage() != null) errorTxt.setText(question.getErrorMessage());
         obligatory.setChecked(question.isObligatory());
     }
     private void addAnswersFragment(){

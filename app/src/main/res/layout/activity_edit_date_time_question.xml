@@ -27,21 +27,12 @@
         android:hint="@string/hint_text_hint"
         android:layout_below="@+id/question_date_time_text"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/error_date_time_text"
-        android:textColor="@color/black"
-        android:textColorHint="@color/hint_text_color"
-        android:hint="@string/error_text_hint"
-        android:layout_below="@+id/hint_date_time_text"/>
-
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/obligatory_check_box"
-        android:layout_below="@+id/error_date_time_text"
+        android:layout_below="@+id/hint_date_time_text"
         android:layout_alignParentRight="true"
         android:textColor="@color/black"
         android:id="@+id/obligatory_checkbox"
