@@ -36,7 +36,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/delete_survey_templates_button"
+            android:id="@+id/delete_survey_answers_button"
             android:text="Usuń wyniki ankiet"
             android:drawableLeft="@drawable/delete"
             android:background="@color/oliwkowy"

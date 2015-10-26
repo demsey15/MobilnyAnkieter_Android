@@ -21,12 +21,16 @@ public class DeleteSurveyTemplateActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delete_survey_template);
+        setContentView(R.layout.activity_choose_survey_to_fill);
 
+        prepareChooseSurveyList();
+    }
+
+    private void prepareChooseSurveyList() {
         final ChooseSurveyAdapter adapter =
                 new ChooseSurveyAdapter(DeleteSurveyTemplateActivity.this, SurveyHandler.ACTIVE);
 
-        ListView listView = (ListView) findViewById(R.id.delete_survey_template_list);
+        ListView listView = (ListView) findViewById(R.id.choose_survey_list);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

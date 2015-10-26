@@ -1,4 +1,4 @@
-package bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey;
+package bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,11 +22,18 @@ import java.util.Map;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.database.AnsweringSurveyDBAdapter;
-import bohonos.demski.mieldzioc.mobilnyankieter.database.DataBaseAdapter;
+import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.SendingSurveyAnswersAdapter;
 import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.creatingsurveysfiles.SurveyFileCreator;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 
-public class SendingSurveyAnswersActivity extends ActionBarActivity {
+public class FilledSurveysActionsActivity extends ActionBarActivity {
+    public static final String LIST_ACTION_MODE = "MODE";
+    public static final Integer SENDING_MODE = 0;
+    public static final Integer DELETING_MODE = 1;
+    public static final Integer STATISTICS_MODE = 2;
+
+    private int mode;
+
     private Map<String, List<Survey>> allSurveys = new HashMap<>();
     private Map<String, List<Survey>> sentSurveys = new HashMap<>();
     private Map<String, List<Survey>> notSentSurveys = new HashMap<>();
@@ -45,11 +52,86 @@ public class SendingSurveyAnswersActivity extends ActionBarActivity {
 
         initSurveysLists();
 
+        mode = getIntent().getIntExtra(LIST_ACTION_MODE, 0);
         prepareListView();
+
+        prepareStartingFilter();
+    }
+
+    private void prepareStartingFilter(){
+        if(mode == SENDING_MODE){
+            adapter = new SendingSurveyAnswersAdapter(notSentSurveys, getApplicationContext());
+        }
+        else if(mode == DELETING_MODE){
+            adapter = new SendingSurveyAnswersAdapter(sentSurveys, getApplicationContext());
+        }
+        else{
+
+
+        }
+
+        listView.setAdapter(adapter);
     }
 
     private void prepareListView() {
         listView = (ListView) findViewById(R.id.choose_survey_list);
+
+        if(mode == SENDING_MODE) {
+            prepareListViewToSending();
+        }
+        else if(mode == DELETING_MODE){
+            prepareListViewToDeleting();
+        }
+    }
+
+    private void prepareListViewToDeleting(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final Survey survey = (Survey) adapter.getItem(i);
+                        (new AlertDialog.Builder(FilledSurveysActionsActivity.this)
+                                .setMessage("Czy na pewno chcesz usunąć zebrane wyniki wybranej ankiety? Tej operacji nie będzie można cofnąć!")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        String idOfSurveys = survey.getIdOfSurveys();
+
+                                        AnsweringSurveyDBAdapter db = new AnsweringSurveyDBAdapter(getApplicationContext());
+                                        db.deleteAnswers(idOfSurveys, isSentSurveysFilterSet, isNotSentSurveysFilterSet, isAllSurveysFilterSet);
+
+                                        if(isSentSurveysFilterSet){
+                                            List<Survey> removed = sentSurveys.remove(idOfSurveys);
+                                            removeSurveysWithTheSameIdFromSurveyMap(allSurveys, removed);
+
+                                            adapter = new SendingSurveyAnswersAdapter(sentSurveys, getApplicationContext());
+                                        }
+                                        else if(isNotSentSurveysFilterSet){
+                                            List<Survey> removed = notSentSurveys.remove(idOfSurveys);
+                                            removeSurveysWithTheSameIdFromSurveyMap(allSurveys, removed);
+
+                                            adapter = new SendingSurveyAnswersAdapter(notSentSurveys, getApplicationContext());
+                                        }
+                                        else if(isAllSurveysFilterSet){
+                                            allSurveys.remove(idOfSurveys);
+                                            sentSurveys.remove(idOfSurveys);
+                                            notSentSurveys.remove(idOfSurveys);
+
+                                            adapter = new SendingSurveyAnswersAdapter(allSurveys, getApplicationContext());
+                                        }
+
+                                        listView.setAdapter(adapter);
+
+                                        Toast.makeText(getApplicationContext(), "Wyniki zostały usunięte.", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Nie", null)
+                ).show();
+            }
+        });
+    }
+
+    private void prepareListViewToSending() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> adapterView, View view, int i, long l) {
@@ -123,10 +205,6 @@ public class SendingSurveyAnswersActivity extends ActionBarActivity {
                 }).execute(toSend);
             }
         });
-
-        adapter = new SendingSurveyAnswersAdapter(notSentSurveys, getApplicationContext());
-
-        listView.setAdapter(adapter);
     }
 
     private void changeSurveysListExisting(boolean isNotSentSet, boolean isAllSet, String idOfSurveys) {
@@ -149,7 +227,7 @@ public class SendingSurveyAnswersActivity extends ActionBarActivity {
     private void showAlertDialogAboutRemovingSurveyAnswers(String message, final List<Survey> sent,
                                                            final boolean isAllSet, final boolean isSentSet,
                                                            final boolean isNotSentSet) {
-        (new AlertDialog.Builder(SendingSurveyAnswersActivity.this)
+        (new AlertDialog.Builder(FilledSurveysActionsActivity.this)
             .setMessage(message + "\nCzy chcesz usunąć przesłane wyniki ankiet z bazy danych " +
                     "(wygenerowane pliki nie zostaną usunięte)? Usuniętych danych nie będzie" +
                     " można przywrócić!")
@@ -245,59 +323,27 @@ public class SendingSurveyAnswersActivity extends ActionBarActivity {
         }
     }
 
-    private void prepareChooseSurveyList() {
-        ListView chooseSurvey = (ListView) findViewById(R.id.choose_survey_list);
-
-        final SendingNotSentSurveyAdapter adapter = new SendingNotSentSurveyAdapter(getApplicationContext());
-
-        chooseSurvey.setAdapter(adapter);
-
-        chooseSurvey.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final TextView button = (TextView) view;
-                final Survey survey = (Survey) adapter.getItem(position);
-
-                (new AsyncTask<Survey, Void, Pair<Boolean, String>>() {
-                    @Override
-                    protected Pair<Boolean, String> doInBackground(Survey... params) {
-                        publishProgress();
-
-                        SurveyFileCreator surveyFileCreator = new SurveyFileCreator();
-
-                        return surveyFileCreator.saveSurveyTemplate(survey);
-                    }
-
-                    @Override
-                    protected void onPostExecute(Pair<Boolean, String> result) {
-                        boolean isSuccessful = result.first;
-                        String message = result.second;
-
-                        if (isSuccessful) {
-                            DataBaseAdapter dataBaseAdapter = new DataBaseAdapter(getApplicationContext());
-                            dataBaseAdapter.setSurveySent(survey, true);
-
-                            button.setBackgroundColor(getResources().getColor(R.color.sent_button));
-                        } else {
-                            button.setBackgroundColor(getResources().getColor(R.color.cant_send_button));
-                        }
-
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    protected void onProgressUpdate(Void... values) {
-                        button.setBackgroundColor(getResources().getColor(R.color.during_sending_button));
-                    }
-                }).execute(survey);
-            }
-        });
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_send_survey_answers, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        if(mode == SENDING_MODE){
+            menu.findItem(R.id.filter_not_sent).setChecked(true);
+        }
+        else if(mode == DELETING_MODE){
+            menu.findItem(R.id.filter_sent).setChecked(true);
+        }
+        else{
+            menu.findItem(R.id.filter_all).setChecked(true);
+        }
 
         return true;
     }

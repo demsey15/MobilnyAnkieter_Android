@@ -12,8 +12,7 @@
                 android:title="wysłane"/>
 
                 <item android:id="@+id/filter_not_sent"
-                    android:title="nie wysłane"
-                    android:checked="true"/>
+                    android:title="nie wysłane"/>
 
                 <item android:id="@+id/filter_all"
                     android:title="wszystkie"/>

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.SendingSurveyAnswersActivity;
 
 public class FilledSurveysActivity extends ActionBarActivity {
 
@@ -20,7 +19,19 @@ public class FilledSurveysActivity extends ActionBarActivity {
         sendSurveyAnswersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FilledSurveysActivity.this, SendingSurveyAnswersActivity.class);
+                Intent intent = new Intent(FilledSurveysActivity.this, FilledSurveysActionsActivity.class);
+                intent.putExtra(FilledSurveysActionsActivity.LIST_ACTION_MODE, FilledSurveysActionsActivity.SENDING_MODE);
+
+                startActivity(intent);
+            }
+        });
+
+        Button deleteSurveyAnswersButton = (Button) findViewById(R.id.delete_survey_answers_button);
+        deleteSurveyAnswersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FilledSurveysActivity.this, FilledSurveysActionsActivity.class);
+                intent.putExtra(FilledSurveysActionsActivity.LIST_ACTION_MODE, FilledSurveysActionsActivity.DELETING_MODE);
 
                 startActivity(intent);
             }
