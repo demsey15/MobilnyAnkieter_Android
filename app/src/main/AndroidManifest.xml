@@ -113,6 +113,10 @@
             android:name=".sendingsurvey.SendingSurveyAnswersActivity"
             android:label="@string/title_activity_sending_survey_answers" >
         </activity>
+        <activity
+            android:name=".application.login.CheckHelpQuestionActivity"
+            android:label="@string/title_activity_check_help_question" >
+        </activity>
     </application>
 
 </manifest>

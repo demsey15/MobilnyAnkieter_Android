@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/xs_black"
+    tools:context="bohonos.demski.mieldzioc.mobilnyankieter.application.login.CheckHelpQuestionActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:textColor="@color/login_color_text"
+        android:text="Pytanie"
+        android:textSize="20dp"
+        android:id="@+id/reset_password_question"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:textColor="@color/login_color_hint"
+        android:textColorHint="@color/login_color_hint"
+        android:layout_below="@id/reset_password_question"
+        android:id="@+id/reset_password_answer"
+        android:hint="@string/reset_password_answer_hint"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reset_password_answer"
+        android:layout_marginTop="65dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/button_color"
+        android:id="@+id/reset_password_button"
+        android:text="@string/reset_password_button_text"/>
+</RelativeLayout>

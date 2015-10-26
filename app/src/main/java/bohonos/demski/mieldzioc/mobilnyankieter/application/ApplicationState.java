@@ -180,4 +180,15 @@ public class ApplicationState {
     public boolean ifShouldDontLogOut(){
         return preferences.ifShouldDontLogOut();
     }
+
+    public void resetUsersSettings(){
+        saveDontLogOut(false);
+        saveRememberPassword(false);
+
+
+        saveHelpQuestionAnswer("");
+        saveHelpQuestion("");
+
+        saveUserPassword("".toCharArray());
+    }
 }

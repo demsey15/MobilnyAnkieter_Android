@@ -1,5 +1,6 @@
 package bohonos.demski.mieldzioc.mobilnyankieter.application.login;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
@@ -58,6 +60,26 @@ public class Login extends ActionBarActivity {
             actionBar.hide();
 
             prepareLoginButton(animator);
+
+            TextView forgotPasswordTxt = (TextView) findViewById(R.id.forgot_password_txt);
+            forgotPasswordTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String helpQuestion = ApplicationState.getInstance(getApplicationContext()).getHelpQuestion();
+
+                    if(helpQuestion.isEmpty()){
+                        (new AlertDialog.Builder(getApplicationContext())
+                                .setMessage("Niestety podczas rejestracji nie ustalono pytania pomocniczego, w związku" +
+                                        " z tym, nie można zresetować hasła.")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setNeutralButton("Ok", null)).show();
+                    }
+                    else{
+                        Intent intent = new Intent(Login.this, CheckHelpQuestionActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
         }
     }
 

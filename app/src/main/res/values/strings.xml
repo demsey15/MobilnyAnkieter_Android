@@ -8,6 +8,11 @@
     <string name="end_and_start_filling_button">Zakończ i wypełnij\n nową ankietę</string>
     <string name="back_to_main_button">Wróć do menu</string>
 
+    <!-- reset password -->
+
+    <string name="reset_password_answer_hint">Odpowiedz na pytanie. Wielkość liter nie ma znaczenia.</string>
+    <string name="reset_password_button_text">Resetuj hasło</string>
+
     <!-- login -->
 
     <string name="login_hint">Wpisz PESEL</string>
@@ -17,6 +22,7 @@
     <string name="button_login">Zaloguj</string>
     <string name="dont_logout">Nie wylogowuj mnie</string>
     <string name="remember_password">Zapamiętaj hasło</string>
+    <string name="forgot_password">"<u>Zapomniałem hasła</u></string>
 
     <!-- register -->
     <string name="hello_application_text">Witaj w aplikacji\nMobilny Ankieter!</string>
@@ -101,4 +107,5 @@
     <string name="title_activity_survey_template">Szablony ankiet</string>
     <string name="title_activity_filled_surveys">Wypełnione ankiety</string>
     <string name="title_activity_sending_survey_answers">Wysyłanie wyników ankiet</string>
+    <string name="title_activity_check_help_question">Resetowanie hasła</string>
 </resources>
