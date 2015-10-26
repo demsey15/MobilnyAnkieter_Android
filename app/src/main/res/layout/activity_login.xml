@@ -29,7 +29,7 @@
         android:layout_below="@+id/hello_log"
         android:textColor="@color/login_color_text"
         />
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
@@ -53,13 +53,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forgot_password"
+        android:layout_alignParentRight="true"
         android:textColor="@color/black"
+        android:layout_below="@id/user_password"
         android:id="@+id/forgot_password_txt"/>
 
     <CheckBox
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/user_password"
         android:text="@string/remember_password"
         android:textColor="@color/black"
         android:id="@+id/rememberPasswordChcBox"/>
@@ -67,11 +70,12 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rememberPasswordChcBox"
         android:text="@string/dont_logout"
         android:textColor="@color/black"
         android:id="@+id/dontLogOutChcBox"/>
 
-</LinearLayout>
+</RelativeLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

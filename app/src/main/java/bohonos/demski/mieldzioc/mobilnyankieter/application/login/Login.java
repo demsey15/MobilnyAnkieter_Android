@@ -76,10 +76,18 @@ public class Login extends ActionBarActivity {
                     }
                     else{
                         Intent intent = new Intent(Login.this, CheckHelpQuestionActivity.class);
-                        startActivity(intent);
+
+                        startActivityForResult(intent, 1);
                     }
                 }
             });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            finish();
         }
     }
 

@@ -22,7 +22,7 @@ public class CheckHelpQuestionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_check_help_question);
 
         final ApplicationState applicationState = ApplicationState.getInstance(getApplicationContext());
-        answer = applicationState.getHelpQuestionAnswer();
+        answer = applicationState.getHelpQuestionAnswer().trim();
 
         TextView questionTxt = (TextView) findViewById(R.id.reset_password_question);
         questionTxt.setText(applicationState.getHelpQuestion());
@@ -39,13 +39,15 @@ public class CheckHelpQuestionActivity extends ActionBarActivity {
             public void onClick(View view) {
                 String readAnswer = answerTxt.getText().toString();
 
-                if(answer.equalsIgnoreCase(readAnswer)){
+                if(answer.equalsIgnoreCase(readAnswer.trim())){
                     applicationState.resetUsersSettings();
 
                     Intent intent = new Intent(CheckHelpQuestionActivity.this, Register.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                     startActivity(intent);
+                    setResult(RESULT_OK);
+
                     finish();
                 }
                 else{

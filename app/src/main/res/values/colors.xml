@@ -14,8 +14,8 @@
     <color name="oliwkowy">	#3a3a3a</color>
     <color name="black">#FEFEFE</color>
     <color name="hint_color">#BC8B00</color>
-    <color name="end_filling_button_color">#726A76</color>
-    <color name="end_filling_button_text">#E5E5E6</color>
+    <color name="end_filling_button_color">#EBEAE5</color>
+    <color name="end_filling_button_text">#3a3a3a</color>
     <color name="login_color_text">#E2A42A</color>
     <color name="login_color_hint">#AA9C85</color>
     <color name="button_color">#EBEAE5</color>
