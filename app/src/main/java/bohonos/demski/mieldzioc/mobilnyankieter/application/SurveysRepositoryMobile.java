@@ -2,10 +2,8 @@ package bohonos.demski.mieldzioc.mobilnyankieter.application;
 
 import android.content.Context;
 
-import java.util.HashMap;
-import java.util.List;
-
 import bohonos.demski.mieldzioc.mobilnyankieter.database.AnsweringSurveyDBAdapter;
+import bohonos.demski.mieldzioc.mobilnyankieter.database.DataBaseAdapter;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
 
@@ -13,21 +11,33 @@ import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
  * Created by Dominik on 2015-05-10.
  */
 public class SurveysRepositoryMobile extends SurveysRepository {
-    private AnsweringSurveyDBAdapter dbAdapter;
+    private AnsweringSurveyDBAdapter answeringDbAdapter;
+    private DataBaseAdapter dbAdapter;
 
     public SurveysRepositoryMobile(Context context) {
-        super(new HashMap<String, List<Survey>>());
-        dbAdapter = new AnsweringSurveyDBAdapter(context);
+        answeringDbAdapter = new AnsweringSurveyDBAdapter(context);
+        dbAdapter = new DataBaseAdapter(context);
     }
 
     @Override
-    public int addNewSurvey(Survey survey) {
-        int id = super.addNewSurvey(survey);
-        if(dbAdapter.addAnswers(survey)){
-            return id;
-        }
-        else{
+    public long addNewSurvey(Survey survey) {
+        long numberOfFilledSurveysWithThisId = dbAdapter.getNumberOfFilledSurveysAtThisDevice(survey.getIdOfSurveys());
+
+        if(numberOfFilledSurveysWithThisId == -1){
             return -1;
+        }
+        else {
+            numberOfFilledSurveysWithThisId++;
+
+            survey.setNumberOfSurvey(numberOfFilledSurveysWithThisId);
+
+            if (answeringDbAdapter.addAnswers(survey)) {
+                dbAdapter.incrementNumberOfFilledSurveys(survey.getIdOfSurveys());
+
+                return numberOfFilledSurveysWithThisId;
+            } else {
+                return -1;
+            }
         }
     }
 }

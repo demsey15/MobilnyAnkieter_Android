@@ -184,11 +184,13 @@ public class AnsweringSurveyDBAdapter {
             if(survey != null){
                 survey.setDeviceId(cursor.getString(4));
                 for(int j = 0; j < survey.questionListSize(); j++){
-                    List<String> answers = getAnswers(cursor.getString(0), j); //pobierz odpowiedzi dla i-tego pytania
+                    List<String> answers = getAnswers(cursor.getString(0), cursor.getLong(1), j); //pobierz odpowiedzi uzytkownika dla j-tego pytania
+
+                    Log.d("DB_GET_ANSWERS_0", Arrays.toString(answers.toArray()));
                     Question question = survey.getQuestion(j);
-                    question.setUserAnswers(answers);
+                    Log.d("DB_GET_ANSW_SETSTATUS", "" + question.setUserAnswers(answers));
                 }
-                survey.setNumberOfSurvey(cursor.getInt(1));
+                survey.setNumberOfSurvey(cursor.getLong(1));
                 GregorianCalendar from = DateAndTimeService.getDateFromStringYYYYMMDDHHMMSS(cursor.getString(2));
                 GregorianCalendar to = DateAndTimeService.getDateFromStringYYYYMMDDHHMMSS(cursor.getString(3));
 
@@ -205,19 +207,21 @@ public class AnsweringSurveyDBAdapter {
     }
 
 
-    private List<String> getAnswers(String idOfSurveys, int questionNumber){
+    private List<String> getAnswers(String idOfSurveys, long filledSurveyNumber, int questionNumber){
         Cursor cursor = db.query(DatabaseHelper.ANSWERS_TABLE, new String[]
                         {DatabaseHelper.KEY_ANSWER_SADB, DatabaseHelper.KEY_ANSWER_NUMBER_SADB},
                 DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "' AND " +
                         DatabaseHelper.KEY_QUESTION_NUMBER_SADB + " = '" + idOfSurveys + questionNumber
-                + "'", null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_SADB + " ASC");
+                + "' AND " + DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB + " = " + filledSurveyNumber
+                , null, null, null, DatabaseHelper.KEY_ANSWER_NUMBER_SADB + " ASC");
 
         List<String> answers = new ArrayList<>();
 
         while (cursor.moveToNext()) {
             String answer = (cursor.isNull(0))? null : cursor.getString(0);
-            if(answer != null)
+            if(answer != null) {
                 answers.add(answer);
+            }
         }
         Log.d("GET_ANSWERS_DB", "Odczytałem " + answers.size() + " odpowiedzi: " + Arrays.toString(answers.toArray()));
         return answers;

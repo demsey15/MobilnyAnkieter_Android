@@ -190,8 +190,9 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
             for(Button answ : chosenAnswer) {
                 toReturn.add(answ.getText().toString());
             }
-            if(control.setMultipleChoiceQuestionAnswer(myQuestionNumber, toReturn))
+            if(control.setMultipleChoiceQuestionAnswer(myQuestionNumber, toReturn)){
                 return true;
+            }
             else{
                 Toast.makeText(AnswerMultipleChoiceQuestionActivity.this,
                         "Coś poszło nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();

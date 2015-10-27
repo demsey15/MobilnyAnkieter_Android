@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -265,6 +265,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String IS_SENT_OPTIONS_FSDB = "INT NOT NULL CHECK(" + KEY_IS_SENT_FSDB + " IN(0, 1))";
 
 
+    public static final String NUMBER_OF_FILLED_SURVEYS_TABLE = "Number_of_filled_surveys";
+
+    public static final String KEY_SURVEY_NFSDB = "ID_of_Surveys";
+    public static final String SURVEY_OPTIONS_NFSDB = "TEXT NOT NULL";
+    public static final String KEY_NUMBER_OF_FILLED_SURVEYS_NFSDB = "Number_of_filled_surveys";
+    public static final String NUMBER_OF_FILLED_SURVEYS_OPTIONS_NFSDB = "INTEGER NOT NULL";
+
     private static final String DB_CREATE_SURVEY_TEMPLATE_TABLE = "CREATE TABLE " +
             SURVEY_TEMPLATE_TABLE + "( " + KEY_ID + " " + ID_OPTIONS + ", " +
             KEY_STATUS + " " + STATUS_OPTIONS + ", " + KEY_CREATED_DATE + " " + CREATED_DATE_OPTIONS +
@@ -343,6 +350,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + QUESTION_NUMBER_OPTIONS_SADB + ", "  + KEY_ANSWER_SADB + " "
             + ANSWER_OPTIONS_SADB + ");";
 
+    private static final String DB_CREATE_NUMBER_OF_FILLED_SURVEYS_TABLE = "CREATE TABLE " +
+            NUMBER_OF_FILLED_SURVEYS_TABLE + "( " + KEY_SURVEY_NFSDB + " " + SURVEY_OPTIONS_NFSDB + ", " +
+            KEY_NUMBER_OF_FILLED_SURVEYS_NFSDB + " " + NUMBER_OF_FILLED_SURVEYS_OPTIONS_NFSDB + ");";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -360,11 +370,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DB_CREATE_TEXT_CONSTRAINTS_TABLE);
         db.execSQL(DB_CREATE_FILLED_SURVEYS_TABLE);
         db.execSQL(DB_CREATE_ANSWERS_TABLE);
+        db.execSQL(DB_CREATE_NUMBER_OF_FILLED_SURVEYS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String drop = "DROP TABLE IF EXISTS ";
+        db.execSQL(drop + NUMBER_OF_FILLED_SURVEYS_TABLE);
         db.execSQL(drop + ANSWERS_TABLE);
         db.execSQL(drop + FILLED_SURVEYS_TABLE);
         db.execSQL(drop + TEXT_CONSTRAINTS_TABLE);

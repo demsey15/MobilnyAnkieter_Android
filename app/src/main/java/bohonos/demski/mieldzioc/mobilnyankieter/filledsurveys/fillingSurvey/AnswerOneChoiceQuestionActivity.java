@@ -116,8 +116,9 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
                             intent.putExtra("SURVEY_SUMMARY", getIntent().getStringExtra("SURVEY_SUMMARY"));
                             startActivity(intent);
                             finish();
-                        } else
+                        } else {
                             Toast.makeText(getApplicationContext(), "Nie można zakończyć ankiety", Toast.LENGTH_SHORT);
+                        }
                     }
                 }
             });
@@ -199,8 +200,10 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
             }
         }
         if(chosenAnswer != null){
-            if(control.setOneChoiceQuestionAnswer(myQuestionNumber, chosenAnswer.getText().toString()))
+            if(control.setOneChoiceQuestionAnswer(myQuestionNumber, chosenAnswer.getText().toString())) {
+                Log.d("ANSWER", chosenAnswer.getText().toString());
                 return true;
+            }
             else{
                 Toast.makeText(AnswerOneChoiceQuestionActivity.this,
                         "Coś poszło nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();

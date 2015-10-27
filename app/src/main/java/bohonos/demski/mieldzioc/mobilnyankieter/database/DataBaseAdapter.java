@@ -64,6 +64,39 @@ public class DataBaseAdapter {
 
         return cursor.moveToFirst();
     }
+
+    public long getNumberOfFilledSurveysAtThisDevice(String idOfSurveys){
+        open();
+
+        Cursor cursor = db.query(DatabaseHelper.NUMBER_OF_FILLED_SURVEYS_TABLE, new String[] {DatabaseHelper.KEY_NUMBER_OF_FILLED_SURVEYS_NFSDB},
+                DatabaseHelper.KEY_SURVEY_NFSDB + " = '" + idOfSurveys + "'", null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            close();
+
+            return cursor.getLong(0);
+        }
+        else{
+            close();
+
+            return -1;
+        }
+    }
+
+    public void incrementNumberOfFilledSurveys(String idOfSurveys){
+        long previousNumber = getNumberOfFilledSurveysAtThisDevice(idOfSurveys);
+        previousNumber++;
+
+        open();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.KEY_NUMBER_OF_FILLED_SURVEYS_NFSDB, previousNumber);
+
+        db.update(DatabaseHelper.NUMBER_OF_FILLED_SURVEYS_TABLE, contentValues, DatabaseHelper.KEY_SURVEY_NFSDB + " = '" + idOfSurveys + "'", null);
+
+        close();
+    }
+
     /**
      * Dodaj ankietę do bazy danych.
      * Metoda sama dba o otwarcie i zamknięcie połączenia z bazą danych.
@@ -72,8 +105,16 @@ public class DataBaseAdapter {
      * @return
      */
     public boolean addSurveyTemplate(Survey survey, int status, boolean isSent){
-        open();
         String idOfSurveys = survey.getIdOfSurveys();
+
+        long numberOfFilledSurveys = getNumberOfFilledSurveysAtThisDevice(idOfSurveys);
+
+        open();
+
+        if(numberOfFilledSurveys == -1){
+            addNewSurveyToNumberOfFilledSurveysTable(idOfSurveys);
+        }
+
         int size = survey.questionListSize();
 
         ContentValues templateValues = new ContentValues();
@@ -150,6 +191,14 @@ public class DataBaseAdapter {
         Log.d(DEBUG_TAG, "Dodano ankietę do bazy danych; id: " + survey.getIdOfSurveys() +
                 ", tytuł: " + survey.getTitle());
         return true;
+    }
+
+    private void addNewSurveyToNumberOfFilledSurveysTable(String idOfSurveys) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.KEY_SURVEY_NFSDB, idOfSurveys);
+        values.put(DatabaseHelper.KEY_NUMBER_OF_FILLED_SURVEYS_NFSDB, 0);
+
+        db.insert(DatabaseHelper.NUMBER_OF_FILLED_SURVEYS_TABLE, null, values);
     }
 
     private long addQuestion(Question question, String idOfSurveys, String questionNumber){
