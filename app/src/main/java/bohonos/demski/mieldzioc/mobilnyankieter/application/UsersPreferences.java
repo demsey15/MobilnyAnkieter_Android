@@ -2,8 +2,11 @@ package bohonos.demski.mieldzioc.mobilnyankieter.application;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Created by Dominik Demski on 2015-05-06.
@@ -17,6 +20,7 @@ public class UsersPreferences {
     private static final String HELP_QUESTION_ANSWER = "helpQuestionAnswer";
     private static final String DONT_LOG_OUT = "dontLogOut";
     private static final String REMEMBER_PASSWORD = "rememberPassword";
+    private static final String DEVICE_ID = "device_id";
 
     public UsersPreferences(Context context) {
         preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
@@ -88,5 +92,30 @@ public class UsersPreferences {
 
     public boolean ifShouldDontLogOut(){
         return preferences.getBoolean(DONT_LOG_OUT, false);
+    }
+
+    public String getDeviceId(Context context){
+        String deviceId = preferences.getString(DEVICE_ID, "");
+
+        if(deviceId.isEmpty()){
+            long random = (new Random()).nextLong();
+
+            deviceId = getWifiMacAddress(context) + random;
+
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putString(DEVICE_ID, deviceId);
+            editor.commit();
+        }
+
+        return  deviceId;
+    }
+
+    private String getWifiMacAddress(Context context){
+        WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+        WifiInfo info = manager.getConnectionInfo();
+
+        return info.getMacAddress();
     }
 }

@@ -17,8 +17,6 @@ import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
 public class ApplicationState {
     private static ApplicationState instance;
 
-    private String deviceId = "1";
-
     private SurveyHandlerMobile surveyHandler;
     private SurveysRepositoryMobile surveysRepository;
     private SurveysTemplateControl surveysTemplateControl;
@@ -129,7 +127,7 @@ public class ApplicationState {
     }
 
     public String getDeviceId() {
-        return deviceId;
+        return preferences.getDeviceId(context);
     }
 
     public void saveUserPassword(char[] password){
