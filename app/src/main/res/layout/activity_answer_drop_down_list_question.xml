@@ -38,11 +38,13 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
         android:id="@+id/spinner_answer_drop_down"
-        android:layout_below="@+id/answer_hint_drop_down"
-        android:layout_marginTop="40dp"
+        android:layout_below="@id/answer_hint_drop_down"
+        android:layout_marginTop="100dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="50dp"

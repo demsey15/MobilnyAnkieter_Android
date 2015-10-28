@@ -116,12 +116,9 @@ public class DataBaseAdapter {
             addNewSurveyToNumberOfFilledSurveysTable(idOfSurveys);
         }
 
-        int size = survey.questionListSize();
-
         ContentValues templateValues = new ContentValues();
         templateValues.put(DatabaseHelper.KEY_ID, idOfSurveys);
         templateValues.put(DatabaseHelper.KEY_STATUS, status);
-
 
         templateValues.put(DatabaseHelper.KEY_CREATED_BY_DEVICE_ID, survey.getDeviceId());
 
@@ -130,16 +127,34 @@ public class DataBaseAdapter {
         templateValues.put(DatabaseHelper.KEY_MODIFIED_BY, survey.getDeviceId());
 
         String title = survey.getTitle();
-        if(title == null) templateValues.putNull(DatabaseHelper.KEY_TITLE);
-        else templateValues.put(DatabaseHelper.KEY_TITLE, title);
+        if(title == null) {
+            templateValues.putNull(DatabaseHelper.KEY_TITLE);
+        }
+        else {
+            templateValues.put(DatabaseHelper.KEY_TITLE, title);
+        }
+
         String description = survey.getDescription();
-        if(description == null) templateValues.putNull(DatabaseHelper.KEY_DESCRIPTION);
-        else templateValues.put(DatabaseHelper.KEY_DESCRIPTION, description);
+        if(description == null){
+            templateValues.putNull(DatabaseHelper.KEY_DESCRIPTION);
+        }
+        else{
+            templateValues.put(DatabaseHelper.KEY_DESCRIPTION, description);
+        }
+
         String summary = survey.getSummary();
-        if(summary == null) templateValues.putNull(DatabaseHelper.KEY_SUMMARY);
-        else templateValues.put(DatabaseHelper.KEY_SUMMARY, summary);
+        if(summary == null){
+            templateValues.putNull(DatabaseHelper.KEY_SUMMARY);
+        }
+        else{
+            templateValues.put(DatabaseHelper.KEY_SUMMARY, summary);
+        }
+
         templateValues.put(DatabaseHelper.KEY_SENT, (isSent)? 1 : 0);
+
         db.insert(DatabaseHelper.SURVEY_TEMPLATE_TABLE, null, templateValues);
+
+        int size = survey.questionListSize();
 
         for(int i = 0; i < size; i++){
             Question question = survey.getQuestion(i);
@@ -148,6 +163,7 @@ public class DataBaseAdapter {
                 close();
                 return false;
             }
+
             int questionType = question.getQuestionType();
             if(questionType == Question.DROP_DOWN_QUESTION ||
                     questionType == Question.MULTIPLE_CHOICE_QUESTION || questionType ==
@@ -214,9 +230,11 @@ public class DataBaseAdapter {
         questionValues.put(DatabaseHelper.KEY_MODIFICATION_DATE_QDB, DateAndTimeService.getToday());
         questionValues.put(DatabaseHelper.KEY_MODIFIED_BY_QDB, ApplicationState.getInstance(context).getDeviceId());
 
+        Log.d("DB_SAVE_QTYPE", question.getQuestionType() + " ");
+
         return db.insert(DatabaseHelper.QUESTIONS_TABLE, null, questionValues);
     }
-    private long addChoiceAnswers(Question question, String surveyId, int questionNumber){
+    private int addChoiceAnswers(Question question, String surveyId, int questionNumber){
         List<String> answers = question.getAnswersAsStringList();
         Log.d("ADD_CHOICE_TEST_ANS", Arrays.toString(answers.toArray()));
         int answersSize = answers.size();
@@ -227,9 +245,12 @@ public class DataBaseAdapter {
             answersValues.put(DatabaseHelper.KEY_QUESTION_CHADB, questionNumber);
             answersValues.put(DatabaseHelper.KEY_ANSWER_NUMBER_CHADB, i);
             answersValues.put(DatabaseHelper.KEY_ANSWER_CHADB, answers.get(i));
-            if(db.insert(DatabaseHelper.CHOICE_ANSWERS_TABLE, null, answersValues) == -1)
+
+            if(db.insert(DatabaseHelper.CHOICE_ANSWERS_TABLE, null, answersValues) == -1) {
                 return -1;
+            }
         }
+
         return answersSize;
     }
 
@@ -242,10 +263,11 @@ public class DataBaseAdapter {
         answersValues.put(DatabaseHelper.KEY_MAX_LABEL_SCDB, question.getMaxLabel());
         answersValues.put(DatabaseHelper.KEY_MIN_VALUE_SCDB, question.getMinValue());
         answersValues.put(DatabaseHelper.KEY_MAX_VALUE_SCDB, question.getMaxValue());
+
         return db.insert(DatabaseHelper.SCALE_ANSWERS_TABLE, null, answersValues);
     }
 
-    private long addGridAnswers(GridQuestion question, String surveyId, int questionNumber) {
+    private int addGridAnswers(GridQuestion question, String surveyId, int questionNumber) {
         List<String> rows = question.getRowLabels();
         List<String> columns = question.getColumnLabels();
         int rowsSize = rows.size();
@@ -257,8 +279,9 @@ public class DataBaseAdapter {
             answersValues.put(DatabaseHelper.KEY_QUESTION_GRDB, questionNumber);
             answersValues.put(DatabaseHelper.KEY_ANSWER_NUMBER_GRDB, i);
             answersValues.put(DatabaseHelper.KEY_ANSWER_GRDB, rows.get(i));
-            if(db.insert(DatabaseHelper.GRID_ROW_ANSWERS_TABLE, null, answersValues) == -1)
+            if(db.insert(DatabaseHelper.GRID_ROW_ANSWERS_TABLE, null, answersValues) == -1){
                 return -1;
+            }
         }
 
         for(int i = 0; i < columnsSize; i++){
@@ -267,8 +290,9 @@ public class DataBaseAdapter {
             answersValues.put(DatabaseHelper.KEY_QUESTION_GCDB, questionNumber);
             answersValues.put(DatabaseHelper.KEY_ANSWER_NUMBER_GCDB, i);
             answersValues.put(DatabaseHelper.KEY_ANSWER_GCDB, columns.get(i));
-            if(db.insert(DatabaseHelper.GRID_COLUMN_ANSWERS_TABLE, null, answersValues) == -1)
+            if(db.insert(DatabaseHelper.GRID_COLUMN_ANSWERS_TABLE, null, answersValues) == -1) {
                 return -1;
+            }
         }
         return columnsSize + rowsSize;
     }
@@ -368,7 +392,7 @@ public class DataBaseAdapter {
             survey.setSummary((cursor.isNull(3)) ? null : cursor.getString(3));
             survey.setTitle((cursor.isNull(1))? "" : cursor.getString(1));
 
-            String deviceId = cursor.getString(0);     //spróbuj pobrać ankietera
+            String deviceId = cursor.getString(0);
             survey.setDeviceId(deviceId);
 
             List<Question> questions = getSurveysQuestion(idOfSurveys);
@@ -383,7 +407,7 @@ public class DataBaseAdapter {
     private List<Question> getSurveysQuestion(String idOfSurveys) {
         Cursor cursor = db.query(DatabaseHelper.QUESTIONS_TABLE, new String[]{
                         DatabaseHelper.KEY_OBLIGATORY_QDB, DatabaseHelper.KEY_HINT_QDB,
-                        DatabaseHelper.KEY_QUESTION_QDB
+                        DatabaseHelper.KEY_QUESTION_QDB, DatabaseHelper.KEY_TYPE_QDB
                         }, DatabaseHelper.KEY_ID_SURVEY_QDB + " = '"
                         + idOfSurveys + "' ", null, null, null,
                         DatabaseHelper.KEY_QUESTION_NUMBER_QDB + " ASC");
@@ -391,7 +415,9 @@ public class DataBaseAdapter {
         List<Question> questions = new ArrayList<>();
         while (cursor.moveToNext()) {
             Question question = null;
-            int questionType = cursor.getInt(2);
+            int questionType = cursor.getInt(3);
+
+            Log.d("QTYPE_DB_READ", "" + questionType);
             if(questionType == Question.DROP_DOWN_QUESTION) {
                 question = new OneChoiceQuestion("");
                 List<String> list = getChoiceAnswers(idOfSurveys, i);
@@ -565,14 +591,18 @@ public class DataBaseAdapter {
         ScaleQuestion scaleQuestion = null;
         Cursor cursor = db.query(DatabaseHelper.SCALE_ANSWERS_TABLE, new String[] {
                 DatabaseHelper.KEY_MIN_VALUE_SCDB, DatabaseHelper.KEY_MAX_VALUE_SCDB,
-                DatabaseHelper.KEY_MIN_LAB_SCDB, DatabaseHelper.KEY_MAX_LABEL_SCDB,},
+                DatabaseHelper.KEY_MIN_LAB_SCDB, DatabaseHelper.KEY_MAX_LABEL_SCDB},
                 DatabaseHelper.KEY_SURVEY_SCDB + " = '" +
                         idOfSurveys + "' AND " + DatabaseHelper.KEY_QUESTION_SCDB + " = " +
                 questionNumber, null, null, null, null, null);
+        Log.d("SCALE_DB_READ", "" + cursor.getCount());
         if(cursor.moveToFirst()){
+            Log.d("SCALE_DB_READ", "jestem " + cursor.getInt(0) + " " + cursor.getInt(1)
+            + " " +cursor.getString(2) + " " +cursor.getString(3));
             scaleQuestion = new ScaleQuestion("", false, "", cursor.getInt(0),
                     cursor.getInt(1), cursor.getString(2), cursor.getString(3));
         }
+
         return scaleQuestion;
     }
 

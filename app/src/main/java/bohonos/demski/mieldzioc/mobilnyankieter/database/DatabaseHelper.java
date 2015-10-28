@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -48,8 +48,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String KEY_ID_SURVEY_QDB = "Survey";
     public static final String ID_SURVEY_OPTIONS_QDB = "TEXT NOT NULL";
-    public static final String FK_QDB = "FOREIGN KEY (" + KEY_ID_SURVEY_QDB +
-            ") REFERENCES " + SURVEY_TEMPLATE_TABLE + "(" + KEY_ID + ")";
     public static final String KEY_QUESTION_NUMBER_QDB = "Question_number";
     public static final String QUESTION_NUMBER_OPTIONS_QDB = "INTEGER NOT NULL";
     public static final String KEY_QUESTION_QDB = "Question";
@@ -230,7 +228,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             KEY_HINT_QDB + " " + HINT_OPTIONS_QDB + ", " + KEY_TYPE_QDB + " " + TYPE_OPTIONS_QDB
             + ", " + KEY_CREATED_DATE_QDB + " " + CREATED_DATE_OPTIONS_QDB + ", " +
             KEY_MODIFICATION_DATE_QDB + " " + MODIFICATION_DATE_OPTIONS_QDB + ", " + KEY_MODIFIED_BY
-            + " " + MODIFIED_BY_OPTIONS_QDB + ", " + FK_QDB + ");";
+            + " " + MODIFIED_BY_OPTIONS_QDB + ");";
 
 
     private static final String DB_CREATE_CHOICE_ANSWERS_TABLE = "CREATE TABLE " +

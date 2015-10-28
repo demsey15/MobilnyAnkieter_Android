@@ -51,10 +51,9 @@ public class AnswerDropDownListQuestionActivity extends ActionBarActivity {
         //wstawianie odpowiedzi
         answers = (Spinner) findViewById(R.id.spinner_answer_drop_down);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_drop_down);
         List<String> answerList = question.getAnswersAsStringList();
-        answerList.add(0, " ");
+        answerList.add(0, "wybierz odpowiedź");
         for(String ans : answerList){
             adapter.add(ans);
         }

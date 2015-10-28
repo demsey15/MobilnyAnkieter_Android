@@ -29,7 +29,7 @@
             android:layout_marginTop="25dp"
             android:textColor="@color/hint_color"/>
 
-        <ImageButton
+        <Button
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
@@ -37,7 +37,7 @@
             android:layout_below="@+id/welcome_survey_description"
             android:layout_marginRight="5dp"
             android:layout_marginTop="30dp"
-            android:src="@drawable/strzalka"
+            android:background="@drawable/strzalka"
             android:id="@+id/welcome_next_button"/>
     </RelativeLayout>
 </ScrollView>

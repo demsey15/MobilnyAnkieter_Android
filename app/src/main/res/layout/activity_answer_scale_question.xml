@@ -31,18 +31,36 @@
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:id="@+id/answer_hint_scale"
-            android:layout_below="@+id/answer_question_scale"
+            android:layout_below="@id/answer_question_scale"
             android:layout_marginTop="5dp"
             android:textColor="@color/hint_color"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Wybrana odpowiedź: "
+            android:id="@+id/scale_chosen_answer_is_txt"
+            android:layout_below="@id/answer_hint_scale"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scale_chosen_answer_txt"
+            android:layout_below="@id/scale_chosen_answer_is_txt"
+            android:textColor="@color/dark_red"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Left label"
             android:layout_alignParentLeft="true"
             android:textColor="@color/black"
-            android:layout_below="@+id/answer_hint_scale"
-            android:layout_marginTop="50dp"
+            android:layout_below="@+id/scale_chosen_answer_txt"
+            android:layout_marginTop="20dp"
             android:textSize="15dp"
             android:id="@+id/leftLabel_answer_scale_question"/>
         <TextView
@@ -51,18 +69,18 @@
             android:text="Right label"
             android:textColor="@color/black"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
-            android:layout_below="@+id/answer_hint_scale"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/scale_chosen_answer_txt"
             android:textSize="15dp"
             android:id="@+id/rightLabel_answer_scale_question"/>
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
             android:id="@+id/answer_scale_seekBar"
             android:max="5"
-            android:layout_below="@+id/leftLabel_answer_scale_question"
-            />
+            android:layout_below="@+id/leftLabel_answer_scale_question" />
         <Button
             android:layout_width="50dp"
             android:layout_height="50dp"

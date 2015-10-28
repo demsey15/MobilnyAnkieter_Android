@@ -25,6 +25,9 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
     private SeekBar chosenAnswer;
     private int myQuestionNumber;
 
+    private int min;
+    private int max;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +51,29 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_scale);
         questionHint.setText(question.getHint());
 
+        final TextView chosenAnswerMessage = (TextView) findViewById(R.id.scale_chosen_answer_txt);
+
+        min = question.getMinValue();
+        max = question.getMaxValue();
+
         chosenAnswer = (SeekBar) findViewById(R.id.answer_scale_seekBar);
-        chosenAnswer.setMax(question.getMaxValue());
+        chosenAnswer.setMax(max - min);
+        chosenAnswer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                chosenAnswerMessage.setText("" + (seekBar.getProgress() + min));
+            }
+        });
 
         TextView leftLabel = (TextView) findViewById(R.id.leftLabel_answer_scale_question);
         TextView rightLabel = (TextView) findViewById(R.id.rightLabel_answer_scale_question);
@@ -165,7 +189,7 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
         }
         */
         //if(chosenAnswer != null){
-            if(control.setScaleQuestionAnswer(myQuestionNumber, chosenAnswer.getProgress()))
+            if(control.setScaleQuestionAnswer(myQuestionNumber, chosenAnswer.getProgress() + min))
                 return true;
             else{
                 Toast.makeText(AnswerScaleQuestionActivity.this,

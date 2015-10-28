@@ -87,8 +87,5 @@
             android:background="@color/end_filling_button_color"
             android:textColor="@color/end_filling_button_text"/>
     </LinearLayout>
-
-
-
     </RelativeLayout>
 </ScrollView>

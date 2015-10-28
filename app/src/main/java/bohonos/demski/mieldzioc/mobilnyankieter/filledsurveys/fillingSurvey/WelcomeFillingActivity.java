@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +38,7 @@ public class WelcomeFillingActivity extends ActionBarActivity {
 
         descriptionTxt.setText((description == null)? "" : description);
 
-        ImageButton nextButton = (ImageButton) findViewById(R.id.welcome_next_button);
+        Button nextButton = (Button) findViewById(R.id.welcome_next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
