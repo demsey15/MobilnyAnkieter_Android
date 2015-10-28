@@ -63,7 +63,7 @@
             android:max="5"
             android:layout_below="@+id/leftLabel_answer_scale_question"
             />
-        <ImageButton
+        <Button
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
@@ -71,7 +71,7 @@
             android:layout_below="@+id/answer_scale_seekBar"
             android:layout_marginRight="5dp"
             android:layout_marginTop="25dp"
-            android:src="@drawable/strzalka"
+            android:background="@drawable/strzalka"
             android:id="@+id/next_question_button"/>
 
         <LinearLayout

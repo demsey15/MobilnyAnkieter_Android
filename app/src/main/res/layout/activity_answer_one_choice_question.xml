@@ -45,7 +45,7 @@
             android:layout_below="@+id/answer_hint_one_choice"
             android:orientation="vertical">
         </LinearLayout>
-        <ImageButton
+        <Button
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
@@ -53,7 +53,7 @@
             android:layout_below="@+id/answer_list_answers_one_choice"
             android:layout_marginRight="5dp"
             android:layout_marginTop="25dp"
-            android:src="@drawable/strzalka"
+            android:background="@drawable/strzalka"
             android:id="@+id/next_question_button"/>
 
         <LinearLayout

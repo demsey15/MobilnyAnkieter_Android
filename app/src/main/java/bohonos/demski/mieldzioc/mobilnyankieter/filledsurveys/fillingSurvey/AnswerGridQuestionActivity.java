@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -57,7 +56,7 @@ public class AnswerGridQuestionActivity extends ActionBarActivity {
 
         createGrid();
 
-        ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
+        Button nextButton = (Button) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
         Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
         if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeśli to nie jest ostatnie pytanie

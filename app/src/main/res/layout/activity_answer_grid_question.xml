@@ -49,24 +49,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/answer_grid_table"
-
     android:layout_marginBottom="15dp"
-    android:scrollbars="horizontal|vertical"
-    >
-
-
+    android:scrollbars="horizontal|vertical">
 </TableLayout>
 </HorizontalScrollView>
     </ScrollView>
-    <ImageButton
+    <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerCrop"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/answer_grid_table"
+        android:layout_below="@id/sroll_view"
         android:layout_marginRight="5dp"
         android:layout_marginTop="30dp"
-        android:src="@drawable/strzalka"
+        android:background="@drawable/strzalka"
         android:id="@+id/next_question_button"/>
     <LinearLayout
         android:layout_width="wrap_content"

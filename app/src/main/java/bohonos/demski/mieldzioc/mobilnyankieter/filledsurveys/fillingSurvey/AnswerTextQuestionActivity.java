@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,7 +78,7 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
         answer.setFilters(new InputFilter[]{new InputFilter.LengthFilter
                 (maxLength)});
 
-        ImageButton nextButton = (ImageButton) findViewById(R.id.next_question_button);
+        Button nextButton = (Button) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
         Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
         if(answeringSurveyControl.getNumberOfQuestions() - 1 > myQuestionNumber) {  //jeśli to nie jest ostatnie pytanie
@@ -221,7 +220,7 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                         }
                         if(numberConstraint.getMaxValue() != null){
                             if(toCheck.compareTo(numberConstraint.getMaxValue()) > 0){
-                                answer.setError("Odpowiedź musi być mniejsza od " + numberConstraint.getMaxValue());
+                                answer.setError("Odpowiedź musi być mniejsza lub równa " + numberConstraint.getMaxValue());
                                 return false;
                             }
                         }
