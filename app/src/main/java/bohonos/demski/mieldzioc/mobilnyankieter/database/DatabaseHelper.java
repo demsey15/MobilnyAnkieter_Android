@@ -12,46 +12,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
     public static final String KEY_ID = "id";
     public static final String ID_OPTIONS = "TEXT PRIMARY KEY NOT NULL";
-    public static final int ID_COLUMN = 0;
     public static final String KEY_STATUS = "Status";
     public static final String STATUS_OPTIONS = "INT NOT NULL";
-    public static final int STATUS_COLUMN = 1;
     public static final String KEY_CREATED_DATE = "Date_of_creating";
     public static final String CREATED_DATE_OPTIONS = "TEXT NOT NULL CHECK(" + KEY_CREATED_DATE +
              " GLOB '[1-3][0-9][0-9][0-9]-" +
             "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
-    public static final int CREATED_DATE_COLUMN = 2;
     public static final String KEY_MODIFICATION_DATE = "Date_of_modification";
     public static final String MODIFICATION_DATE_OPTIONS = "TEXT NOT NULL CHECK(" +
             KEY_MODIFICATION_DATE + " GLOB '[1-3][0-9][0-9][0-9]-" +
             "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")*/
-    public static final int MODIFICATION_DATE_COLUMN = 3;
     public static final String KEY_MODIFIED_BY = "Modified_by";
     public static final String MODIFIED_BY_OPTIONS = "TEXT NOT NULL";
-    public static final int MODIFIED_BY_COLUMN = 4;
     public static final String KEY_TITLE = "Title";
     public static final String TITLE_OPTIONS = "TEXT";
-    public static final int TITLE_COLUMN = 5;
     public static final String KEY_DESCRIPTION = "Description";
     public static final String DESCRIPTION_OPTIONS = "TEXT";
-    public static final int DESCRIPTION_COLUMN = 6;
     public static final String KEY_SUMMARY = "Summary";
     public static final String SUMMARY_OPTIONS = "TEXT";
-    public static final int SUMMARY_COLUMN = 7;
     public static final String KEY_SENT = "Sent";  //czy wysłana na serwer
     public static final String SENT_OPTIONS = "INT NOT NULL CHECK(" + KEY_SENT + " IN(0, 1))";
-    public static final int SENT_COLUMN = 8;
     public static final String KEY_CREATED_BY_DEVICE_ID = "CreatedBy";
     public static final String CREATED_BY_DEVICE_ID_OPTIONS = "TEXT NOT NULL";
-    public static final int CREATED_BY_DEVICE_ID_COLUMN = 9;
 
     //tabela pytania
     public static final String QUESTIONS_TABLE = "Questions";
@@ -60,40 +50,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ID_SURVEY_OPTIONS_QDB = "TEXT NOT NULL";
     public static final String FK_QDB = "FOREIGN KEY (" + KEY_ID_SURVEY_QDB +
             ") REFERENCES " + SURVEY_TEMPLATE_TABLE + "(" + KEY_ID + ")";
-    public static final int ID_SURVEY_COLUMN_QDB = 0;
-    public static final String KEY_QUESTION_NUMBER_QDB = "Question_number";   //NUMER PYTANIA: NRANKIETYnrpytania
-    public static final String QUESTION_NUMBER_OPTIONS_QDB = "TEXT PRIMARY KEY NOT NULL";
-    public static final int QUESTION_NUMBER_COLUMN_QDB = 1;
+    public static final String KEY_QUESTION_NUMBER_QDB = "Question_number";
+    public static final String QUESTION_NUMBER_OPTIONS_QDB = "INTEGER NOT NULL";
     public static final String KEY_QUESTION_QDB = "Question";
     public static final String QUESTION_OPTIONS_QDB = "TEXT";
-    public static final int QUESTION_COLUMN_QDB = 2;
     public static final String KEY_OBLIGATORY_QDB = "Obligatory";
     public static final String OBLIGATORY_OPTIONS_QDB = "INTEGER CHECK(" + KEY_OBLIGATORY_QDB +
             " IN(0, 1))";
-    public static final int OBLIGATORY_COLUMN_QDB = 3;
     public static final String KEY_HINT_QDB = "Hint";
     public static final String HINT_OPTIONS_QDB = "TEXT";
-    public static final int HINT_COLUMN_QDB = 4;
     public static final String KEY_TYPE_QDB = "Type";
     public static final String TYPE_OPTIONS_QDB = "INTEGER CHECK(" + KEY_TYPE_QDB + " >= 0 AND " +
     KEY_TYPE_QDB + " <= 7)";
-    public static final int TYPE_COLUMN_QDB = 6;
     public static final String KEY_CREATED_DATE_QDB = "Date_of_creating";
     public static final String CREATED_DATE_OPTIONS_QDB = "TEXT NOT NULL CHECK(" +
             KEY_CREATED_DATE_QDB + " GLOB '[1-3][0-9][0-9][0-9]-" +
             "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
-    public static final int CREATED_DATE_COLUMN_QDB = 7;
     public static final String KEY_MODIFICATION_DATE_QDB = "Date_of_modification";
     public static final String MODIFICATION_DATE_OPTIONS_QDB = "TEXT NOT NULL CHECK(" +
             KEY_MODIFICATION_DATE_QDB + " GLOB '[1-3][0-9][0-9][0-9]-" +
             "[0-1][0-9]-[0-3][0-9]" + " [0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]')";
     //TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
-    public static final int MODIFICATION_DATE_COLUMN_QDB = 8;
     public static final String KEY_MODIFIED_BY_QDB = "Modified_by";
     public static final String MODIFIED_BY_OPTIONS_QDB = "TEXT NOT NULL";
-    public static final int MODIFIED_BY_COLUMN_QDB = 9;
-
 
 
     public static final String SCALE_ANSWERS_TABLE = "Scale_answers";
@@ -101,131 +81,92 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_SURVEY_SCDB = "Survey";
     public static final String SURVEY_OPTIONS_SCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
-    public static final int SURVEY_COLUMN_SCDB = 0;
     public static final String KEY_QUESTION_SCDB = "Question";
-    public static final String QUESTION_OPTIONS_SCDB = "TEXT NOT NULL REFERENCES "
-            + QUESTIONS_TABLE;
-    public static final int QUESTION_COLUMN_SCDB = 1;
+    public static final String QUESTION_OPTIONS_SCDB = "INTEGER NOT NULL";
     public static final String KEY_MIN_LAB_SCDB = "Min_label";
     public static final String MIN_LAB_OPTIONS_SCDB = "TEXT";
-    public static final int MIN_LAB_COLUMN_SCDB = 2;
     public static final String KEY_MAX_LABEL_SCDB = "Max_label";
     public static final String MAX_LABEL_OPTIONS_SCDB = "TEXT";
-    public static final int MAX_LABEL_COLUMN_SCDB = 3;
     public static final String KEY_MIN_VALUE_SCDB = "Min_value";
     public static final String MIN_VALUE_SCDB = "INTEGER NOT NULL";
-    public static final int MIN_VALUE_COLUMN_SCDB = 4;
     public static final String KEY_MAX_VALUE_SCDB = "Max_value";
     public static final String MAX_VALUE_SCDB = "INTEGER NOT NULL";
-    public static final int MAX_VALUE_COLUMN_SCDB = 5;
     public static final String KEY_ANSWER_NUMBER_SCDB = "Number";
-    public static final String ANSWER_NUMBER_SCDB = "TEXT NOT NULL PRIMARY KEY";
-    public static final int ANSWER_NUMBER_COLUMN_SCDB = 6;
+    public static final String ANSWER_NUMBER_SCDB = "INTEGER NOT NULL";
 
     public static final String CHOICE_ANSWERS_TABLE = "Choice_answers";
 
     public static final String KEY_SURVEY_CHADB = "Survey";
     public static final String SURVEY_OPTIONS_CHADB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
-    public static final int SURVEY_COLUMN_CHADB = 0;
     public static final String KEY_QUESTION_CHADB = "Question";
-    public static final String QUESTION_OPTIONS_CHADB = "TEXT NOT NULL REFERENCES "
-            + QUESTIONS_TABLE;
-    public static final int QUESTION_COLUMN_CHADB = 1;
+    public static final String QUESTION_OPTIONS_CHADB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_NUMBER_CHADB = "Answer_number";
-    public static final String ANSWER_NUMBER_OPTIONS_CHADB = "TEXT NOT NULL PRIMARY KEY";
-    public static final int ANSWER_NUMBER_COLUMN_CHADB = 2;
+    public static final String ANSWER_NUMBER_OPTIONS_CHADB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_CHADB = "Answer";
     public static final String ANSWER_OPTIONS_CHADB = "TEXT NOT NULL";
-    public static final int ANSWER_COLUMN_CHADB = 3;
 
     public static final String GRID_COLUMN_ANSWERS_TABLE = "Grid_column_answers";
 
     public static final String KEY_SURVEY_GCDB = "Survey";
     public static final String SURVEY_OPTIONS_GCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
-    public static final int SURVEY_COLUMN_GCDB = 0;
     public static final String KEY_QUESTION_GCDB = "Question";
-    public static final String QUESTION_OPTIONS_GCDB = "TEXT NOT NULL REFERENCES "
-            + QUESTIONS_TABLE;
-    public static final int QUESTION_COLUMN_GCDB = 1;
+    public static final String QUESTION_OPTIONS_GCDB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_NUMBER_GCDB = "Answer_number";
-    public static final String ANSWER_NUMBER_OPTIONS_GCDB = "TEXT NOT NULL PRIMARY KEY";
-    public static final int ANSWER_NUMBER_COLUMN_GCDB = 2;
+    public static final String ANSWER_NUMBER_OPTIONS_GCDB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_GCDB = "Answer";
     public static final String ANSWER_OPTIONS_GCDB = "TEXT NOT NULL";
-    public static final int ANSWER_COLUMN_GCDB = 3;
 
     public static final String GRID_ROW_ANSWERS_TABLE = "Grid_row_answers";
 
     public static final String KEY_SURVEY_GRDB = "Survey";
     public static final String SURVEY_OPTIONS_GRDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
-    public static final int SURVEY_COLUMN_GRDB = 0;
     public static final String KEY_QUESTION_GRDB = "Question";
-    public static final String QUESTION_OPTIONS_GRDB = "TEXT NOT NULL REFERENCES "
-            + QUESTIONS_TABLE;
-    public static final int QUESTION_COLUMN_GRDB = 1;
+    public static final String QUESTION_OPTIONS_GRDB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_NUMBER_GRDB = "Answer_number";
-    public static final String ANSWER_NUMBER_OPTIONS_GRDB = "TEXT NOT NULL PRIMARY KEY";
-    public static final int ANSWER_NUMBER_COLUMN_GRDB = 2;
+    public static final String ANSWER_NUMBER_OPTIONS_GRDB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_GRDB = "Answer";
     public static final String ANSWER_OPTIONS_GRDB = "TEXT NOT NULL";
-    public static final int ANSWER_COLUMN_GRDB = 3;
 
     public static final String NUMBER_CONSTRAINTS_TABLE = "Number_constraints";
 
     public static final String KEY_SURVEY_NCDB = "Survey";
     public static final String SURVEY_OPTIONS_NCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
-    public static final int SURVEY_COLUMN_NCDB = 0;
     public static final String KEY_QUESTION_NCDB = "Question";
-    public static final String QUESTION_OPTIONS_NCDB = "TEXT NOT NULL REFERENCES "
-            + QUESTIONS_TABLE;
-    public static final int QUESTION_COLUMN_NCDB = 1;
+    public static final String QUESTION_OPTIONS_NCDB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_NUMBER_NCDB = "Answer_number";
-    public static final String ANSWER_NUMBER_OPTIONS_NCDB = "TEXT NOT NULL PRIMARY KEY";
-    public static final int ANSWER_NUMBER_COLUMN_NCDB = 2;
+    public static final String ANSWER_NUMBER_OPTIONS_NCDB = "INTEGER NOT NULL";
     public static final String KEY_MIN_VALUE_NCDB = "Min_value";
     public static final String MIN_VALUE_OPTIONS_NCDB = "REAL";
-    public static final int MIN_VALUE_COLUMN_NCDB = 3;
     public static final String KEY_MAX_VALUE_NCDB = "Max_value";
     public static final String MAX_VALUE_OPTIONS_NCDB = "REAL";
-    public static final int MAX_VALUE_COLUMN_NCDB = 4;
     public static final String KEY_MUST_BE_INTEGER_NCDB = "Must_be_integer";
     public static final String MUST_BE_INTEGER_OPTIONS_NCDB = "INTEGER CHECK(" +
             KEY_MUST_BE_INTEGER_NCDB + " IN(0, 1))";
-    public static final int MUST_BE_INTEGER_COLUMN_NCDB = 5;
     public static final String KEY_NOT_EQUALS_NCDB = "Not_equals";
     public static final String NOT_EQUALS_OPTIONS_NCDB = "REAL";
-    public static final int NOT_EQUALS_COLUMN_NCDB = 6;
     public static final String KEY_NOT_BETWEEN_NCDB = "Not_between";
     public static final String NOT_BETWEEN_OPTIONS_NCDB = "INTEGER CHECK(" +
             KEY_NOT_BETWEEN_NCDB + " IN(0, 1))";
-    public static final int NOT_BETWEEN_COLUMN_NCDB = 7;
 
     public static final String TEXT_CONSTRAINTS_TABLE = "Text_constraints";
 
     public static final String KEY_SURVEY_TCDB = "Survey";
     public static final String SURVEY_OPTIONS_TCDB = "TEXT NOT NULL REFERENCES "
             + SURVEY_TEMPLATE_TABLE;
-    public static final int SURVEY_COLUMN_TCDB = 0;
     public static final String KEY_QUESTION_TCDB = "Question";
-    public static final String QUESTION_OPTIONS_TCDB = "TEXT NOT NULL REFERENCES "
-            + QUESTIONS_TABLE;
-    public static final int QUESTION_COLUMN_TCDB = 1;
+    public static final String QUESTION_OPTIONS_TCDB = "INTEGER NOT NULL";
     public static final String KEY_ANSWER_NUMBER_TCDB = "Answer_number";
-    public static final String ANSWER_NUMBER_OPTIONS_TCDB = "TEXT NOT NULL PRIMARY KEY";
-    public static final int ANSWER_NUMBER_COLUMN_TCDB = 2;
+    public static final String ANSWER_NUMBER_OPTIONS_TCDB = "INTEGER NOT NULL";
     public static final String KEY_MIN_LENGTH_TCDB = "Min_length";
     public static final String MIN_LENGTH_OPTIONS_TCDB = "INTEGER";
-    public static final int MIN_VALUE_COLUMN_TCDB = 3;
     public static final String KEY_MAX_LENGTH_TCDB = "Max_length";
     public static final String MAX_LENGTH_OPTIONS_TCDB = "INTEGER";
-    public static final int MAX_VALUE_COLUMN_TCDB = 4;
     public static final String KEY_REGEX_TCDB = "Regex";
     public static final String REGEX_OPTIONS_TCDB = "TEXT";
-    public static final int REGEX_COLUMN_TCDB = 5;
 
 
     public static final String ANSWERS_TABLE = "Answers";  //do wypełnionych ankiet

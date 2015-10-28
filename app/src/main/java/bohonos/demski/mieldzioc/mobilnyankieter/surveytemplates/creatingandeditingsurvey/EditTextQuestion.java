@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -56,11 +54,18 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
         final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.constraints_radio_group);
         final RadioButton textRadio = (RadioButton) findViewById(R.id.text_radio);
         final RadioButton numberRadio = (RadioButton) findViewById(R.id.number_radio);
+        final RadioButton nothingRadio = (RadioButton) findViewById(R.id.nothing_radio);
+
         final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.constraints_relative);
 
+        if(question.getQuestion() != null){
+            titleTxt.setText(question.getQuestion());
+        }
 
-        if(question.getQuestion() != null) titleTxt.setText(question.getQuestion());
-        if(question.getHint() != null) hintTxt.setText(question.getHint());
+        if(question.getHint() != null){
+            hintTxt.setText(question.getHint());
+        }
+
         obligatory.setChecked(question.isObligatory());
 
         textRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -77,7 +82,6 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
                     fragmentTransaction.add(R.id.constraints_relative, textConstraintsFragment);
 
                     fragmentTransaction.commit();
-
                 }
             }
         });
@@ -97,6 +101,15 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
                     fragmentTransaction.commit();
                 }
                 }
+        });
+
+        nothingRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked){
+                    relativeLayout.removeAllViews();
+                }
+            }
         });
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +147,12 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
                         }
                         else Log.e("BLAD", "nie bylo dobrze");
                     }
-                } else {
+                    else {
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                }
+                else {
                     setResult(RESULT_OK);
                     finish();
                 }
@@ -144,31 +162,16 @@ public class EditTextQuestion extends ActionBarActivity implements TextConstrain
         TextQuestion txtQuestion = (TextQuestion) question;
         IConstraint constraint = txtQuestion.getConstraint();
         if(constraint != null) {
-            if (constraint instanceof TextConstraint) textRadio.setChecked(true);
-            else if (constraint instanceof NumberConstraint) numberRadio.setChecked(true);
+            if(constraint instanceof TextConstraint){
+                textRadio.setChecked(true);
+            }
+            else if (constraint instanceof NumberConstraint){
+                numberRadio.setChecked(true);
+            }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_edit_text_question, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        else{
+            nothingRadio.setChecked(true);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -60,6 +60,7 @@
     <string name="constraints">Ograniczenia: </string>
     <string name="number_constraints">liczbowe</string>
     <string name="text_constraints">tekstowe</string>
+    <string name="without_constraints">brak</string>
     <string name="min_length_constraint">Minimalna długość: </string>
     <string name="max_length_constraint">Maksymalna długość: </string>
     <string name="regex_constraint">Spełnia wyrażenie regularne: </string>

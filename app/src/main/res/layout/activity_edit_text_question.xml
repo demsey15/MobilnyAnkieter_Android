@@ -55,6 +55,13 @@
             android:textColor="@color/black"
             android:textColorHint="@color/hint_text_color"
             android:id="@+id/text_radio"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/without_constraints"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_text_color"
+            android:id="@+id/nothing_radio"/>
         </RadioGroup>
 
     <RelativeLayout
@@ -75,7 +82,8 @@
         android:textColorHint="@color/hint_text_color"
         android:layout_alignParentRight="true"
         android:id="@+id/obligatory_checkbox"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"/>
 
     <Button
         android:layout_width="wrap_content"

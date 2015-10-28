@@ -21,7 +21,7 @@
             android:label="@string/title_activity_create_new_survey" >
         </activity>
         <activity
-            android:name=".surveytemplates.creatingandeditingsurvey.CreateNewSurvey"
+            android:name=".surveytemplates.creatingandeditingsurvey.CreateNewSurveyActivity"
             android:label="@string/title_activity_create_new_survey" >
         </activity>
         <activity

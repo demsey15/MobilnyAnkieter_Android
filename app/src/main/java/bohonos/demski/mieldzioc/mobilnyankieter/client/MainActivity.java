@@ -14,7 +14,7 @@ import bohonos.demski.mieldzioc.mobilnyankieter.application.login.Login;
 import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.FilledSurveysActivity;
 import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.fillingSurvey.ChooseSurveyToFillActivity;
 import bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.SurveyTemplateActivity;
-import bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.creatingandeditingsurvey.CreateNewSurvey;
+import bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.creatingandeditingsurvey.CreateNewSurveyActivity;
 
 /**
  * Aktywność z różnymi akcjami do wyboru.
@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
         newSurveyButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateNewSurvey.class);
+                Intent intent = new Intent(MainActivity.this, CreateNewSurveyActivity.class);
                 startActivity(intent);
             }
         });

@@ -61,6 +61,7 @@
         android:layout_below="@id/max_value_edit"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
+        android:layout_marginTop="10dp"
         />
     <CheckBox
         android:layout_width="wrap_content"

@@ -71,7 +71,7 @@ public class QuestionsAdapter extends BaseAdapter {
                 questionPhoto.setImageResource(R.drawable.siatka);
                 break;
             case Question.TEXT_QUESTION:
-                questionPhoto.setImageResource(R.drawable.long_text);
+                questionPhoto.setImageResource(R.drawable.short_text);
                 break;
             case Question.MULTIPLE_CHOICE_QUESTION:
                 questionPhoto.setImageResource(R.drawable.multiple_choice);

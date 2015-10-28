@@ -79,11 +79,14 @@ public class EditChoiceAnswersFragment extends Fragment {
         EditText clickToAddAnswerEdit = (EditText) view.findViewById(R.id.click_to_add_answer_edit);
         clickToAddAnswerEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 EditText answer = createNewEditText("");
                 linearLayout.addView(answer);
+
+                answer.setSelected(true);
             }
         });
+
         return view;
     }
 
@@ -99,6 +102,24 @@ public class EditChoiceAnswersFragment extends Fragment {
                 ViewGroup.LayoutParams.MATCH_PARENT));
         answ.setId(GenerateId.generateViewId());
         answ.setTextColor(getResources().getColor(R.color.black));
+
+        answ.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                final View viewToRemove = view;
+
+                linearLayout.post(new Runnable() {
+                    public void run() {
+                        linearLayout.removeView(viewToRemove);
+                    }
+                });
+
+                editTexts.remove(view);
+
+                return false;
+            }
+        });
+
         editTexts.add(answ);
         return answ;
     }

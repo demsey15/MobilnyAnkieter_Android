@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -52,17 +52,70 @@ public class EditScaleQuestion extends ActionBarActivity {
         if(question.getHint() != null) hintTxt.setText(question.getHint());
         obligatory.setChecked(question.isObligatory());
 
-
         ScaleQuestion question2 = (ScaleQuestion) question;
+
         fromTxt.setText(String.valueOf(question2.getMinValue()) + ":");
         toTxt.setText(String.valueOf(question2.getMaxValue()) + ":");
-        fromEdit.setText(String.valueOf(question2.getMinValue()));
-        toEdit.setText(String.valueOf(question2.getMaxValue()));
+
+        prepareFromEditTxt(fromTxt, fromEdit, question2);
+
+        prepareToEditText(toTxt, toEdit, question2);
+
         String minLabel, maxLabel;
-        if((minLabel = question2.getMinLabel())!= null) fromLabelEdit.setText(minLabel);
-        if((maxLabel = question2.getMaxLabel())!= null) toLabelEdit.setText(maxLabel);
+
+        if((minLabel = question2.getMinLabel())!= null) {
+            fromLabelEdit.setText(minLabel);
+        }
+
+        if((maxLabel = question2.getMaxLabel())!= null){
+            toLabelEdit.setText(maxLabel);
+        }
 
 
+        prepareAddButton(titleTxt, hintTxt, obligatory, addButton, fromEdit, toEdit, errorScaleTxt, fromLabelEdit, toLabelEdit);
+    }
+
+    private void prepareToEditText(final TextView toTxt, EditText toEdit, ScaleQuestion question2) {
+        toEdit.setText(String.valueOf(question2.getMaxValue()));
+        toEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                toTxt.setText(editable.toString() + ":");
+            }
+        });
+    }
+
+    private void prepareFromEditTxt(final TextView fromTxt, EditText fromEdit, ScaleQuestion question2) {
+        fromEdit.setText(String.valueOf(question2.getMinValue()));
+        fromEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                fromTxt.setText(editable.toString() + ":");
+            }
+        });
+    }
+
+    private void prepareAddButton(final EditText titleTxt, final EditText hintTxt, final CheckBox obligatory, Button addButton, final EditText fromEdit, final EditText toEdit, final TextView errorScaleTxt, final EditText fromLabelEdit, final EditText toLabelEdit) {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,28 +147,5 @@ public class EditScaleQuestion extends ActionBarActivity {
             }
 
         });
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_edit_scale_question, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

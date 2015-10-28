@@ -3,7 +3,6 @@ package bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.creatingandedit
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,7 +15,7 @@ import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
 /**
  * Tworzenie nowej ankiety - podawanie tytuly, opisu i tekstu pozegnania.
  */
-public class CreateNewSurvey extends ActionBarActivity {
+public class CreateNewSurveyActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +37,10 @@ public class CreateNewSurvey extends ActionBarActivity {
                 if(!description.equals("")) control.setSurveyDescription(description);
                 if(!summary.equals("")) control.setSurveySummary(summary);
 
-                Intent intent = new Intent(CreateNewSurvey.this, CreateNewSurveyQuestionsActivity.class);
+                Intent intent = new Intent(CreateNewSurveyActivity.this, CreateNewSurveyQuestionsActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        return true;
-    }
-
 }
