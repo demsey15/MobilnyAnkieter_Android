@@ -1,5 +1,7 @@
 package bohonos.demski.mieldzioc.mobilnyankieter.surveytemplates.creatingandeditingsurvey;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +26,9 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
 
   private QuestionsAdapter questionsAdapter = new QuestionsAdapter(this);
   private CreatingSurveyControl control = CreatingSurveyControl.getInstance();
+
+    private boolean longWasClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,10 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
 
         initializeQuestionsList();
 
+        prepareFinishCreatingButton();
+    }
+
+    private void prepareFinishCreatingButton() {
         Button finishCreating = (Button) findViewById(R.id.finish_creating_survey_button);
         finishCreating.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +49,7 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
                         getSurveyHandler()) == null) {           //nie udało się dodać do bazy danych
                     Toast.makeText(CreateNewSurveyQuestionsActivity.this,
                             "Nie udało się dodać ankiety do bazy danych", Toast.LENGTH_LONG).show();
-                } else{
+                } else {
                     Toast.makeText(CreateNewSurveyQuestionsActivity.this, "Dodano ankietę",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -58,7 +67,39 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startEditQuestionActivity(position);
+                if(!longWasClicked) {
+                    startEditQuestionActivity(position);
+                }
+            }
+        });
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                longWasClicked = true;
+
+                final int itemNumber = i;
+
+                (new AlertDialog.Builder(CreateNewSurveyQuestionsActivity.this)
+                        .setIcon(android.R.drawable.ic_delete)
+                        .setMessage("Czy chcesz usunąć wybrane pytanie?")
+                        .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                longWasClicked = false;
+                            }
+                        })
+                        .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                control.removeQuestion(itemNumber);
+                                questionsAdapter.notifyDataSetChanged();
+
+                                longWasClicked = false;
+                            }
+                        })).show();
+
+                return false;
             }
         });
     }

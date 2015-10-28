@@ -36,6 +36,14 @@ public class FilledSurveysActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        deleteSurveyAnswersButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ((Button) view).setHint("podpowiedź");
+                return false;
+            }
+        });
     }
 
 }

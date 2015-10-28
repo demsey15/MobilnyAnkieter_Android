@@ -17,8 +17,6 @@ import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 public class ChoosingQuestionType extends DialogFragment {
     private OnQuestionTypeChosenListener activityListener;
 
-
-
     // Container Activity must implement this interface
     public interface OnQuestionTypeChosenListener{
         void onQuestionTypeChosen(int questionType);
@@ -60,15 +58,12 @@ public class ChoosingQuestionType extends DialogFragment {
                                 activityListener.onQuestionTypeChosen(Question.TEXT_QUESTION);
                                 break;
                             case 5:
-                                activityListener.onQuestionTypeChosen(Question.TEXT_QUESTION);
-                                break;
-                            case 6:
                                 activityListener.onQuestionTypeChosen(Question.DROP_DOWN_QUESTION);
                                 break;
-                            case 7:
+                            case 6:
                                 activityListener.onQuestionTypeChosen(Question.DATE_QUESTION);
                                 break;
-                            case 8:
+                            case 7:
                                 activityListener.onQuestionTypeChosen(Question.TIME_QUESTION);
                                 break;
                         }
