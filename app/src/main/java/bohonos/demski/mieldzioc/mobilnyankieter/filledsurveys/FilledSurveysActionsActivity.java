@@ -153,7 +153,14 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
                     filterAbbr = "all";
                 }
                 else if(isNotSentSet){
-                    toSend = new ArrayList<>(notSentSurveys.get(idOfSurveys));
+                    List<Survey> list = notSentSurveys.get(idOfSurveys);
+
+                    if(list != null) {
+                        toSend = new ArrayList<>(list);
+                    }
+                    else{
+                        toSend = null;
+                    }
 
                     filterAbbr = "notSent";
                 }
@@ -172,11 +179,16 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
                 (new AsyncTask<List<Survey>, Void, Pair<Boolean, String>>() {
                     @Override
                     protected Pair<Boolean, String> doInBackground(List<Survey>... lists) {
-                        publishProgress();
+                        if(lists[0] != null) {
+                            publishProgress();
 
-                        SurveyFileCreator surveyFileCreator = new SurveyFileCreator();
+                            SurveyFileCreator surveyFileCreator = new SurveyFileCreator();
 
-                        return surveyFileCreator.saveSurveyAnswers(lists[0], getApplicationContext(), filterAbbr);
+                            return surveyFileCreator.saveSurveyAnswers(lists[0], getApplicationContext(), filterAbbr);
+                        }
+                        else{
+                            return null;
+                        }
                     }
 
                     @Override
@@ -186,20 +198,21 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
 
                     @Override
                     protected void onPostExecute(Pair<Boolean, String> result) {
-                        boolean isSuccessful = result.first;
-                        String message = result.second;
+                        if (result != null) {
+                            boolean isSuccessful = result.first;
+                            String message = result.second;
 
-                        if(isSuccessful) {
-                            button.setBackgroundColor(getResources().getColor(R.color.sent_button));
-                            adapter.setSurveyWasClicked(itemNumber);
+                            if (isSuccessful) {
+                                button.setBackgroundColor(getResources().getColor(R.color.sent_button));
+                                adapter.setSurveyWasClicked(itemNumber);
 
-                            changeSurveysListExisting(isNotSentSet, isAllSet, idOfSurveys);
+                                changeSurveysListExisting(isNotSentSet, isAllSet, idOfSurveys);
 
-                            showAlertDialogAboutRemovingSurveyAnswers(message, toSend, isAllSet, isSentSet, isNotSentSet);
-                        }
-                        else{
-                            button.setBackgroundColor(getResources().getColor(R.color.cant_send_button));
-                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                showAlertDialogAboutRemovingSurveyAnswers(message, toSend, isAllSet, isSentSet, isNotSentSet);
+                            } else {
+                                button.setBackgroundColor(getResources().getColor(R.color.cant_send_button));
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 }).execute(toSend);

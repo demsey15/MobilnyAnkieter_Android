@@ -30,6 +30,8 @@
         android:layout_below="@+id/summary_text"
         android:layout_marginTop="400dp"
         android:layout_centerHorizontal="true"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/back_to_menu_button"/>
 </RelativeLayout>
 </ScrollView>

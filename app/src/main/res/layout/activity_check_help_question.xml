@@ -34,5 +34,7 @@
         android:layout_centerHorizontal="true"
         android:background="@color/button_color"
         android:id="@+id/reset_password_button"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="@string/reset_password_button_text"/>
 </RelativeLayout>

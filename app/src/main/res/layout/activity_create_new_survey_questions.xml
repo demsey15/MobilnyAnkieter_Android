@@ -19,6 +19,8 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/finish_creating_survey_button"
         android:background="@color/button_color"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="@string/finish_creating_survey"
         />
 </RelativeLayout>

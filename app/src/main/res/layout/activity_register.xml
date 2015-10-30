@@ -96,6 +96,8 @@
         android:layout_alignParentBottom="true"
         android:text="@string/register_button_text"
         android:id="@+id/register_button"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:background="@color/button_color"/>
 </RelativeLayout>
 </ScrollView>
