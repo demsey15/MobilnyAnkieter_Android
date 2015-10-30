@@ -3,6 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/log_out"
         android:title="Wyloguj"
-        android:icon="@drawable/log_out"
+        android:icon="@drawable/logout"
         app:showAsAction="always"/>
 </menu>

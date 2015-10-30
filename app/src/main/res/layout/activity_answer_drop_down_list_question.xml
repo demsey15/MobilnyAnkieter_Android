@@ -54,7 +54,7 @@
         android:layout_below="@+id/spinner_answer_drop_down"
         android:layout_marginRight="5dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/strzalka"
+        android:background="@drawable/next"
         android:id="@+id/next_question_button"/>
 
     <LinearLayout

@@ -37,7 +37,7 @@
             android:layout_below="@+id/welcome_survey_description"
             android:layout_marginRight="5dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/strzalka"
+            android:background="@drawable/next"
             android:id="@+id/welcome_next_button"/>
     </RelativeLayout>
 </ScrollView>

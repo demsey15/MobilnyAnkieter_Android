@@ -9,8 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/questionsListView"
        android:layout_below="@+id/survey_title"
-        android:dividerHeight="10dp"
-     />
+        android:dividerHeight="10dp"/>
 
     <Button
         android:layout_width="wrap_content"

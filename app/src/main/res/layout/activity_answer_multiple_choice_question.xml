@@ -53,7 +53,7 @@
             android:layout_below="@+id/answer_list_answers_multiple_choice"
             android:layout_marginRight="5dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/strzalka"
+            android:background="@drawable/next"
             android:id="@+id/next_question_button"/>
 
         <LinearLayout

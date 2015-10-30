@@ -59,28 +59,28 @@ public class QuestionsAdapter extends BaseAdapter {
         int questionType = question.getQuestionType();
         switch(questionType){
             case Question.DROP_DOWN_QUESTION:
-                questionPhoto.setImageResource(R.drawable.lista_rozwijana);
+                questionPhoto.setImageResource(R.drawable.dropdownlist);
                 break;
             case Question.ONE_CHOICE_QUESTION:
-                questionPhoto.setImageResource(R.drawable.one_choice);
+                questionPhoto.setImageResource(R.drawable.onechoice);
                 break;
             case Question.SCALE_QUESTION:
-                questionPhoto.setImageResource(R.drawable.skala);
+                questionPhoto.setImageResource(R.drawable.ruler);
                 break;
             case Question.GRID_QUESTION:
-                questionPhoto.setImageResource(R.drawable.siatka);
+                questionPhoto.setImageResource(R.drawable.grid);
                 break;
             case Question.TEXT_QUESTION:
-                questionPhoto.setImageResource(R.drawable.short_text);
+                questionPhoto.setImageResource(R.drawable.text);
                 break;
             case Question.MULTIPLE_CHOICE_QUESTION:
-                questionPhoto.setImageResource(R.drawable.multiple_choice);
+                questionPhoto.setImageResource(R.drawable.multiplechoice);
                 break;
             case Question.DATE_QUESTION:
-                questionPhoto.setImageResource(R.drawable.data);
+                questionPhoto.setImageResource(R.drawable.calendar);
                 break;
             case Question.TIME_QUESTION:
-                questionPhoto.setImageResource(R.drawable.godzina);
+                questionPhoto.setImageResource(R.drawable.clock);
                 break;
         }
 

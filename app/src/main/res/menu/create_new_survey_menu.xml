@@ -4,7 +4,7 @@
 
     <item android:id="@+id/add_question"
         android:title="Dodaj pytanie"
-        android:icon="@drawable/add_button"
+        android:icon="@drawable/plus"
         app:showAsAction="always"/>
 
 </menu>
