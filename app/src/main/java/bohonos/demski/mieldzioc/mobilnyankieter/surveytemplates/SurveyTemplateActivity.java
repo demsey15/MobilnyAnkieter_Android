@@ -70,33 +70,38 @@ public class SurveyTemplateActivity extends ActionBarActivity {
 
                         FileHandler fileHandler = new FileHandler();
 
-                        Pair<File[], String> result  = fileHandler.getFilesFromDirectory(fileHandler.getLoadingDir());
+                        File loadingDir = fileHandler.getLoadingDir();
 
-                        File[] files = result.first;
+                        if (loadingDir != null) {
+                            Pair<File[], String> result = fileHandler.getFilesFromDirectory(loadingDir);
 
-                        if(files == null){
-                            return new Pair<>(null, result.second);
+                            File[] files = result.first;
+
+                            if (files == null) {
+                                return new Pair<>(null, result.second);
+                            } else {
+                                Integer[] loadingStatistics = new Integer[]{0, 0, 0, 0, 0, 0, files.length};
+
+                                for (int i = 0; i < files.length; i++) {
+                                    publishProgress("Wczytywanie szablonów ankiet...", "(" + (i + 1) + "/" + files.length + ")");
+
+                                    File file = files[i];
+
+                                    LoadingSurveyTemplates loadingSurveyTemplates = new LoadingSurveyTemplates();
+                                    int loadingResult = loadingSurveyTemplates.loadSurveyTemplate(file, getApplicationContext());
+
+                                    loadingStatistics[loadingResult] = loadingStatistics[loadingResult] + 1;
+                                }
+
+                                if (loadingStatistics[LoadingSurveyTemplates.SURVEY_ADDED] == files.length) {
+                                    return new Pair<>(null, "Wszystkie ankiety zostały wczytane (" + files.length + ")!");
+                                } else {
+                                    return new Pair<>(loadingStatistics, null);
+                                }
+                            }
                         }
                         else{
-                            Integer[] loadingStatistics = new Integer[] {0, 0, 0, 0, 0, 0, files.length};
-
-                            for(int i = 0; i < files.length; i++){
-                                publishProgress("Wczytywanie szablonów ankiet...", "(" + (i + 1) + "/" + files.length + ")");
-
-                                File file = files[i];
-
-                                LoadingSurveyTemplates loadingSurveyTemplates = new LoadingSurveyTemplates();
-                                int loadingResult = loadingSurveyTemplates.loadSurveyTemplate(file, getApplicationContext());
-
-                                loadingStatistics[loadingResult] = loadingStatistics[loadingResult] + 1;
-                            }
-
-                            if(loadingStatistics[LoadingSurveyTemplates.SURVEY_ADDED] == files.length){
-                                return new Pair<>(null, "Wszystkie ankiety zostały wczytane (" + files.length + ")!");
-                            }
-                            else{
-                                return new Pair<>(loadingStatistics, null);
-                            }
+                            return new Pair<>(null, "Brak załączonej pamięci zewnętrznej. Załącz pamięć i spróbuj ponownie.");
                         }
                     }
 

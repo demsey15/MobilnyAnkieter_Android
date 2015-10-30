@@ -94,11 +94,9 @@
             android:label="@string/title_activity_send_surveys_template" >
         </activity>
         <activity
-            android:name=".application.login.Register"
-            android:label="@string/title_activity_register" >
+            android:name=".application.login.Register">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
