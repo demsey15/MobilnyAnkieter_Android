@@ -96,14 +96,14 @@ public class AnsweringSurveyDBAdapter {
         Cursor cursor = db.query(DatabaseHelper.FILLED_SURVEYS_TABLE, new String[] {DatabaseHelper.KEY_NO_FILLED_SURVEY_FSDB},
                 DatabaseHelper.KEY_IS_SENT_FSDB + " = " + sentStatus, null, null, null, null);
 
-        String in = "(";
+        String in = "";
         while(cursor.moveToNext()){
             if(!cursor.isNull(0)) {
                 in += cursor.getInt(0) + ",";
             }
         }
 
-        in = in.substring(0, in.length() - 1) + ")";
+        in = "(" + in.substring(0, in.length() - 1) + ")";
 
         return in;
     }
