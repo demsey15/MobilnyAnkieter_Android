@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
     private ScaleQuestion question;
     private SeekBar chosenAnswer;
     private int myQuestionNumber;
+
+    private boolean isNoAnswerSet = false;
 
     private int min;
     private int max;
@@ -53,11 +57,15 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
 
         final TextView chosenAnswerMessage = (TextView) findViewById(R.id.scale_chosen_answer_txt);
 
+        prepareNoAnswerCheckBox(chosenAnswerMessage);
+
         min = question.getMinValue();
         max = question.getMaxValue();
 
         chosenAnswer = (SeekBar) findViewById(R.id.answer_scale_seekBar);
         chosenAnswer.setMax(max - min);
+        chosenAnswerMessage.setText("" + (chosenAnswer.getProgress() + min));
+
         chosenAnswer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -71,7 +79,9 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                chosenAnswerMessage.setText("" + (seekBar.getProgress() + min));
+                if(!isNoAnswerSet) {
+                    chosenAnswerMessage.setText("" + (seekBar.getProgress() + min));
+                }
             }
         });
 
@@ -138,6 +148,28 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
         }
     }
 
+    private void prepareNoAnswerCheckBox(final TextView chosenAnswerMessage) {
+        CheckBox noAnswerCheckBox = (CheckBox) findViewById(R.id.no_answ_chcBox_scale);
+
+        if(question.isObligatory()){
+            noAnswerCheckBox.setVisibility(View.INVISIBLE);
+        }else{
+            noAnswerCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    isNoAnswerSet = b;
+
+                    if(isNoAnswerSet){
+                        chosenAnswerMessage.setText("brak");
+                    }
+                    else{
+                        chosenAnswerMessage.setText("" + (chosenAnswer.getProgress() + min));
+                    }
+                }
+            });
+        }
+    }
+
     private void goToNextActivity() {
         AnsweringSurveyControl control = ApplicationState.
                 getInstance(AnswerScaleQuestionActivity.this).getAnsweringSurveyControl();
@@ -180,21 +212,18 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
     private boolean setUserAnswer(){
         AnsweringSurveyControl control = ApplicationState.
                 getInstance(AnswerScaleQuestionActivity.this).getAnsweringSurveyControl();
-       /* if(question.isObligatory()){
-            if(chosenAnswer != null){     //jeśli pytanie jest obowiązkowe i nic nie dodano
-                Toast.makeText(AnswerOneChoiceQuestionActivity.this,
-                        "To pytanie jest obowiązkowe, podaj odpowiedź!", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-        */
-        //if(chosenAnswer != null){
-            if(control.setScaleQuestionAnswer(myQuestionNumber, chosenAnswer.getProgress() + min))
+
+        if(!isNoAnswerSet) {
+            if (control.setScaleQuestionAnswer(myQuestionNumber, chosenAnswer.getProgress() + min))
                 return true;
-            else{
+            else {
                 Toast.makeText(AnswerScaleQuestionActivity.this,
                         "Coś poszło nie tak, nie dodano odpowiedzi.", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
+        else{
+            return true;
+        }
+    }
 }

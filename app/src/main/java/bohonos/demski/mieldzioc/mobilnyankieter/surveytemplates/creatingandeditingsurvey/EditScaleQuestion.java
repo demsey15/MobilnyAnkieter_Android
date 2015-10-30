@@ -43,7 +43,6 @@ public class EditScaleQuestion extends ActionBarActivity {
         final TextView toTxt = (TextView) findViewById(R.id.label_label_to);
         final EditText fromEdit = (EditText) findViewById(R.id.from_scale);
         final EditText toEdit = (EditText) findViewById(R.id.to_scale);
-        final TextView errorScaleTxt = (TextView) findViewById(R.id.bad_scale_error);
         final EditText fromLabelEdit = (EditText) findViewById(R.id.from_label);
         final EditText toLabelEdit = (EditText) findViewById(R.id.to_label);
 
@@ -72,7 +71,7 @@ public class EditScaleQuestion extends ActionBarActivity {
         }
 
 
-        prepareAddButton(titleTxt, hintTxt, obligatory, addButton, fromEdit, toEdit, errorScaleTxt, fromLabelEdit, toLabelEdit);
+        prepareAddButton(titleTxt, hintTxt, obligatory, addButton, fromEdit, toEdit, fromLabelEdit, toLabelEdit);
     }
 
     private void prepareToEditText(final TextView toTxt, EditText toEdit, ScaleQuestion question2) {
@@ -115,15 +114,15 @@ public class EditScaleQuestion extends ActionBarActivity {
         });
     }
 
-    private void prepareAddButton(final EditText titleTxt, final EditText hintTxt, final CheckBox obligatory, Button addButton, final EditText fromEdit, final EditText toEdit, final TextView errorScaleTxt, final EditText fromLabelEdit, final EditText toLabelEdit) {
+    private void prepareAddButton(final EditText titleTxt, final EditText hintTxt, final CheckBox obligatory, Button addButton, final EditText fromEdit, final EditText toEdit, final EditText fromLabelEdit, final EditText toLabelEdit) {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     if (fromEdit.getText().toString().equals("") || toEdit.getText().toString().equals("")) {
-                        errorScaleTxt.setText("Pola skali nie mogą być puste!");
+                        toEdit.setError("Pola skali nie mogą być puste!");
                     } else if (Integer.valueOf(fromEdit.getText().toString()) > Integer.valueOf(toEdit.getText().toString())) {
-                        errorScaleTxt.setText("Maksymalna skala nie może być mniejsza od minimalnej!");
+                        toEdit.setError("Wartość \"do\" nie może być mniejsza od wartości \"od\"!");
                     } else {
                         CreatingSurveyControl control = CreatingSurveyControl.getInstance();
                         control.setQuestionText(questionNumber, titleTxt.getText().toString());
@@ -142,7 +141,7 @@ public class EditScaleQuestion extends ActionBarActivity {
                     }
                 }
                 catch(NumberFormatException e){
-                    errorScaleTxt.setText("Wartości skali muszą być liczbami całkowitymi.");
+                    toEdit.setError("Wartości skali muszą być liczbami całkowitymi.");
                 }
             }
 

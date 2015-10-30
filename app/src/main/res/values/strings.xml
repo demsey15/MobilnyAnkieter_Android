@@ -52,7 +52,7 @@
     <string name="add_answer_hint">Kilknij, aby dodać odpowiedź.</string>
     <string name="answers_List">Odpowiedzi:</string>
 
-    <string name="scale_label">Skala:</string>
+    <string name="scale_label">Skala: od</string>
     <string name="scale_to">do</string>
     <string name="scale_label_hint">Etykieta (opcjonalna)</string>
 

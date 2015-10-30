@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,9 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
     private NumberPicker hour;
     private NumberPicker minute;
     private int myQuestionNumber;
+
+    private CheckBox isNoAnsweredCheckBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,15 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
         minute.setFormatter(new MyTwoDigitFormater());
         minute.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
 
+        isNoAnsweredCheckBox = (CheckBox) findViewById(R.id.no_answ_chcBox_time);
+        if(question.isObligatory()){
+            isNoAnsweredCheckBox.setVisibility(View.INVISIBLE);
+        }
+
+        prepareNextAndFinishButton();
+    }
+
+    private void prepareNextAndFinishButton() {
         Button nextButton = (Button) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
         Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
@@ -120,25 +133,20 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
     private boolean setUserAnswer(){
         AnsweringSurveyControl control = ApplicationState.
                 getInstance(AnswerTimeQuestionActivity.this).getAnsweringSurveyControl();
-       /* if(question.isObligatory()) {       //jest obowiazkowe
-            if (answer.trim().equals("")) {      //i nie ma odpowiedzi
-                answerTxt.setError("Pytanie jest obowiązkowe. Proszę podać odpowiedź.");
+
+        if(!isNoAnsweredCheckBox.isChecked()) {
+            if (control.setDateAndTimeQuestionAnswer(myQuestionNumber, 1, 1, 1970, //dodano odpowiedź
+                    hour.getValue(), minute.getValue(), 0)) {
+                return true;
+            } else {                           //nie powinno się zdarzyć
+                Toast.makeText(AnswerTimeQuestionActivity.this,
+                        "Podana odpowiedź zawiera błędy.", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
-        if(!answer.trim().equals("")){    //jest odpowiedz (nie ważne, czy jest obowiązkowe
-         */
-           // else{                                                          //jeżeli można zrobić z niej datę
-
-                if(control.setDateAndTimeQuestionAnswer(myQuestionNumber, 1, 1, 1970, //dodano odpowiedź
-                        hour.getValue(), minute.getValue(), 0)){
-                    return true;
-                }
-                else{                           //nie powinno się zdarzyć
-                    Toast.makeText(AnswerTimeQuestionActivity.this,
-                            "Podana odpowiedź zawiera błędy.", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
+        else{
+            return true;
+        }
     }
 
     public void goToNextActivity(){

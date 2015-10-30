@@ -64,6 +64,16 @@
                 />
         </LinearLayout>
 
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/answer_linear_time"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/black"
+            android:text="brak odpowiedzi"
+            android:id="@+id/no_answ_chcBox_time"/>
+
         <Button
             android:layout_width="50dp"
             android:layout_height="50dp"

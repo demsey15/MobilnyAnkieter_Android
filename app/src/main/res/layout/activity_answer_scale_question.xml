@@ -81,12 +81,21 @@
             android:id="@+id/answer_scale_seekBar"
             android:max="5"
             android:layout_below="@+id/leftLabel_answer_scale_question" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/answer_scale_seekBar"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/black"
+            android:text="brak odpowiedzi"
+            android:id="@+id/no_answ_chcBox_scale"/>
         <Button
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/answer_scale_seekBar"
+            android:layout_below="@id/no_answ_chcBox_scale"
             android:layout_marginRight="5dp"
             android:layout_marginTop="25dp"
             android:background="@drawable/strzalka"
