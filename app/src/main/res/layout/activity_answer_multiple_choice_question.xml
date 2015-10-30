@@ -17,7 +17,7 @@
             android:textSize="15dp"
             android:id="@+id/answer_obligatory_multiple_choice"
             android:textColor="@color/red"
-            android:layout_marginTop="40dp"/>
+            android:layout_marginTop="10dp"/>
 
         <TextView android:text="Czy chorował pan na nadciśnienie tętnicze?" android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,33 +56,36 @@
             android:background="@drawable/strzalka"
             android:id="@+id/next_question_button"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="@string/end_filling_button"
                 android:id="@+id/end_filling_button"
                 android:background="@color/end_filling_button_color"
                 android:textColor="@color/end_filling_button_text"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:paddingRight="5dp"
                 android:paddingLeft="5dp"/>
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="@string/end_and_start_filling_button"
                 android:id="@+id/end_and_start_filling_button"
                 android:background="@color/end_filling_button_color"
                 android:textColor="@color/end_filling_button_text"
                 android:layout_toRightOf="@id/end_filling_button"
+                android:layout_marginLeft="10dp"
                 android:paddingRight="5dp"
                 android:paddingLeft="5dp"/>
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 </ScrollView>

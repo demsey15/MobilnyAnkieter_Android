@@ -57,8 +57,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="30dp"
         android:id="@+id/not_equals_edit"
+        android:minWidth="30dp"
         android:inputType="numberDecimal"
         android:layout_toRightOf="@+id/not_equals_txt"
         android:layout_below="@id/max_value_edit"
@@ -72,8 +72,8 @@
         android:id="@+id/must_be_integer_check_box"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
-        android:layout_below="@+id/not_equals_txt"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/not_equals_txt"/>
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -81,6 +81,8 @@
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
         android:text="@string/not_between_constraint"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/must_be_integer_check_box"
         android:id="@+id/not_between_check_box"
-        android:layout_below="@id/must_be_integer_check_box"/>
+        android:layout_below="@+id/not_equals_txt"/>
 </RelativeLayout>

@@ -16,6 +16,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="30dp"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
         android:id="@+id/min_length_edit"
@@ -36,6 +37,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="30dp"
         android:textColor="@color/black"
         android:textColorHint="@color/hint_text_color"
         android:id="@+id/max_length_edit"

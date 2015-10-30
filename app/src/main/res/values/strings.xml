@@ -4,8 +4,8 @@
 <!-- buttons   -->
     <string name="new_survey_button">Nowa ankieta</string>
     <string name="fill_survey_button">Wypełnij ankietę</string>
-    <string name="end_filling_button">Zakończ ankietę</string>
-    <string name="end_and_start_filling_button">Zakończ i wypełnij\n nową ankietę</string>
+    <string name="end_filling_button">Zakończ</string>
+    <string name="end_and_start_filling_button">Zakończ i wypełnij ponownie</string>
     <string name="back_to_main_button">Wróć do menu</string>
 
     <!-- reset password -->
@@ -46,7 +46,7 @@
 
     <!-- creating one choice question -->
     <string name="question_one_ch_hint">Wpisz pytanie</string>
-    <string name="obligatory_check_box">Obowiązkowe</string>
+    <string name="obligatory_check_box">Obowiązkowe </string>
     <string name="hint_text_hint">Wpisz wskazówkę</string>
     <string name="error_text_hint">Wpisz tekst błędu</string>
     <string name="add_answer_hint">Kilknij, aby dodać odpowiedź.</string>
