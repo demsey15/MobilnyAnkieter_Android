@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
 
 
@@ -23,7 +23,7 @@ public class CreateNewSurveyActivity extends ActionBarActivity {
         setContentView(R.layout.activity_create_new_survey);
         final CreatingSurveyControl control = CreatingSurveyControl.getInstance();
 
-        control.createNewSurvey(ApplicationState.getInstance(getApplicationContext()).getDeviceId());
+        control.createNewSurvey(UserPreferences.getInstance(getApplicationContext()).getDeviceId());
 
         Button button = (Button) findViewById(R.id.add_questions_button);
         button.setOnClickListener(new View.OnClickListener() {

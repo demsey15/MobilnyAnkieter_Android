@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
-import bohonos.demski.mieldzioc.mobilnyankieter.application.DateAndTimeService;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.constraints.IConstraint;
 import bohonos.demski.mieldzioc.mobilnyankieter.constraints.NumberConstraint;
 import bohonos.demski.mieldzioc.mobilnyankieter.constraints.TextConstraint;
@@ -26,6 +25,7 @@ import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 import bohonos.demski.mieldzioc.mobilnyankieter.questions.ScaleQuestion;
 import bohonos.demski.mieldzioc.mobilnyankieter.questions.TextQuestion;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.utilities.DateAndTimeService;
 
 /**
  * Created by Dominik Demski on 2015-05-02.
@@ -228,7 +228,7 @@ public class DataBaseAdapter {
         questionValues.put(DatabaseHelper.KEY_TYPE_QDB, question.getQuestionType());
         questionValues.put(DatabaseHelper.KEY_CREATED_DATE_QDB, DateAndTimeService.getToday());
         questionValues.put(DatabaseHelper.KEY_MODIFICATION_DATE_QDB, DateAndTimeService.getToday());
-        questionValues.put(DatabaseHelper.KEY_MODIFIED_BY_QDB, ApplicationState.getInstance(context).getDeviceId());
+        questionValues.put(DatabaseHelper.KEY_MODIFIED_BY_QDB, UserPreferences.getInstance(context).getDeviceId());
 
         Log.d("DB_SAVE_QTYPE", question.getQuestionType() + " ");
 

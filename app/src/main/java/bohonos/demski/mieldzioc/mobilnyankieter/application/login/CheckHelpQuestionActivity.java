@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 
 public class CheckHelpQuestionActivity extends ActionBarActivity {
     private String answer;
@@ -21,18 +21,18 @@ public class CheckHelpQuestionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_help_question);
 
-        final ApplicationState applicationState = ApplicationState.getInstance(getApplicationContext());
-        answer = applicationState.getHelpQuestionAnswer().trim();
+        final UserPreferences userPreferences = UserPreferences.getInstance(getApplicationContext());
+        answer = userPreferences.getHelpQuestionAnswer().trim();
 
         TextView questionTxt = (TextView) findViewById(R.id.reset_password_question);
-        questionTxt.setText(applicationState.getHelpQuestion());
+        questionTxt.setText(userPreferences.getHelpQuestion());
 
         answerTxt = (EditText) findViewById(R.id.reset_password_answer);
 
-        prepareResetButton(applicationState);
+        prepareResetButton(userPreferences);
     }
 
-    private void prepareResetButton(final ApplicationState applicationState) {
+    private void prepareResetButton(final UserPreferences userPreferences) {
         Button resetPassword = (Button) findViewById(R.id.reset_password_button);
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +40,7 @@ public class CheckHelpQuestionActivity extends ActionBarActivity {
                 String readAnswer = answerTxt.getText().toString();
 
                 if(answer.equalsIgnoreCase(readAnswer.trim())){
-                    applicationState.resetUsersSettings();
+                    userPreferences.resetUsersSettings();
 
                     Intent intent = new Intent(CheckHelpQuestionActivity.this, Register.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

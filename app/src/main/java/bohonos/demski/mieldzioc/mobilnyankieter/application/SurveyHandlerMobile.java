@@ -13,7 +13,6 @@ import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
  * Created by Dominik on 2015-05-04.
  */
 public class SurveyHandlerMobile extends SurveyHandler {
-
     private Context context;
     private DataBaseAdapter db;
 
@@ -34,11 +33,6 @@ public class SurveyHandlerMobile extends SurveyHandler {
         }
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-        db = new DataBaseAdapter(context);
-    }
-
     /**
      * Dodaje nowy szablon ankiety do klasy SurveyTemplate i do bazy danych.
      * @param survey ankieta do dodania.
@@ -47,23 +41,28 @@ public class SurveyHandlerMobile extends SurveyHandler {
      */
     @Override
     public String addNewSurveyTemplate(Survey survey) {
-        if(survey == null) throw new NullPointerException("Przekazana ankieta nie może być nullem " +
-                "- próba dodania ankiety do bazy danych");
+        if(survey == null){
+            throw new NullPointerException("Given survey mustn't be null.");
+        }
+
         String id =  super.addNewSurveyTemplate(survey);
         super.setSurveyStatus(survey, SurveyHandler.ACTIVE);
 
         Log.d("DODANIE_SZABLONU_BAZA", String.valueOf(super.getSurveyStatus(survey.getIdOfSurveys())));
-        if(!db.addSurveyTemplate(survey, super.getSurveyStatus(survey.getIdOfSurveys()), false)) return null;
+
+        if(!db.addSurveyTemplate(survey, SurveyHandler.ACTIVE, false)){
+            return null;
+        }
+
         ApplicationState.getInstance(context).saveLastAddedSurveyTemplateNumber(super.getMaxSurveysId());
 
         return id;
     }
 
     @Override
-    public void deleteSurvey(Survey survey) {
-        super.deleteSurvey(survey);
+    public void deleteSurveyTemplate(Survey survey) {
+        super.deleteSurveyTemplate(survey);
 
-        DataBaseAdapter db = new DataBaseAdapter(context);
         db.deleteSurveyTemplate(survey.getIdOfSurveys());
     }
 }

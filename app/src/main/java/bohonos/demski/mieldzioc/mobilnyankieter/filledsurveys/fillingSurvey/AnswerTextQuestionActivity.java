@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.constraints.IConstraint;
 import bohonos.demski.mieldzioc.mobilnyankieter.constraints.NumberConstraint;
 import bohonos.demski.mieldzioc.mobilnyankieter.constraints.TextConstraint;
@@ -120,7 +121,7 @@ public class AnswerTextQuestionActivity extends ActionBarActivity {
                             Intent intent = new Intent(getApplicationContext(), WelcomeFillingActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             answeringSurveyControl.startAnswering(idOfSurveys,          //rozpocznij wypełnianie nowej ankiety
-                                    ApplicationState.getInstance(getApplicationContext()).getDeviceId());
+                                    UserPreferences.getInstance(getApplicationContext()).getDeviceId());
                             intent.putExtra("SURVEY_TITLE", answeringSurveyControl.getSurveysTitle());
                             intent.putExtra("SURVEY_DESCRIPTION", answeringSurveyControl.getSurveysDescription());
                             intent.putExtra("SURVEY_SUMMARY", answeringSurveyControl.getSurveysSummary());

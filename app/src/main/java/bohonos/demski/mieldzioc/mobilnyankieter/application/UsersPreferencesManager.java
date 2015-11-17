@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * Created by Dominik Demski on 2015-05-06.
  */
-public class UsersPreferences {
+public class UsersPreferencesManager {
     private SharedPreferences preferences;
 
     private static final String LAST_TEMPLATE_NUMBER = "lastTemplateNumber";
@@ -22,7 +22,7 @@ public class UsersPreferences {
     private static final String REMEMBER_PASSWORD = "rememberPassword";
     private static final String DEVICE_ID = "device_id";
 
-    public UsersPreferences(Context context) {
+    public UsersPreferencesManager(Context context) {
         preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
     }
 

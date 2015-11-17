@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import java.util.Calendar;
 
-import bohonos.demski.mieldzioc.mobilnyankieter.application.DateAndTimeService;
+import bohonos.demski.mieldzioc.mobilnyankieter.utilities.DateAndTimeService;
 
 /**
  * Created by Dominik on 2015-05-07.

@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
@@ -35,7 +36,7 @@ public class ChooseSurveyToFillActivity extends ActionBarActivity {
                         ApplicationState.getInstance(ChooseSurveyToFillActivity.this);
                 AnsweringSurveyControl control = applicationState.getAnsweringSurveyControl();
                 final Survey survey = (Survey)adapter.getItem(position);
-                control.startAnswering(survey.getIdOfSurveys(), applicationState.getDeviceId());
+                control.startAnswering(survey.getIdOfSurveys(), UserPreferences.getInstance(getApplicationContext()).getDeviceId());
                 Intent intent = new Intent(ChooseSurveyToFillActivity.this, WelcomeFillingActivity.class);
                 intent.putExtra("SURVEY_TITLE", survey.getTitle());
                 intent.putExtra("SURVEY_DESCRIPTION", survey.getDescription());

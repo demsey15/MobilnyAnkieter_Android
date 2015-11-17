@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import bohonos.demski.mieldzioc.mobilnyankieter.application.DateAndTimeService;
 import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
+import bohonos.demski.mieldzioc.mobilnyankieter.utilities.DateAndTimeService;
 
 /**
  * Created by Dominik on 2015-05-09.

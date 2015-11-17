@@ -44,7 +44,7 @@ public class DeleteSurveyTemplateActivity extends ActionBarActivity {
                     .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            ApplicationState.getInstance(getApplicationContext()).getSurveyHandler().deleteSurvey(survey);
+                            ApplicationState.getInstance(getApplicationContext()).getSurveyHandler().deleteSurveyTemplate(survey);
 
                             adapter.notifyDataSetChanged();
 

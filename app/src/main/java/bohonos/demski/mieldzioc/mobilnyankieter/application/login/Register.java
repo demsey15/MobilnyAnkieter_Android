@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.client.MainActivity;
 
 public class Register extends ActionBarActivity {
@@ -46,14 +46,14 @@ public class Register extends ActionBarActivity {
                         reportErrorsInForm();
                     } else {
                         if (checkIfRepeatedPasswordEqualsUserPassword()) {
-                            ApplicationState applicationState = ApplicationState.getInstance(getApplicationContext());
+                            UserPreferences userPreferences = UserPreferences.getInstance(getApplicationContext());
 
-                            boolean isHelpQuestionEmptyOrValid = establishHelpQuestion(applicationState);
+                            boolean isHelpQuestionEmptyOrValid = establishHelpQuestion(userPreferences);
 
                             if (isHelpQuestionEmptyOrValid) {
-                                applicationState.saveUserPassword(passwordTxt.getText().toString().toCharArray());
+                                userPreferences.saveUserPassword(passwordTxt.getText().toString().toCharArray());
 
-                                applicationState.logIn(passwordTxt.getText().toString().toCharArray());
+                                userPreferences.logIn(passwordTxt.getText().toString().toCharArray());
 
                                 Intent intent = new Intent(Register.this, MainActivity.class);
 
@@ -78,7 +78,7 @@ public class Register extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "Popraw występujące błędy!", Toast.LENGTH_SHORT).show();
     }
 
-    private boolean establishHelpQuestion(ApplicationState applicationState) {
+    private boolean establishHelpQuestion(UserPreferences userPreferences) {
         EditText helpQuestionTxt = (EditText) findViewById(R.id.user_help_question);
         String helpQuestion = helpQuestionTxt.getText().toString();
 
@@ -92,8 +92,8 @@ public class Register extends ActionBarActivity {
                 return false;
             }
             else{
-                applicationState.saveHelpQuestion(helpQuestion);
-                applicationState.saveHelpQuestionAnswer(helpQuestionAnswer);
+                userPreferences.saveHelpQuestion(helpQuestion);
+                userPreferences.saveHelpQuestionAnswer(helpQuestionAnswer);
 
                 return true;
             }
@@ -130,7 +130,7 @@ public class Register extends ActionBarActivity {
     }
 
     private boolean checkIfUserIsAlreadyRegistered(){
-        return ApplicationState.getInstance(getApplicationContext()).checkIfUsersPasswordIsSet();
+        return UserPreferences.getInstance(getApplicationContext()).checkIfUsersPasswordIsSet();
     }
 
     private boolean checkIfRepeatedPasswordEqualsUserPassword(){

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.client.MainActivity;
 
 public class Login extends ActionBarActivity {
@@ -27,10 +27,10 @@ public class Login extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ApplicationState applicationState = ApplicationState.getInstance(getApplicationContext());
+        UserPreferences userPreferences = UserPreferences.getInstance(getApplicationContext());
 
-        if(applicationState.ifShouldDontLogOut()){
-            applicationState.logIn(applicationState.getUserPassword());
+        if(userPreferences.ifShouldDontLogOut()){
+            userPreferences.logIn(userPreferences.getUserPassword());
 
             Intent intent = new Intent(Login.this, MainActivity.class);
 
@@ -39,18 +39,18 @@ public class Login extends ActionBarActivity {
 
         }
         else{
-            boolean shouldRememberPassword = applicationState.ifShouldRememberPassword();
+            boolean shouldRememberPassword = userPreferences.ifShouldRememberPassword();
 
             rememberPasswordChkBox = (CheckBox) findViewById(R.id.rememberPasswordChcBox);
             rememberPasswordChkBox.setChecked(shouldRememberPassword);
 
             shouldNotLogOutChkBox = (CheckBox) findViewById(R.id.dontLogOutChcBox);
-            shouldNotLogOutChkBox.setChecked(applicationState.ifShouldDontLogOut());
+            shouldNotLogOutChkBox.setChecked(userPreferences.ifShouldDontLogOut());
 
             passwordTxt = (EditText) findViewById(R.id.user_password);
 
             if(shouldRememberPassword){
-                passwordTxt.setText(String.valueOf(applicationState.getUserPassword()));
+                passwordTxt.setText(String.valueOf(userPreferences.getUserPassword()));
             }
 
             final ViewAnimator animator = (ViewAnimator) findViewById(R.id.login_animator);
@@ -65,7 +65,7 @@ public class Login extends ActionBarActivity {
             forgotPasswordTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String helpQuestion = ApplicationState.getInstance(getApplicationContext()).getHelpQuestion();
+                    String helpQuestion = UserPreferences.getInstance(getApplicationContext()).getHelpQuestion();
 
                     if(helpQuestion.isEmpty()){
                         (new AlertDialog.Builder(getApplicationContext())
@@ -106,10 +106,10 @@ public class Login extends ActionBarActivity {
                 }
                 else{
                     if(isPasswordCorrect(password)){
-                        ApplicationState applicationState = ApplicationState.getInstance(getApplicationContext());
+                        UserPreferences userPreferences = UserPreferences.getInstance(getApplicationContext());
 
-                        applicationState.saveRememberPassword(rememberPasswordChkBox.isChecked());
-                        applicationState.saveDontLogOut(shouldNotLogOutChkBox.isChecked());
+                        userPreferences.saveRememberPassword(rememberPasswordChkBox.isChecked());
+                        userPreferences.saveDontLogOut(shouldNotLogOutChkBox.isChecked());
 
                         Intent intent = new Intent(Login.this, MainActivity.class);
 
@@ -126,7 +126,7 @@ public class Login extends ActionBarActivity {
     }
 
     private boolean isPasswordCorrect(String password){
-        return ApplicationState.getInstance(getApplicationContext()).logIn(password.toCharArray());
+        return UserPreferences.getInstance(getApplicationContext()).logIn(password.toCharArray());
     }
 }
 

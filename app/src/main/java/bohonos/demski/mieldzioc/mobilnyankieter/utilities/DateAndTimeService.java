@@ -1,4 +1,4 @@
-package bohonos.demski.mieldzioc.mobilnyankieter.application;
+package bohonos.demski.mieldzioc.mobilnyankieter.utilities;
 
 import java.util.GregorianCalendar;
 

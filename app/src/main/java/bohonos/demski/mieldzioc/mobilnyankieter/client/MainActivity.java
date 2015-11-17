@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
-import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
+import bohonos.demski.mieldzioc.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.login.Login;
 import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.FilledSurveysActivity;
 import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.fillingSurvey.ChooseSurveyToFillActivity;
@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void logOut() {
-        ApplicationState.getInstance(getApplicationContext()).saveDontLogOut(false);
+        UserPreferences.getInstance(getApplicationContext()).saveDontLogOut(false);
 
         Intent intent = new Intent(MainActivity.this, Login.class);
 
