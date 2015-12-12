@@ -12,6 +12,7 @@ import android.widget.Toast;
 import bohonos.demski.mieldzioc.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
 import bohonos.demski.mieldzioc.mobilnyankieter.database.AnsweringSurveyDBAdapter;
+import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.FilledSurveysActionsActivity;
 import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.fillingSurvey.ChooseSurveyAdapter;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
@@ -64,7 +65,7 @@ public class DeleteSurveyTemplateActivity extends ActionBarActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     AnsweringSurveyDBAdapter db = new AnsweringSurveyDBAdapter(getApplicationContext());
-                    db.deleteAnswers(survey.getIdOfSurveys(), false, false, true);
+                    db.deleteAnswers(survey.getIdOfSurveys(), false, false, true, FilledSurveysActionsActivity.JSON_MODE);
 
                     Toast.makeText(getApplicationContext(), "Usunięto wybraną ankietę i wszystkie zebrane do niej odpowiedzi.", Toast.LENGTH_SHORT).show();
                 }

@@ -28,9 +28,9 @@ import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 
 public class FilledSurveysActionsActivity extends ActionBarActivity {
     public static final String LIST_ACTION_MODE = "MODE";
-    public static final Integer SENDING_MODE = 0;
+    public static final Integer JSON_MODE = 0;
     public static final Integer DELETING_MODE = 1;
-    public static final Integer STATISTICS_MODE = 2;
+    public static final Integer CSV_MODE = 2;
 
     private int mode;
 
@@ -50,24 +50,21 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_survey_to_fill);
 
+        mode = getIntent().getIntExtra(LIST_ACTION_MODE, 0);
+
         initSurveysLists();
 
-        mode = getIntent().getIntExtra(LIST_ACTION_MODE, 0);
         prepareListView();
 
         prepareStartingFilter();
     }
 
     private void prepareStartingFilter(){
-        if(mode == SENDING_MODE){
+        if(mode == JSON_MODE || mode == CSV_MODE){
             adapter = new SendingSurveyAnswersAdapter(notSentSurveys, getApplicationContext());
         }
         else if(mode == DELETING_MODE){
             adapter = new SendingSurveyAnswersAdapter(sentSurveys, getApplicationContext());
-        }
-        else{
-
-
         }
 
         listView.setAdapter(adapter);
@@ -76,11 +73,14 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
     private void prepareListView() {
         listView = (ListView) findViewById(R.id.choose_survey_list);
 
-        if(mode == SENDING_MODE) {
+        if(mode == JSON_MODE) {
             prepareListViewToSending();
         }
         else if(mode == DELETING_MODE){
             prepareListViewToDeleting();
+        }
+        else if(mode == CSV_MODE){
+            prepareListViewToSending();
         }
     }
 
@@ -98,7 +98,7 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
                                         String idOfSurveys = survey.getIdOfSurveys();
 
                                         AnsweringSurveyDBAdapter db = new AnsweringSurveyDBAdapter(getApplicationContext());
-                                        db.deleteAnswers(idOfSurveys, isSentSurveysFilterSet, isNotSentSurveysFilterSet, isAllSurveysFilterSet);
+                                        db.deleteAnswers(idOfSurveys, isSentSurveysFilterSet, isNotSentSurveysFilterSet, isAllSurveysFilterSet, JSON_MODE);
 
                                         if(isSentSurveysFilterSet){
                                             List<Survey> removed = sentSurveys.remove(idOfSurveys);
@@ -184,7 +184,14 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
 
                             SurveyFileCreator surveyFileCreator = new SurveyFileCreator();
 
-                            return surveyFileCreator.saveSurveyAnswers(lists[0], getApplicationContext(), filterAbbr);
+                            if(mode == JSON_MODE) {
+                                return surveyFileCreator.saveSurveyAnswersInJson(lists[0], filterAbbr);
+                            } else if(mode == CSV_MODE){
+                                return surveyFileCreator.saveSurveyAnswersInCsv(lists[0], filterAbbr);
+                            }
+                            else{
+                                return null;
+                            }
                         }
                         else{
                             return null;
@@ -241,8 +248,8 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
                                                            final boolean isAllSet, final boolean isSentSet,
                                                            final boolean isNotSentSet) {
         (new AlertDialog.Builder(FilledSurveysActionsActivity.this)
-            .setMessage(message + "\nCzy chcesz usunąć przesłane wyniki ankiet z bazy danych " +
-                    "(wygenerowane pliki nie zostaną usunięte)? Usuniętych danych nie będzie" +
+            .setMessage(message + "\nCzy chcesz usunąć wygenerowane wyniki ankiet z bazy danych " +
+                    "(stworzone pliki nie zostaną usunięte)? Usuniętych danych nie będzie" +
                     " można przywrócić!")
             .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                 @Override
@@ -253,12 +260,12 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
                         String idOfSurveys = sent.get(0).getIdOfSurveys();
 
                         if (isAllSet) {
-                            db.deleteAnswers(idOfSurveys, false, false, true);
+                            db.deleteAnswers(idOfSurveys, false, false, true, mode);
                         }
                         else if(isSentSet){
-                            db.deleteAnswers(idOfSurveys, true, false, false);
+                            db.deleteAnswers(idOfSurveys, true, false, false, mode);
                         } else if(isNotSentSet){
-                            db.deleteAnswers(idOfSurveys, false, true, false);
+                            db.deleteAnswers(idOfSurveys, false, true, false, mode);
                         }
 
                         Log.d("SENT_LIST", "" +sent.size());
@@ -279,7 +286,12 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
 
                         AnsweringSurveyDBAdapter db = new AnsweringSurveyDBAdapter(getApplicationContext());
 
-                        db.setSurveyAnswersAsSent(idOfSurveys);
+                        if(mode == JSON_MODE) {
+                            db.setSurveyAnswersAsSent(idOfSurveys);
+                        }
+                        else if(mode == CSV_MODE){
+                            db.setSurveyAnswersWasMadeCSV(idOfSurveys);
+                        }
                     }
                 }
             })).show();
@@ -304,7 +316,16 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
     private void initSurveysLists(){
         AnsweringSurveyDBAdapter dbAdapter = new AnsweringSurveyDBAdapter(getApplicationContext());
 
-        List<Pair<Survey, Boolean>> theWhole = dbAdapter.getAllAnswersWithSentStatus();
+        List<Pair<Survey, Boolean>> theWhole;
+
+        if(mode == JSON_MODE || mode == DELETING_MODE) {
+            theWhole = dbAdapter.getAllAnswersWithSentStatus();
+            System.out.println("Tworze listy json " + mode);
+        }
+        else{
+            theWhole = dbAdapter.getAllAnswersWithCSVMadeStatus();
+            System.out.println("Tworze listy csv");
+        }
 
         for(Pair<Survey, Boolean> pair : theWhole){
             Survey survey = pair.first;
@@ -348,7 +369,7 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        if(mode == SENDING_MODE){
+        if(mode == JSON_MODE || mode == CSV_MODE){
             menu.findItem(R.id.filter_not_sent).setChecked(true);
         }
         else if(mode == DELETING_MODE){

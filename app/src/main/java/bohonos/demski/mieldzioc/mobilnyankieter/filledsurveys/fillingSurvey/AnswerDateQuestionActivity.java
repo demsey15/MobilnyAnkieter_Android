@@ -129,7 +129,7 @@ public class AnswerDateQuestionActivity extends ActionBarActivity {
                 return false;
             }
         }
-        if(!answer.trim().equals("")){    //jest odpowiedz (nie ważne, czy jest obowiązkowe
+        if(!answer.trim().isEmpty()){    //jest odpowiedz (nie ważne, czy jest obowiązkowe
             if(DateAndTimeService.getDateFromString(  //jeżeli nie można zrobić z niej daty
                     answer + " 01:00:00") == null) {
                 answerTxt.setError("Podaj datę w formacie dd-mm-yyyy");

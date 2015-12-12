@@ -32,7 +32,7 @@ public class DateAndTimeService {
         GregorianCalendar today = new GregorianCalendar();
         return today.get(GregorianCalendar.YEAR) + "-" +
                 addFirstZeros(today.get(GregorianCalendar.MONTH) + 1) + "-" +
-                addFirstZeros(today.get(GregorianCalendar.DATE))
+                addFirstZeros(today.get(GregorianCalendar.DAY_OF_MONTH))
                 + " " + addFirstZeros(today.get(GregorianCalendar.HOUR_OF_DAY))
                 + ":" + addFirstZeros(today.get(GregorianCalendar.MINUTE))
                 + ":" + addFirstZeros(today.get(GregorianCalendar.SECOND)) + "." +
@@ -46,7 +46,7 @@ public class DateAndTimeService {
     public static String getDateAsDBString(GregorianCalendar date) {
         return date.get(GregorianCalendar.YEAR) + "-" +
                 addFirstZeros(date.get(GregorianCalendar.MONTH) + 1) + "-" +
-                addFirstZeros(date.get(GregorianCalendar.DATE))
+                addFirstZeros(date.get(GregorianCalendar.DAY_OF_MONTH))
                 + " " + addFirstZeros(date.get(GregorianCalendar.HOUR_OF_DAY))
                 + ":" + addFirstZeros(date.get(GregorianCalendar.MINUTE))
                 + ":" + addFirstZeros(date.get(GregorianCalendar.SECOND)) + "." +

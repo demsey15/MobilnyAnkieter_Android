@@ -1,8 +1,12 @@
 package bohonos.demski.mieldzioc.mobilnyankieter.client;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +29,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        WifiManager manager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+
+        WifiInfo info = manager.getConnectionInfo();
+
+        Log.d("MAC", info.getMacAddress());
 
         prepareNewSurveyTemplateButton();
         prepareFillSurveyButton();

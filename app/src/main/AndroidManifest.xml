@@ -2,18 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bohonos.demski.mieldzioc.mobilnyankieter" >
 
-    <supports-screens android:smallScreens="false"
-                      android:normalScreens="true"
-                      android:largeScreens="true"
-                      android:xlargeScreens="true"/>
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/surveyfilled"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".client.MainActivity"
@@ -96,10 +97,10 @@
             android:name=".sendingsurvey.SendSurveysTemplateActivity"
             android:label="@string/title_activity_send_surveys_template" >
         </activity>
-        <activity
-            android:name=".application.login.Register">
+        <activity android:name=".application.login.Register" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -124,4 +125,5 @@
             android:label="@string/title_activity_delete_survey_template" >
         </activity>
     </application>
+
 </manifest>

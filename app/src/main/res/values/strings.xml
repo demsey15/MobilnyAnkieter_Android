@@ -111,4 +111,5 @@
     <string name="title_activity_check_help_question">Resetowanie hasła</string>
     <string name="title_activity_delete_survey_template">Usuwanie szablonów ankiet</string>
     <string name="title_activity_delete_filled_surveys">Usuwanie wyników ankiet</string>
+    <string name="title_activity_make_csv">MakeCsvActivity</string>
 </resources>

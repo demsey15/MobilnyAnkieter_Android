@@ -20,14 +20,14 @@ public class FilledSurveysActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FilledSurveysActivity.this, FilledSurveysActionsActivity.class);
-                intent.putExtra(FilledSurveysActionsActivity.LIST_ACTION_MODE, FilledSurveysActionsActivity.SENDING_MODE);
+                intent.putExtra(FilledSurveysActionsActivity.LIST_ACTION_MODE, FilledSurveysActionsActivity.JSON_MODE);
 
                 startActivity(intent);
             }
         });
 
-        Button deleteSurveyAnswersButton = (Button) findViewById(R.id.delete_survey_answers_button);
-        deleteSurveyAnswersButton.setOnClickListener(new View.OnClickListener() {
+        Button deleteAnswersButton = (Button) findViewById(R.id.delete_survey_answers_button);
+        deleteAnswersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FilledSurveysActivity.this, FilledSurveysActionsActivity.class);
@@ -37,11 +37,14 @@ public class FilledSurveysActivity extends ActionBarActivity {
             }
         });
 
-        deleteSurveyAnswersButton.setOnLongClickListener(new View.OnLongClickListener() {
+        Button generateCsvSurveyAnswersButton = (Button) findViewById(R.id.make_csv_button);
+        generateCsvSurveyAnswersButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                ((Button) view).setHint("podpowiedź");
-                return false;
+            public void onClick(View view) {
+                Intent intent = new Intent(FilledSurveysActivity.this, FilledSurveysActionsActivity.class);
+                intent.putExtra(FilledSurveysActionsActivity.LIST_ACTION_MODE, FilledSurveysActionsActivity.CSV_MODE);
+
+                startActivity(intent);
             }
         });
     }

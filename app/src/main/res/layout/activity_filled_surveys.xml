@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/send_filled_surveys_button"
-            android:text="Eksportuj wyniki ankiet"
+            android:text="Eksportuj do json"
             android:background="@color/oliwkowy"
             android:drawableLeft="@drawable/send"
             android:layout_marginBottom="30dp"
@@ -26,10 +26,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/load_survey_templates_button"
-            android:text="Statystyki zbierania ankiet"
+            android:id="@+id/make_csv_button"
+            android:text="Eksportuj do csv"
             android:background="@color/oliwkowy"
-            android:drawableLeft="@drawable/statistics"
+            android:drawableLeft="@drawable/csv"
             android:layout_marginBottom="30dp"
             android:textColor="@color/black"
             />

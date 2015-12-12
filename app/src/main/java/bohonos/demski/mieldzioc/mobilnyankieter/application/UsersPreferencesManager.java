@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -100,7 +101,7 @@ public class UsersPreferencesManager {
         if(deviceId.isEmpty()){
             long random = (new Random()).nextLong();
 
-            deviceId = getWifiMacAddress(context) + random;
+            deviceId = getWifiMacAddress(context) + "-" + random;
 
             SharedPreferences.Editor editor = preferences.edit();
 

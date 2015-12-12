@@ -28,4 +28,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'uk.com.robust-it:cloning:1.9.1'
     compile files('libs/jsonserialization.jar')
+    compile files('libs/serialization.jar')
+    compile files('libs/csv.jar')
 }

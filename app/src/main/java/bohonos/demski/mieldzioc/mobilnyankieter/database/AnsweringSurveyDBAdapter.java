@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import bohonos.demski.mieldzioc.mobilnyankieter.filledsurveys.FilledSurveysActionsActivity;
 import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 import bohonos.demski.mieldzioc.mobilnyankieter.utilities.DateAndTimeService;
@@ -51,7 +52,7 @@ public class AnsweringSurveyDBAdapter {
         dbHelper.close();
     }
 
-    public void deleteAnswers(String idOfSurveys, boolean sent, boolean notSent, boolean all){
+    public void deleteAnswers(String idOfSurveys, boolean sent, boolean notSent, boolean all, int mode){
         open();
 
         if((sent && notSent) || (sent && all) || (all && notSent)){
@@ -60,6 +61,15 @@ public class AnsweringSurveyDBAdapter {
 
         String whereAnswers = "";
         String whereSurveys = "";
+
+        String filteredColumn;
+
+        if(mode == FilledSurveysActionsActivity.JSON_MODE){
+            filteredColumn =  DatabaseHelper.KEY_IS_SENT_FSDB;
+        }
+        else{
+            filteredColumn = DatabaseHelper.KEY_WAS_CSV_MADE_FSDB;
+        }
 
         if(all) {
             whereAnswers = DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "'";
@@ -71,7 +81,7 @@ public class AnsweringSurveyDBAdapter {
             whereAnswers = DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "' AND " +
                     DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB + " IN " + in;
             whereSurveys = DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "' AND " +
-                    DatabaseHelper.KEY_IS_SENT_FSDB + " = " + 1;
+                    filteredColumn + " = " + 1;
         }
         else if(notSent){
             String in = getInExpression(false);
@@ -79,7 +89,7 @@ public class AnsweringSurveyDBAdapter {
             whereAnswers = DatabaseHelper.KEY_SURVEY_SADB + " = '" + idOfSurveys + "' AND " +
                     DatabaseHelper.KEY_NO_FILLED_SURVEY_SADB + " IN " + in;
             whereSurveys = DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "' AND " +
-                    DatabaseHelper.KEY_IS_SENT_FSDB + " = " + 0;
+                    filteredColumn + " = " + 0;
         }
 
         if(sent || notSent || all) {
@@ -103,7 +113,12 @@ public class AnsweringSurveyDBAdapter {
             }
         }
 
-        in = "(" + in.substring(0, in.length() - 1) + ")";
+        if(!in.isEmpty()) {
+            in = "(" + in.substring(0, in.length() - 1) + ")";
+        }
+        else{
+            in = "()";
+        }
 
         return in;
     }
@@ -119,6 +134,7 @@ public class AnsweringSurveyDBAdapter {
         filledSurveyValues.put(DatabaseHelper.KEY_TO_DATE_FSDB, DateAndTimeService.
                 getDateAsDBString(survey.getFinishTime()));
         filledSurveyValues.put(DatabaseHelper.KEY_IS_SENT_FSDB, 0);
+        filledSurveyValues.put(DatabaseHelper.KEY_WAS_CSV_MADE_FSDB, 0);
 
         if(db.insert(DatabaseHelper.FILLED_SURVEYS_TABLE, null, filledSurveyValues) == -1) {
             close();
@@ -188,6 +204,11 @@ public class AnsweringSurveyDBAdapter {
 
                     Log.d("DB_GET_ANSWERS_0", Arrays.toString(answers.toArray()));
                     Question question = survey.getQuestion(j);
+
+                    if(question.getQuestionType() == Question.TIME_QUESTION){
+                        answers.addAll(0, Arrays.asList(new String[] {"2", "2", "2"}));
+                    }
+
                     Log.d("DB_GET_ANSW_SETSTATUS", "" + question.setUserAnswers(answers));
                 }
                 survey.setNumberOfSurvey(cursor.getLong(1));
@@ -206,6 +227,47 @@ public class AnsweringSurveyDBAdapter {
         return surveys;
     }
 
+    public List<Pair<Survey, Boolean>> getAllAnswersWithCSVMadeStatus(){
+        open();
+        Cursor cursor = db.query(DatabaseHelper.FILLED_SURVEYS_TABLE, new String[]
+                        {DatabaseHelper.KEY_SURVEY_FSDB, DatabaseHelper.KEY_NO_FILLED_SURVEY_FSDB,
+                                DatabaseHelper.KEY_FROM_DATE_FSDB,
+                                DatabaseHelper.KEY_TO_DATE_FSDB, DatabaseHelper.KEY_FILLED_BY_DEVICE_ID_FSDB,
+                                DatabaseHelper.KEY_WAS_CSV_MADE_FSDB}, null,
+                null, null, null, null);
+
+        List<Pair<Survey, Boolean>> surveys = new ArrayList<>();
+
+        while(cursor.moveToNext()){
+            DataBaseAdapter db = new DataBaseAdapter(context);
+            Survey survey = db.getSurveyTemplate(cursor.getString(0));
+            if(survey != null){
+                survey.setDeviceId(cursor.getString(4));
+                for(int j = 0; j < survey.questionListSize(); j++){
+                    List<String> answers = getAnswers(cursor.getString(0), cursor.getLong(1), j); //pobierz odpowiedzi uzytkownika dla j-tego pytania
+                    Question question = survey.getQuestion(j);
+
+                    if(question.getQuestionType() == Question.TIME_QUESTION){
+                        answers.addAll(0, Arrays.asList(new String[] {"2", "2", "2"}));
+                    }
+
+                    question.setUserAnswers(answers);
+                }
+                survey.setNumberOfSurvey(cursor.getLong(1));
+                GregorianCalendar from = DateAndTimeService.getDateFromStringYYYYMMDDHHMMSS(cursor.getString(2));
+                GregorianCalendar to = DateAndTimeService.getDateFromStringYYYYMMDDHHMMSS(cursor.getString(3));
+
+                if(from != null && to != null){
+                    survey.setStartTime(from);
+                    survey.setFinishTime(to);
+                    surveys.add(new Pair<>(survey, (cursor.getInt(5) == 1)));
+                }
+            }
+        }
+        close();
+
+        return surveys;
+    }
 
     private List<String> getAnswers(String idOfSurveys, long filledSurveyNumber, int questionNumber){
         Cursor cursor = db.query(DatabaseHelper.ANSWERS_TABLE, new String[]
@@ -231,6 +293,16 @@ public class AnsweringSurveyDBAdapter {
         open();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.KEY_IS_SENT_FSDB, 1);
+
+        db.update(DatabaseHelper.FILLED_SURVEYS_TABLE, contentValues,
+                DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "'", null);
+        close();
+    }
+
+    public void setSurveyAnswersWasMadeCSV(String idOfSurveys){
+        open();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.KEY_WAS_CSV_MADE_FSDB, 1);
 
         db.update(DatabaseHelper.FILLED_SURVEYS_TABLE, contentValues,
                 DatabaseHelper.KEY_SURVEY_FSDB + " = '" + idOfSurveys + "'", null);

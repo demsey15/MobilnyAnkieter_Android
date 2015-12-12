@@ -6,8 +6,8 @@ import java.io.File;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.application.ApplicationState;
 import bohonos.demski.mieldzioc.mobilnyankieter.database.DataBaseAdapter;
-import bohonos.demski.mieldzioc.mobilnyankieter.jsonserialization.JsonSurveySerializator;
 import bohonos.demski.mieldzioc.mobilnyankieter.sendingsurvey.creatingsurveysfiles.FileHandler;
+import bohonos.demski.mieldzioc.mobilnyankieter.serialization.jsonserialization.JsonSurveySerializator;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
 

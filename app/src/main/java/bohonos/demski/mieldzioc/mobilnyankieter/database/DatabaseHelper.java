@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //tabela Survey_template
     private static final String DB_NAME = "survey_database";
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 9;
 
     public static final String SURVEY_TEMPLATE_TABLE = "Survey_template";
 
@@ -202,6 +202,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FILLED_BY_DEVICE_OPTIONS_FSDB = "TEXT NOT NULL";
     public static final String KEY_IS_SENT_FSDB = "Is_Sent";
     public static final String IS_SENT_OPTIONS_FSDB = "INT NOT NULL CHECK(" + KEY_IS_SENT_FSDB + " IN(0, 1))";
+    public static final String KEY_WAS_CSV_MADE_FSDB = "Was_csv_made";
+    public static final String WAS_CSV_MADE_OPTIONS_FSDB = "INT NOT NULL CHECK(" + KEY_IS_SENT_FSDB + " IN(0, 1))";
 
 
     public static final String NUMBER_OF_FILLED_SURVEYS_TABLE = "Number_of_filled_surveys";
@@ -280,7 +282,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
            KEY_NO_FILLED_SURVEY_FSDB + " " + NO_FILLED_OPTIONS_FSDB + ", " + KEY_FROM_DATE_FSDB +
             " " + FROM_DATE_OPTIONS_FSDB  + ", " + KEY_TO_DATE_FSDB + " " + TO_DATE_OPTIONS_FSDB + ", " +
             KEY_FILLED_BY_DEVICE_ID_FSDB + " " + FILLED_BY_DEVICE_OPTIONS_FSDB + ", " + KEY_IS_SENT_FSDB
-            + " " + IS_SENT_OPTIONS_FSDB + ");";
+            + " " + IS_SENT_OPTIONS_FSDB + ", " + KEY_WAS_CSV_MADE_FSDB + " " + WAS_CSV_MADE_OPTIONS_FSDB + ");";
 
     private static final String DB_CREATE_ANSWERS_TABLE = "CREATE TABLE " +
             ANSWERS_TABLE + "( " + KEY_SURVEY_SADB + " " + SURVEY_OPTIONS_SADB + ", " +

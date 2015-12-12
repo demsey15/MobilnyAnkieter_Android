@@ -22,8 +22,13 @@ public class FileHandler {
     }
 
     public File getLoadingDir(){
-        return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
-                getLoadingDirectoryName());
+        if(isExternalStorageWritable()){
+            return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                    getLoadingDirectoryName());
+        }
+        else{
+            return null;
+        }
     }
 
     private String getLoadingDirectoryName(){
