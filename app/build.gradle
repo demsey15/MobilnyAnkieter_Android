@@ -5,11 +5,11 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "bohonos.demski.mieldzioc.mobilnyankieter"
+        applicationId "demski.dominik.mobilnyankieter"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "0.0 alfa"
     }
     buildTypes {
         release {
