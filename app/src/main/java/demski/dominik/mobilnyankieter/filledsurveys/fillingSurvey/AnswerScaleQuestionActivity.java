@@ -44,6 +44,29 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
 
         question = (ScaleQuestion) answeringSurveyControl.getQuestion(myQuestionNumber);
 
+        prepareQuestionView();
+
+        Integer selectedAnswer = null;
+
+        if(savedInstanceState != null){
+            selectedAnswer = savedInstanceState.getInt("CHOSEN_ANSWER");
+            isNoAnswerSet = savedInstanceState.getBoolean("NO_ANSWER_STATE");
+        }
+
+        prepareAnswerView(selectedAnswer);
+
+        prepareNextAndFinishButtons();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("CHOSEN_ANSWER", chosenAnswer.getProgress());
+        outState.putBoolean("NO_ANSWER_STATE", isNoAnswerSet);
+    }
+
+    private void prepareQuestionView() {
         if (!question.isObligatory()) {
             TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_scale);
             obligatoryText.setVisibility(View.INVISIBLE);
@@ -54,7 +77,9 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
 
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_scale);
         questionHint.setText(question.getHint());
+    }
 
+    private void prepareAnswerView(Integer selectedAnswer) {
         final TextView chosenAnswerMessage = (TextView) findViewById(R.id.scale_chosen_answer_txt);
 
         prepareNoAnswerCheckBox(chosenAnswerMessage);
@@ -64,7 +89,14 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
 
         chosenAnswer = (SeekBar) findViewById(R.id.answer_scale_seekBar);
         chosenAnswer.setMax(max - min);
-        chosenAnswerMessage.setText("" + (chosenAnswer.getProgress() + min));
+
+        if(selectedAnswer != null){
+            chosenAnswer.setProgress(selectedAnswer);
+        }
+
+        if(!isNoAnswerSet) {
+            chosenAnswerMessage.setText("" + (chosenAnswer.getProgress() + min));
+        }
 
         chosenAnswer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -90,7 +122,9 @@ public class AnswerScaleQuestionActivity extends ActionBarActivity {
 
         leftLabel.setText(question.getMinLabel());
         rightLabel.setText(question.getMaxLabel());
+    }
 
+    private void prepareNextAndFinishButtons() {
         Button nextButton = (Button) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
         Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);

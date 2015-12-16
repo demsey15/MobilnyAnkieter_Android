@@ -4,9 +4,9 @@ import android.content.Context;
 
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.AnsweringSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.SurveysTemplateControl;
-import demski.dominik.mobilnyankieter.sendingsurvey.creatingsurveysfiles.FileHandler;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.ISurveyRepository;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveyHandler;
-import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
+import demski.dominik.mobilnyankieter.sendingsurvey.creatingsurveysfiles.FileHandler;
 
 /**
  * Created by Dominik Demski on 2015-05-02.
@@ -31,7 +31,7 @@ public class ApplicationState {
         return surveyHandler;
     }
 
-    public SurveysRepository getSurveysRepository() {
+    public ISurveyRepository getSurveysRepository() {
         return surveysRepository;
     }
 

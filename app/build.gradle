@@ -29,5 +29,4 @@ dependencies {
     compile 'uk.com.robust-it:cloning:1.9.1'
     compile files('libs/jsonserialization.jar')
     compile files('libs/serialization.jar')
-    compile files('libs/csv.jar')
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import bohonos.demski.mieldzioc.mobilnyankieter.common.Pair;
 import demski.dominik.mobilnyankieter.R;
 import demski.dominik.mobilnyankieter.application.ApplicationState;
 import demski.dominik.mobilnyankieter.application.UserPreferences;
@@ -44,6 +46,38 @@ public class AnswerGridQuestionActivity extends ActionBarActivity {
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         question = answeringSurveyControl.getQuestion(myQuestionNumber);
 
+        prepareQuestionView();
+
+        ArrayList<Pair<String, String>> answers = new ArrayList<>();
+
+        if(savedInstanceState != null){
+            answers = (ArrayList<Pair<String, String>>) savedInstanceState.getSerializable("CHOSEN_ANSWERS");
+        }
+
+        createGrid(answers);
+
+        prepareNextAndFinishButtons();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        ArrayList<Pair<String, String>> answers = new ArrayList<>();
+
+        for(int i = 0; i < radioButtons.size(); i++){
+            for(int j = 0; j < radioButtons.get(0).size(); j++){
+                RadioButton button = radioButtons.get(i).get(j);
+                if(button.isChecked()){
+                    answers.add(new Pair<>(rowLabels.get(i), columnLabels.get(j)));
+                }
+            }
+        }
+
+        outState.putSerializable("CHOSEN_ANSWERS", answers);
+    }
+
+    private void prepareQuestionView() {
         if (!question.isObligatory()) {
             TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_grid);
             obligatoryText.setVisibility(View.INVISIBLE);
@@ -54,9 +88,9 @@ public class AnswerGridQuestionActivity extends ActionBarActivity {
 
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_grid);
         questionHint.setText(question.getHint());
+    }
 
-        createGrid();
-
+    private void prepareNextAndFinishButtons() {
         Button nextButton = (Button) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
         Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);
@@ -114,7 +148,7 @@ public class AnswerGridQuestionActivity extends ActionBarActivity {
         }
     }
 
-    private void createGrid(){
+    private void createGrid(ArrayList<Pair<String, String>> chosenAnswers){
         TableLayout tableLayout = (TableLayout) findViewById(R.id.answer_grid_table);
         GridQuestion gridQuestion = (GridQuestion) question;
         rowLabels = gridQuestion.getRowLabels();
@@ -154,41 +188,18 @@ public class AnswerGridQuestionActivity extends ActionBarActivity {
                 };
                 radioButton.setId(GenerateId.generateViewId());
                 radioButton.setPadding(5, 5, 5, 5);
+
+                if(chosenAnswers.contains(new Pair<String, String>(rowLabel, colLabel))){
+                    radioButton.setChecked(true);
+                }
+
                 list.add(radioButton);
                 row2.addView(radioButton);
             }
             tableLayout.addView(row2);
         }
-
-
-/*
-        TableRow row = new TableRow(this);
-        RadioButton radioButton = new RadioButton(this);
-        radioButton.setId(GenerateId.generateViewId());
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        radioButton.setText("Moj przycisk");
-        row.addView(radioButton);
-        TableRow row2 = new TableRow(this);
-        RadioButton radioButton2 = new RadioButton(this);
-        radioButton2.setId(GenerateId.generateViewId());
-        ViewGroup.LayoutParams layoutParams2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        radioButton2.setText("Moj przycisk");
-        row2.addView(radioButton2);
-        groupTableLayout.addView(row, layoutParams);
-        groupTableLayout.addView(row2, layoutParams); */
-                /*
-                <TableRow>
-        <RadioButton android:id="@+id/rad1" android:text="Button1"
-        android:layout_width="105px" android:layout_height="wrap_content"
-        android:textSize="13px" />
-        <RadioButton android:id="@+id/rad2" android:text="Button2"
-        android:layout_width="105px" android:textSize="13px"
-        android:layout_height="wrap_content" />
-        <RadioButton android:id="@+id/rad3" android:text="Button3"
-        android:layout_width="105px" android:textSize="13px"
-        android:layout_height="wrap_content" />
-        </TableRow > */
     }
+
     private void goToNextActivity() {
         AnsweringSurveyControl control = ApplicationState.
                 getInstance(AnswerGridQuestionActivity.this).getAnsweringSurveyControl();

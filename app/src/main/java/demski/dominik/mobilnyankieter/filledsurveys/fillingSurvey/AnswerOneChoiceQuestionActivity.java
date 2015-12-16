@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,27 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         question = answeringSurveyControl.getQuestion(myQuestionNumber);
 
+        prepareQuestionView();
+
+        String selectedAnswerText = null;
+
+        if(savedInstanceState != null){
+            selectedAnswerText = savedInstanceState.getString("CHOSEN_ANSWER");
+        }
+
+        prepareAnswersView(selectedAnswerText);
+
+        prepareNextAndFinishButtons();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("CHOSEN_ANSWER", chosenAnswer.getText().toString());
+    }
+
+    private void prepareQuestionView() {
         if(!question.isObligatory()) {
             TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_one_choice);
             obligatoryText.setVisibility(View.INVISIBLE);
@@ -52,7 +74,9 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
 
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_one_choice);
         questionHint.setText(question.getHint());
+    }
 
+    private void prepareAnswersView(String selectedAnswerText) {
         List<String> answerList = question.getAnswersAsStringList();
 
         LinearLayout answersLinear = (LinearLayout) findViewById(R.id.answer_list_answers_one_choice);
@@ -63,7 +87,15 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
             button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             button.setId(GenerateId.generateViewId());
-            button.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button));
+
+            if(selectedAnswerText != null && ans.equals(selectedAnswerText)){
+                button.setBackgroundColor(getResources().getColor(R.color.chosen_answer_button));
+
+                chosenAnswer = button;
+            }else {
+                button.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button));
+            }
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {  //po kliknięciu zmień kolor odpowiedzi na czarny (
@@ -86,7 +118,9 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
             answers.add(button);
             answersLinear.addView(button);
         }
+    }
 
+    private void prepareNextAndFinishButtons() {
         Button nextButton = (Button) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
         Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);

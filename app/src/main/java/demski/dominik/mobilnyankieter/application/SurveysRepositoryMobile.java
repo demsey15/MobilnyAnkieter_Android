@@ -2,15 +2,15 @@ package demski.dominik.mobilnyankieter.application;
 
 import android.content.Context;
 
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.ISurveyRepository;
+import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
 import demski.dominik.mobilnyankieter.database.AnsweringSurveyDBAdapter;
 import demski.dominik.mobilnyankieter.database.DataBaseAdapter;
-import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
-import bohonos.demski.mieldzioc.mobilnyankieter.survey.SurveysRepository;
 
 /**
  * Created by Dominik on 2015-05-10.
  */
-public class SurveysRepositoryMobile extends SurveysRepository {
+public class SurveysRepositoryMobile implements ISurveyRepository {
     private AnsweringSurveyDBAdapter answeringDbAdapter;
     private DataBaseAdapter dbAdapter;
 
@@ -19,7 +19,6 @@ public class SurveysRepositoryMobile extends SurveysRepository {
         dbAdapter = new DataBaseAdapter(context);
     }
 
-    @Override
     public long addNewSurvey(Survey survey) {
         long numberOfFilledSurveysWithThisId = dbAdapter.getNumberOfFilledSurveysAtThisDevice(survey.getIdOfSurveys());
 

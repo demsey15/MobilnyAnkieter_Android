@@ -39,7 +39,7 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
 
     private boolean isAllSurveysFilterSet = false;
     private boolean isSentSurveysFilterSet = false;
-    private boolean isNotSentSurveysFilterSet = true;
+    private boolean isNotSentSurveysFilterSet = false;
 
     private SendingSurveyAnswersAdapter adapter;
     private ListView listView;
@@ -51,6 +51,18 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
 
         mode = getIntent().getIntExtra(LIST_ACTION_MODE, 0);
 
+        if(savedInstanceState != null){
+            boolean[] filter = savedInstanceState.getBooleanArray("FILTER");
+
+            isSentSurveysFilterSet = filter[0];
+            isNotSentSurveysFilterSet = filter[1];
+            isAllSurveysFilterSet = filter[2];
+        }
+        else{
+            isNotSentSurveysFilterSet = mode == CSV_MODE || mode == JSON_MODE;
+            isSentSurveysFilterSet = mode == DELETING_MODE;
+        }
+
         initSurveysLists();
 
         prepareListView();
@@ -58,12 +70,23 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
         prepareStartingFilter();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBooleanArray("FILTER", new boolean[]{isSentSurveysFilterSet, isNotSentSurveysFilterSet, isAllSurveysFilterSet});
+
+    }
+
     private void prepareStartingFilter(){
-        if(mode == JSON_MODE || mode == CSV_MODE){
+        if(isNotSentSurveysFilterSet){
             adapter = new SendingSurveyAnswersAdapter(notSentSurveys, getApplicationContext());
         }
-        else if(mode == DELETING_MODE){
+        else if(isSentSurveysFilterSet){
             adapter = new SendingSurveyAnswersAdapter(sentSurveys, getApplicationContext());
+        }
+        else{
+            adapter = new SendingSurveyAnswersAdapter(allSurveys, getApplicationContext());
         }
 
         listView.setAdapter(adapter);
@@ -364,15 +387,16 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        if(mode == JSON_MODE || mode == CSV_MODE){
+        if(isNotSentSurveysFilterSet){
             menu.findItem(R.id.filter_not_sent).setChecked(true);
         }
-        else if(mode == DELETING_MODE){
+        else if(isSentSurveysFilterSet){
             menu.findItem(R.id.filter_sent).setChecked(true);
         }
         else{
             menu.findItem(R.id.filter_all).setChecked(true);
         }
+
 
         return true;
     }

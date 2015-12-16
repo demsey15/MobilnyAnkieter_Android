@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,32 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
         myQuestionNumber = getIntent().getIntExtra("QUESTION_NUMBER", 0);
         question = answeringSurveyControl.getQuestion(myQuestionNumber);
 
+        prepareQuestionView();
+
+        ArrayList<String> selectedAnswers = new ArrayList<>();
+        if(savedInstanceState != null){
+            selectedAnswers = (ArrayList<String>) savedInstanceState.getSerializable("CHOSEN_ANSWERS_LIST");
+        }
+
+        prepareAnswersView(selectedAnswers);
+
+        prepareNextAndFinishButtons();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        ArrayList<String> chosenAnswersTxtList = new ArrayList<>(chosenAnswer.size());
+
+        for(Button button : chosenAnswer){
+            chosenAnswersTxtList.add(button.getText().toString());
+        }
+
+        outState.putSerializable("CHOSEN_ANSWERS_LIST", chosenAnswersTxtList);
+    }
+
+    private void prepareQuestionView() {
         if (!question.isObligatory()) {
             TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_multiple_choice);
             obligatoryText.setVisibility(View.INVISIBLE);
@@ -51,7 +78,9 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
 
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_multiple_choice);
         questionHint.setText(question.getHint());
+    }
 
+    private void prepareAnswersView(List<String> selectedAnswers) {
         List<String> answerList = question.getAnswersAsStringList();
         LinearLayout answersLinear = (LinearLayout) findViewById(R.id.answer_list_answers_multiple_choice);
 
@@ -61,7 +90,15 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
             button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             button.setId(GenerateId.generateViewId());
-            button.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button));
+
+            if(selectedAnswers.contains(ans)){
+                button.setBackgroundColor(getResources().getColor(R.color.chosen_answer_button));
+
+                chosenAnswer.add(button);
+            }else {
+                button.setBackgroundColor(getResources().getColor(R.color.odpowiedz_button));
+            }
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {  //po kliknięciu zmień kolor odpowiedzi na czarny
@@ -77,7 +114,9 @@ public class AnswerMultipleChoiceQuestionActivity extends ActionBarActivity {
             answers.add(button);
             answersLinear.addView(button);
         }
+    }
 
+    private void prepareNextAndFinishButtons() {
         Button nextButton = (Button) findViewById(R.id.next_question_button);
         Button finishButton = (Button) findViewById(R.id.end_filling_button);
         Button finishAndStartButton = (Button) findViewById(R.id.end_and_start_filling_button);

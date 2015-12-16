@@ -54,7 +54,10 @@ public class AnswerDropDownListQuestionActivity extends ActionBarActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_drop_down);
         List<String> answerList = question.getAnswersAsStringList();
-        answerList.add(0, "wybierz odpowiedź");
+        if(!answerList.contains("wybierz odpowiedź")) {
+            answerList.add(0, "wybierz odpowiedź");
+        }
+
         for(String ans : answerList){
             adapter.add(ans);
         }

@@ -41,6 +41,33 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
 
         question =  answeringSurveyControl.getQuestion(myQuestionNumber);
 
+        prepareQuestionView();
+
+        Integer hourAns = null;
+        Integer minuteAns = null;
+        boolean noAnsChecked = false;
+
+        if(savedInstanceState != null){
+            hourAns = savedInstanceState.getInt("HOUR");
+            minuteAns = savedInstanceState.getInt("MINUTE");
+            noAnsChecked = savedInstanceState.getBoolean("NO_ANSWER");
+        }
+
+        prepareAnswerView(hourAns, minuteAns, noAnsChecked);
+
+        prepareNextAndFinishButton();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("HOUR", hour.getValue());
+        outState.putInt("MINUTE", minute.getValue());
+        outState.putBoolean("NO_ANSWER", isNoAnsweredCheckBox.isChecked());
+    }
+
+    private void prepareQuestionView() {
         if (!question.isObligatory()) {
             TextView obligatoryText = (TextView) findViewById(R.id.answer_obligatory_time);
             obligatoryText.setVisibility(View.INVISIBLE);
@@ -51,7 +78,9 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
 
         TextView questionHint = (TextView) findViewById(R.id.answer_hint_time);
         questionHint.setText(question.getHint());
+    }
 
+    private void prepareAnswerView(Integer hourAns, Integer minuteAns, boolean noAnsChecked) {
         hour = (NumberPicker) findViewById(R.id.answer_time_number_picker_hour);
         minute = (NumberPicker) findViewById(R.id.answer_time_number_picker_minute);
 
@@ -65,12 +94,21 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
         minute.setFormatter(new MyTwoDigitFormater());
         minute.setBackgroundColor(getResources().getColor(R.color.pomaranczowy));
 
+        if(hourAns != null){
+            hour.setValue(hourAns);
+        }
+
+        if(minuteAns != null){
+            minute.setValue(minuteAns);
+        }
+
         isNoAnsweredCheckBox = (CheckBox) findViewById(R.id.no_answ_chcBox_time);
         if(question.isObligatory()){
             isNoAnsweredCheckBox.setVisibility(View.INVISIBLE);
         }
-
-        prepareNextAndFinishButton();
+        else{
+            isNoAnsweredCheckBox.setChecked(noAnsChecked);
+        }
     }
 
     private void prepareNextAndFinishButton() {
