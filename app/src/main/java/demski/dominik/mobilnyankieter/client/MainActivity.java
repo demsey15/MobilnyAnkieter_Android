@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import demski.dominik.mobilnyankieter.R;
+import demski.dominik.mobilnyankieter.application.InfoMessage;
 import demski.dominik.mobilnyankieter.application.UserPreferences;
 import demski.dominik.mobilnyankieter.application.login.Login;
 import demski.dominik.mobilnyankieter.filledsurveys.FilledSurveysActivity;
@@ -94,6 +95,10 @@ public class MainActivity extends ActionBarActivity {
         switch (id) {
             case R.id.log_out:
                 logOut();
+
+                return true;
+            case R.id.info:
+                InfoMessage.showInfoMessage(this);
 
                 return true;
             default:

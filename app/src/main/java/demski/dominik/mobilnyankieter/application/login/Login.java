@@ -68,7 +68,7 @@ public class Login extends ActionBarActivity {
                     String helpQuestion = UserPreferences.getInstance(getApplicationContext()).getHelpQuestion();
 
                     if(helpQuestion.isEmpty()){
-                        (new AlertDialog.Builder(getApplicationContext())
+                        (new AlertDialog.Builder(Login.this)
                                 .setMessage("Niestety podczas rejestracji nie ustalono pytania pomocniczego, w związku" +
                                         " z tym, nie można zresetować hasła.")
                                 .setIcon(android.R.drawable.ic_dialog_alert)

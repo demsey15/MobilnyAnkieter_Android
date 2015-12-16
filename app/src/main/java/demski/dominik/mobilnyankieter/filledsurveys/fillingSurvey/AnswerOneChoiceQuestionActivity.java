@@ -60,7 +60,9 @@ public class AnswerOneChoiceQuestionActivity extends ActionBarActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("CHOSEN_ANSWER", chosenAnswer.getText().toString());
+        if(chosenAnswer != null) {
+            outState.putString("CHOSEN_ANSWER", chosenAnswer.getText().toString());
+        }
     }
 
     private void prepareQuestionView() {

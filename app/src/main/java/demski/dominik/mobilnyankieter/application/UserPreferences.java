@@ -84,7 +84,7 @@ public class UserPreferences {
             return false;
         }
 
-       ApplicationState.getInstance(context).prepareSurveyHandler();
+        ApplicationState.getInstance(context).prepareSurveyHandler();
 
         return true;
     }

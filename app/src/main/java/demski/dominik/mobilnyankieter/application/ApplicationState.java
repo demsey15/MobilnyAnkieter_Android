@@ -50,11 +50,6 @@ public class ApplicationState {
     }
 
     public boolean prepareSurveyHandler(){
-        if(instance == null || surveyHandler != null || surveysRepository != null || surveysTemplateControl!= null
-                || answeringSurveyControl != null){
-            return false;
-        }
-
         surveyHandler = new SurveyHandlerMobile(context, preferences.getLastAddedSurveyTemplateNumber());
 
         surveysRepository = new SurveysRepositoryMobile(context);

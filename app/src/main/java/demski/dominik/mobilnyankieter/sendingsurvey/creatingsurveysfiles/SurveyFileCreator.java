@@ -53,7 +53,7 @@ public class SurveyFileCreator {
         String now = DateAndTimeService.getToday();
 
         return "mobilnyankieter" + File.separator + "szablonyAnkiet" + File.separator +
-                 now + survey.getTitle() + ".json";
+                 now + " " + survey.getTitle() + ".json";
     }
 
     private Pair<Boolean, String> saveSurveyAnswersInFile(String stringToSave, String filePath){

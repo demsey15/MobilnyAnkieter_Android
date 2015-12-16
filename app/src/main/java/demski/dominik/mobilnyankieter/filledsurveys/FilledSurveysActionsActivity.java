@@ -338,11 +338,9 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
 
         if(mode == JSON_MODE || mode == DELETING_MODE) {
             theWhole = dbAdapter.getAllAnswersWithSentStatus();
-            System.out.println("Tworze listy json " + mode);
         }
         else{
             theWhole = dbAdapter.getAllAnswersWithCSVMadeStatus();
-            System.out.println("Tworze listy csv");
         }
 
         for(Pair<Survey, Boolean> pair : theWhole){

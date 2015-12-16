@@ -140,7 +140,7 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
                             startActivity(intent);
                             finish();
                         } else
-                            Toast.makeText(getApplicationContext(), "Nie można zakończyć ankiety", Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "Nie można zakończyć ankiety", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -161,7 +161,7 @@ public class AnswerTimeQuestionActivity extends ActionBarActivity {
                             startActivity(intent);
                             finish();
                         } else
-                            Toast.makeText(getApplicationContext(), "Nie można zakończyć ankiety", Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "Nie można zakończyć ankiety", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -112,4 +112,28 @@
     <string name="title_activity_delete_survey_template">Usuwanie szablonów ankiet</string>
     <string name="title_activity_delete_filled_surveys">Usuwanie wyników ankiet</string>
     <string name="title_activity_make_csv">MakeCsvActivity</string>
+
+
+    <string name="app_info">Witaj!\n\n
+    Korzystasz z wersji testowej aplikacji Mobilny ankieter. Aplikacja ta umożliwia:\n\n
+    1) Tworzenie ankiet\n
+    2) Wypełnianie ankiet\n
+    3) Generowanie wyników w postaci plików .csv\n
+    4) Generowanie plików z wynikami oraz stworzonymi ankietami w formacie .json\n\n
+
+    Aplikacja współpracuje z programem komputerowych o takiej samej nazwie stworzonym przez Andrzeja Bohonosa i Adama Mieldzioca.
+        Generowanie plików .json służy głównie do komunikacji właśnie z tamtą aplikacją.\n\n
+
+        Ponieważ, Drogi Użytkowniku, korzystasz z wersji testowej mogą się zdarzyć błędy w działaniu aplikacji (chociaż to ryzyko próbowano zminimalizować), dlatego
+        bardzo proszę, żeby ewentualne błędny wraz z opisem sytuacji (w miarę dokładnym), w której wystąpiły zgłaszać na adres mailowy: mobilnyankieter.android@interia.pl.
+        \n\n
+        Bardzo proszę też o wypełnienie ankiety opiniującej niniejszą aplikację mobilną. Znajduje się ona w liście ankiet do wypełnienia. Wyniki proszę przesłać w formacie .csv
+        na adres: mobilnyankieter.android@interia.pl.\n\n
+
+        W aplikacji skorzystano z ikon generowanych przez stronę: https://icons8.com/ .\n\n
+
+        Dziękuję za współpracę. Serdecznie pozdrawiam,\n
+
+        autor - Dominik Demski
+    </string>
 </resources>
