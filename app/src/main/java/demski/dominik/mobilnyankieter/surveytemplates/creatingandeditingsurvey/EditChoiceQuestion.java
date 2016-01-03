@@ -10,19 +10,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import demski.dominik.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
+import demski.dominik.mobilnyankieter.R;
 
 
 public class EditChoiceQuestion extends ActionBarActivity {
     private Question question;
     private int questionNumber;
     private EditChoiceAnswersFragment fragment;
+
+    private int fragmentId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +40,15 @@ public class EditChoiceQuestion extends ActionBarActivity {
         questionNumber = intent.getIntExtra("QUESTION_NUMBER", 0);
 
         prepareView();
-        addAnswersFragment();
 
+        addAnswersFragment(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("FRAGMENT_ID", fragment.getId());
     }
 
     private void prepareView(){
@@ -56,9 +67,8 @@ public class EditChoiceQuestion extends ActionBarActivity {
 
                 List<String> answers = fragment.getAnswers();
 
-                for(String answer : answers){
-                    control.addAnswerToChooseQuestion(questionNumber, answer);
-                }
+                control.resetAnswersInChooseQuestion(questionNumber, answers);
+
                 setResult(RESULT_OK);
                 finish();
             }
@@ -68,13 +78,27 @@ public class EditChoiceQuestion extends ActionBarActivity {
         if(question.getHint() != null) hintTxt.setText(question.getHint());
         obligatory.setChecked(question.isObligatory());
     }
-    private void addAnswersFragment(){
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragment = EditChoiceAnswersFragment.newInstance((ArrayList<String>) CreatingSurveyControl.
-                getInstance().getAnswersAsStringList(questionNumber));
-        fragmentTransaction.add(R.id.choice_question_linear, fragment);
-        fragmentTransaction.commit();
+    private void addAnswersFragment(Bundle savedInstanceState){
+        if(savedInstanceState != null){
+            fragmentId = savedInstanceState.getInt("FRAGMENT_ID");
+
+            FragmentManager fragmentManager = getFragmentManager();
+
+            fragment = (EditChoiceAnswersFragment) fragmentManager.findFragmentById(fragmentId);
+        }
+        else{
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            fragment = EditChoiceAnswersFragment.newInstance((ArrayList<String>) CreatingSurveyControl.
+                    getInstance().getAnswersAsStringList(questionNumber));
+
+
+            fragmentTransaction.add(R.id.choice_question_linear, fragment);
+            fragmentTransaction.commit();
+
+            fragmentId = fragment.getId();
+        }
     }
 }

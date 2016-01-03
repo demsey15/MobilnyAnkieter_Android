@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import demski.dominik.mobilnyankieter.R;
@@ -24,7 +26,7 @@ import demski.dominik.mobilnyankieter.utilities.GenerateId;
  * Klasa odpowiadająca za listę pytań w tworzeniu odpowiedzi do pytań wyboru. (po kliknięciu na edittext
  * dodaje kolejny z możliwą odpowiedzią).
  */
-public class EditChoiceAnswersFragment extends Fragment {
+public class EditChoiceAnswersFragment extends Fragment implements Serializable{
 
     private List<EditText> editTexts = new ArrayList<>();
     private LinearLayout linearLayout;
@@ -52,15 +54,37 @@ public class EditChoiceAnswersFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        List<String> answersTemp = (List<String>) getArguments().getSerializable("ANSWERS_LIST");
-            if(answersTemp != null){
-                for(String answer : answersTemp){
-                    createNewEditText(answer);
+
+        if(savedInstanceState == null) {
+            if (getArguments() != null) {
+                List<String> answersTemp = (List<String>) getArguments().getSerializable("ANSWERS_LIST");
+                if (answersTemp != null) {
+                    for (String answer : answersTemp) {
+                        createNewEditText(answer);
+                    }
                 }
             }
-
         }
+        else{
+            ArrayList<String> answers = (ArrayList) savedInstanceState.getSerializable("EDIT_TEXTS");
+
+            for(String answer : answers){
+                createNewEditText(answer);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        ArrayList<String> answers = new ArrayList<>(editTexts.size());
+
+        for(EditText editText : editTexts){
+            answers.add(editText.getText().toString());
+        }
+
+        outState.putSerializable("EDIT_TEXTS", answers);
     }
 
     @Override
@@ -121,14 +145,17 @@ public class EditChoiceAnswersFragment extends Fragment {
         });
 
         editTexts.add(answ);
+
         return answ;
     }
 
     public List<String> getAnswers(){
         List<String> answers = new ArrayList<>(editTexts.size());
+
         for(EditText editText : editTexts){
             answers.add(editText.getText().toString());
         }
+
         return answers;
     }
 }

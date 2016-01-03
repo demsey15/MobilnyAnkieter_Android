@@ -51,7 +51,7 @@
         android:id="@+id/choice_question_linear"
         android:orientation="vertical"
         android:layout_marginTop="50dp"
-        android:layout_below="@+id/obligatory_choice_checkbox">
+        android:layout_below="@id/obligatory_choice_checkbox">
 
     </LinearLayout>
 
