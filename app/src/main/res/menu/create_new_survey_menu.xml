@@ -7,4 +7,8 @@
         android:icon="@drawable/plus"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/help"
+        android:title="Pomoc"
+        android:icon="@drawable/help"
+        app:showAsAction="always"/>
 </menu>

@@ -1,5 +1,6 @@
 package demski.dominik.mobilnyankieter.filledsurveys;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import demski.dominik.mobilnyankieter.R;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
+import demski.dominik.mobilnyankieter.application.MessageWindow;
 import demski.dominik.mobilnyankieter.database.AnsweringSurveyDBAdapter;
 import demski.dominik.mobilnyankieter.sendingsurvey.SendingSurveyAnswersAdapter;
 import demski.dominik.mobilnyankieter.sendingsurvey.creatingsurveysfiles.SurveyFileCreator;
@@ -63,6 +65,9 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
             isSentSurveysFilterSet = mode == DELETING_MODE;
         }
 
+        if(mode == DELETING_MODE){
+            setTitle("Usuwanie wyników ankiet");
+        }
         initSurveysLists();
 
         prepareListView();
@@ -435,6 +440,22 @@ public class FilledSurveysActionsActivity extends ActionBarActivity {
 
                 adapter = new SendingSurveyAnswersAdapter(allSurveys, getApplicationContext());
                 listView.setAdapter(adapter);
+
+                return true;
+            case R.id.help:
+                CharSequence toShow = "";
+
+                if(mode == CSV_MODE){
+                    toShow = getResources().getText(R.string.export_survey_to_csv_help);
+                }
+                else if(mode == JSON_MODE){
+                    toShow = getResources().getText(R.string.export_survey_to_json_help);
+                }
+                else if(mode == DELETING_MODE){
+                    toShow = getResources().getText(R.string.delete_survey_answers_help);
+                }
+
+                MessageWindow.showHelpMessage(this, getResources().getString(R.string.help_title), toShow);
 
                 return true;
             default:

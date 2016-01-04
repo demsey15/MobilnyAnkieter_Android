@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import demski.dominik.mobilnyankieter.R;
+import demski.dominik.mobilnyankieter.application.MessageWindow;
 import demski.dominik.mobilnyankieter.database.DataBaseAdapter;
 import demski.dominik.mobilnyankieter.sendingsurvey.creatingsurveysfiles.SurveyFileCreator;
 import bohonos.demski.mieldzioc.mobilnyankieter.survey.Survey;
@@ -82,9 +84,24 @@ public class SendSurveysTemplateActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.menu_send_surveys_template, menu);
+        getMenuInflater().inflate(R.menu.menu_with_only_help_icon, menu);
+
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.help:
+                MessageWindow.showHelpMessage(this, getResources().getString(R.string.help_title),
+                        getResources().getText(R.string.export_survey_templates_help));
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

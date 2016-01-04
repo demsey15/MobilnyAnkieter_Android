@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import demski.dominik.mobilnyankieter.R;
 import demski.dominik.mobilnyankieter.application.ApplicationState;
+import demski.dominik.mobilnyankieter.application.MessageWindow;
 import demski.dominik.mobilnyankieter.database.AnsweringSurveyDBAdapter;
 import demski.dominik.mobilnyankieter.filledsurveys.FilledSurveysActionsActivity;
 import demski.dominik.mobilnyankieter.filledsurveys.fillingSurvey.ChooseSurveyAdapter;
@@ -78,4 +81,25 @@ public class DeleteSurveyTemplateActivity extends ActionBarActivity {
             })).show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_with_only_help_icon, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.help:
+                MessageWindow.showHelpMessage(this, getResources().getString(R.string.help_title),
+                        getResources().getText(R.string.delete_survey_template_help));
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

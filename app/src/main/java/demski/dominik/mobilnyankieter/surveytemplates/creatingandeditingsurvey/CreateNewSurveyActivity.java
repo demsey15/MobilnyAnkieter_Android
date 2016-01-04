@@ -3,13 +3,16 @@ package demski.dominik.mobilnyankieter.surveytemplates.creatingandeditingsurvey;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import demski.dominik.mobilnyankieter.R;
-import demski.dominik.mobilnyankieter.application.UserPreferences;
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
+import demski.dominik.mobilnyankieter.R;
+import demski.dominik.mobilnyankieter.application.MessageWindow;
+import demski.dominik.mobilnyankieter.application.UserPreferences;
 
 
 /**
@@ -42,5 +45,27 @@ public class CreateNewSurveyActivity extends ActionBarActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_with_only_help_icon, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.help:
+                MessageWindow.showHelpMessage(this, getResources().getString(R.string.help_title),
+                        getResources().getText(R.string.creating_survey_start));
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

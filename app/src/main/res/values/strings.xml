@@ -136,4 +136,73 @@
 
         autor - Dominik Demski
     </string>
+
+    <string name="creating_survey_start">
+        1) <b>Opis ankiety</b> to tekst, który będzie wyświetlany podczas rozpoczęcia wypełniania ankiety.\n\n
+        2) <b>Tekst końcowy</b> będzie wyświetlany po wypełnieniu ankiety.
+        Jeśli żaden tekst nie zostanie wpisany, domyślnie wyświetli się: <i>Dziękujemy za wypełnienie ankiety!</i>.\n\n
+        3) Tytułu, opisu i tekstu końcowego <b>nie będzie można później zmienić</b> w aplikacji mobilnej.
+    </string>
+
+    <string name="creating_survey_help">
+        1) Wciśnij symbol plusa, aby <b>dodać nowe pytanie</b>. Następnie wybierz jego typ.\n\n
+        2) Naciśnij na pytanie, które chcesz <b>edytować</b>.\n\n
+        3) Aby <b>usunąć pytanie</b>, naciśnij na nie przez kilka sekund, potwierdź swój wybór.
+        Tak samo usuwa się odpowiedzi w pytaniach typu: jednokrotnego i wielokrotnego wyboru, siatka, wybór z listy.\n\n\n
+        <b>TYPY PYTAŃ:</b>\n\n
+        1) <b>Jednokrotnego wyboru</b>\n\nOdpowiadając, użytkownik zaznacza jedną odpowiedź spośród możliwych.\n\n
+        2) <b>Wielokrotnego wyboru</b>\n\nOdpowiadając, użytkownik zaznacza jedną lub więcej odpowiedzi spośród możliwych.\n\n
+        3) <b>Skala</b>\n\nUżytkownik odpowiada na pytanie, zaznaczając swój wybór na suwaku (np. <i>Jak bardzo jesteś szczęśliwy, odpowiedz w skali od 1 do 5.</i>\n\n
+        4) <b>Siatka</b>\n\nUżytkownik zaznacza odpowiedzi w tabelce.\n\n
+        5) <b>Tekstowe</b>\n\nOdpowiedzią na pytanie jest tekst wprowadzony przez użytkownika.\n\n
+        6) <b>Wybór z listy</b>\n\nUżytkownik wybiera odpowiedź z rozsuwanej listy możliwych odpowiedzi.\n\n
+        7) <b>Data</b>\n\nUżytkownik odpowiada, wybierając odpowiednią datę.\n\n
+        8) <b>Godzina</b>\n\nUżytkownik odpowiada, wybierając odpowiednią godzinę.
+    </string>
+
+    <string name="survey_templates_help">
+        1) Aby <b>wczytać szablony</b> wstaw ich pliki (format .json) do folderu wczytywanieSzablonowAnkiet w folderze niniejszej aplikacji (folder mobilnyankieter) w pamięci urządzenia,
+        następnie wciśnij <i>WCZYTAJ SZABLONY</i>.\n\nPomyślnie wczytane <b>pliki zostaną usunięte</b> z folderu wczytywanieSzablonowAnkiet.
+    </string>
+
+    <string name="export_survey_templates_help">
+        1) Eksportowanie oznacza wygenerowanie pliku o rozszerzeniu json w folderze szablonyAnkiet w folderze niniejszej aplikacji (folder mobilnyankieter) w pamięci urządzenia.
+        Wygenerowane pliki można wczytać na innym urządzeniu lub/i w aplikacji komputerowej.\n\n
+        <b>Nie wolno zmieniać zawartości wygenerowanych plików!!</b>\n\n
+        2) <b>Nazwy</b> wygenerowanych plików <b>mają format</b>: data i godzina wygenerowania (z dokładnością co do milisekundy) nazwa ankiety.json).\n\n
+        3) Szablony ankiet, których pliki były już wcześniej generowane na tym urządzeniu zaznaczone są zielonym kolorem, a pozostałe pomarańczowym.
+    </string>
+
+    <string name="delete_survey_template_help">
+        Wybierz szablon ankiet, który chcesz usunąć z pamięci urządzenia.\n\n
+        Pamiętaj, że operacji usuwania po jej zatwierdzeniu <b>nie będzie można cofnąć</b>!!
+    </string>
+
+    <string name="export_survey_to_json_help">
+        1) Eksportowanie oznacza wygenerowanie pliku o rozszerzeniu json w folderze wynikiAnkiet/json w folderze niniejszej aplikacji (folder mobilnyankieter) w pamięci urządzenia.
+        Wygenerowane pliki można wczytać w aplikacji komputerowej.\n\n
+        <b>Nie wolno zmieniać zawartości wygenerowanych plików!!</b>\n\n
+        2) Można <b>przefiltrować</b> wyświetlane wyniki. Do wyboru są ankiety, których odpowiedzi: były kiedykolwiek wcześniej na tym urządzeniu eksportowane do pliku z rozszerzeniem json (<b>wysłane</b>),
+        nie były nigdy wcześniej na tym urządzeniu eksportowane do pliku z rozszerzeniem json (<b>nie wysłane</b>) lub <b>wszyskie</b> - bez względu na status wysłania.\n\n
+        3) W nawiasie podano <b>liczbę zebranych odpowiedzi</b> do danego szablonu ankiet spełniających zadany filtr.\n\n
+        4) <b>Nazwy</b> wygenerowanych plików <b>mają format</b>: nazwa szablonu ankiet_notSent/sent/all (w zależności, czy wyniki nie były/były/obojętnie wcześniej eksportowane)_data i godzina wygenerowania pliku_answers.json.\n
+    </string>
+
+    <string name="export_survey_to_csv_help">
+        1) Eksportowanie oznacza tutaj wygenerowanie pliku o rozszerzeniu csv w folderze wynikiAnkiet/csv w folderze niniejszej aplikacji (folder mobilnyankieter) w pamięci urządzenia.
+        \nWygenerowane pliki można wykorzystać na przykład do <b>wczytania wyników do programu Excel lub do innych programów wspierających format csv</b>.\n\n
+        2) Można <b>przefiltrować</b> wyświetlane wyniki. Do wyboru są ankiety, których odpowiedzi: były kiedykolwiek wcześniej na tym urządzeniu eksportowane do pliku z rozszerzeniem csv (<b>wysłane</b>),
+        nie były nigdy wcześniej na tym urządzeniu eksportowane do pliku z rozszerzeniem csv (<b>nie wysłane</b>) lub <b>wszyskie</b> - bez względu na status wysłania.\n\n
+        3) W nawiasie podano <b>liczbę zebranych odpowiedzi</b> do danego szablonu ankiet spełniających zadany filtr.\n\n
+        4) <b>Nazwy</b> wygenerowanych plików <b>mają format</b>: nazwa szablonu ankiet_notSent/sent/all (w zależności, czy wyniki nie były/były/obojętnie wcześniej eksportowane)_data i godzina wygenerowania pliku_answers.csv.\n
+    </string>
+
+    <string name="delete_survey_answers_help">
+        Można <b>przefiltrować</b> wyświetlane wyniki. Do wyboru są ankiety, których odpowiedzi: były kiedykolwiek wcześniej na tym urządzeniu eksportowane do pliku z rozszerzeniem json (<b>wysłane</b>),
+        nie były nigdy wcześniej na tym urządzeniu eksportowane do pliku z rozszerzeniem json (<b>nie wysłane</b>) lub <b>wszyskie</b> - bez względu na status wysłania.\n\n
+
+        Pamiętaj, że operacji usuwania po jej zatwierdzeniu <b>nie będzie można cofnąć</b>!!
+    </string>
+
+    <string name="help_title">Pomoc</string>
 </resources>

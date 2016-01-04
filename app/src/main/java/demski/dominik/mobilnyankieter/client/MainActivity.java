@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import demski.dominik.mobilnyankieter.R;
-import demski.dominik.mobilnyankieter.application.InfoMessage;
+import demski.dominik.mobilnyankieter.application.MessageWindow;
 import demski.dominik.mobilnyankieter.application.UserPreferences;
 import demski.dominik.mobilnyankieter.application.login.Login;
 import demski.dominik.mobilnyankieter.filledsurveys.FilledSurveysActivity;
@@ -98,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
 
                 return true;
             case R.id.info:
-                InfoMessage.showInfoMessage(this);
+                MessageWindow.showInfoMessage(this, "O aplikacji", getResources().getString(R.string.app_info));
 
                 return true;
             default:

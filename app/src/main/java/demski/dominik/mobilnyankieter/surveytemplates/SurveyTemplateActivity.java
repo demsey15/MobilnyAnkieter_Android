@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import android.widget.ViewAnimator;
 import java.io.File;
 
 import demski.dominik.mobilnyankieter.R;
+import demski.dominik.mobilnyankieter.application.MessageWindow;
 import demski.dominik.mobilnyankieter.sendingsurvey.SendSurveysTemplateActivity;
 import demski.dominik.mobilnyankieter.sendingsurvey.creatingsurveysfiles.FileHandler;
 
@@ -166,6 +169,28 @@ public class SurveyTemplateActivity extends ActionBarActivity {
         communicateBuilder.append(statistics[LoadingSurveyTemplates.ERROR_DURING_ADDING_TO_DB]);
 
         return communicateBuilder.toString();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_with_only_help_icon, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.help:
+                MessageWindow.showHelpMessage(this, getResources().getString(R.string.help_title),
+                        getResources().getText(R.string.survey_templates_help));
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

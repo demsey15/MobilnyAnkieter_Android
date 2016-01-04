@@ -17,6 +17,7 @@ import demski.dominik.mobilnyankieter.R;
 import demski.dominik.mobilnyankieter.application.ApplicationState;
 import bohonos.demski.mieldzioc.mobilnyankieter.controls.CreatingSurveyControl;
 import bohonos.demski.mieldzioc.mobilnyankieter.questions.Question;
+import demski.dominik.mobilnyankieter.application.MessageWindow;
 
 /**
  * Klasa odpowiedzialna za dodawanie pytań do ankiety (i edycji pytań podczas tworzenia).
@@ -248,6 +249,11 @@ public class CreateNewSurveyQuestionsActivity extends ActionBarActivity
             case R.id.add_question:
                 ChoosingQuestionType c = new ChoosingQuestionType();
                 c.show(getFragmentManager(), "missilies");
+                return true;
+            case R.id.help:
+                MessageWindow.showHelpMessage(this, getResources().getString(R.string.help_title),
+                        getResources().getText(R.string.creating_survey_help));
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
